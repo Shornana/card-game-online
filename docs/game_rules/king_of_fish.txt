@@ -1,0 +1,39 @@
+King of Fish
+
+-- Objective --
+Be the first player to get rid of all their own cards.
+
+-- Rules --
+
+- Start -
+-> Each player is given 7 cards.
+-> The remaining cards are stacked in the middle of the playing area.
+-> A random player then starts their turn.
+
+- Turn -
+-> Choose whether you wish to quiet/loud swap, lay a pair or pick up a card from the middle pile.
+-> If you have a pair of cards (a pair of 7s or a pair of kings for example), you can lay them regardless if
+  they are not the same colour.
+-> If you choose to lay a pair or pick up a card from the pile, your turn is over and the next player commences
+  their turn.
+-> If you decide to swap, you can either soft swap with a chosen player or loud swap with a chosen player.
+-> Quiet swap involves taking a card of a given player at random and handing them a card of your choosing
+  back to them, except the card you just took.
+-> Loud swap involves asking a player of your choosing if they have a specific card (like a 2 or a 9 for example).
+  If they have that card, they must give it to you and you can return a card of your choosing back to them. If
+  they do not have the card you ask for, you must pick up 2 cards from the pile and your turn is over.
+-> It should be noted that regardless of whether you decide to swap a card or not, your turn must end with you
+  either picking up a card from the pile, or laying down a pair.
+-> Once you have completed this procedure, the turn is passed to the next player.
+
+Clarifying Examples:
+-> You can start your turn already with a pair, but choose to quiet/loud swap your other card. Even if the swap
+  doesn't help you make another pair, you can then end your turn by laying down the pair you had initially.
+
+-> If you loud swap for a card and are successful, and the card you take does not help you to make a pair, even
+  though the move may be considered strange, you do not get a 2 card penalty. Though, if they cannot lay down a
+  single pair after the swap, they will still have to pick up 1 card.
+
+-- Win Condition --
+The player who first lays down all their cards through laying down pairs wins the game. Since each card has a pair,
+the game has a natural end and cannot go on indefinitely.
