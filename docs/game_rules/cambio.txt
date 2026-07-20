@@ -1,0 +1,103 @@
+Cambio
+
+-- Objective --
+Either rid yourself of all your cards or have the lowest point total hand after Cambio is called.
+
+-- Rules --
+
+- Start -
+-> Each player gets dealt 4 cards arranged 2 x 2.
+-> The remaining cards are stacked in the middle of the playing area.
+-> Before the turns start, each player can look at the two cards closest to them once.
+
+- Turn -
+-> On your turn, you draw a card from the middle stack and look at it.
+-> You can then choose to either play the card to the discard pile or swap this card
+  with one of your cards on the table.
+-> If you swap the card from the stack with one of your cards from the table, the card you
+  swap with must go in the discard pile.
+-> If you discard straight from the stack, the ability of the card is activated whereas if you
+  swap the stack card with your own and discard the swapped card, it does not active the card's
+  ability. (The ability of each card is listed below in the MAPPING section)
+-> Once a card is discarded to the pile, your turn ends.
+-> At the beginning of your turn, before picking any card from the middle deck, you may call
+  Cambio. This ends your turn and allows all other players one remaining turn until the round
+  is over.
+-> You should only call Cambio if you believe that the value of your current cards is less
+  than every other player and cannot be influenced heavily before the game ends.
+
+- Sticking -
+-> When a card is laid on the discard pile, anyone has the ability to stick a card on top.
+-> If the value of the card matches the card placed on the discard pile, you have successfully
+  stuck. If however the value of the card doesn't match, you have failed to stick.
+-> You can choose to stick either one of your own cards or an opponents card.
+(You should only try to stick if you are sure that you will successfully stick)
+-> If you successfully stick a card, you will be able to lessen the number of your cards by one
+  but the means of which depends on whether you stuck your own card or an opponent's.
+-> If you had successfully stuck your own card, by nature, you will have rid yourself of one card.
+-> If you had successfully stuck an opponent's card, you can return to the opponent one of your
+  own cards.
+-> If you fail to stick correctly, you will increase the number of your cards by one.
+-> If you fail to stick your own card correctly, you must blindly pick up a card from the middle
+  stack.
+-> If you fail to stick an opponent's card correctly, you must return their card to them in the
+  same position you took it from and then pick up a card from the middle stack.
+-> Each player can only attempt one stick per turn and if someone successfully sticks, no one
+  else can stick to that card until the next turn.
+-> You can stick to the top of the discard pile anytime during a player's turn.
+
+Clarifying Examples:
+-> If you know an opponent has a 7 and the current top of the discard pile has a 7, you can stick
+  their card to the discard pile as long as you manage to stick it before them.
+-> If on your turn you pick up a 10 from the middle stack and know you have another 10, you can
+  discard the 10 from the stack and try to immediately stick your card on top. Since you discarded
+  from the deck, the ability of the 10 is activated as well.
+
+-- Win Conditions --
+-> If you are able to get rid of all yours cards first, from sticking, then you automatically win.
+-> If you call Cambio, everyone has their last turn and you end up with the lowest valued set
+  of cards on the table, you win.
+-> If Cambio has been called but not by you, everyone has their last turn, and you have the
+  lowest valued set of cards on the table, you win.
+-> If you have the lowest valued set of cards and another player(s) has the same value, all
+  players who did not call Cambio win whereas the person who did call Cambio loses.
+
+Clarifying examples:
+Consider 4 players A,B,C,D.
+
+If player A calls Cambio and players B, C and D have their last turn. Here are a list of win outcomes with values. Values are arranged (A, B, C, D).
+
+--- Value --- | --- Win --- 
+ (2, 5, 6, 7) | (X, 0, 0, 0)
+ (0, -1, 3, 8)| (0, X, 0, 0)
+ (2, 2, 4, 5) | (0, X, 0, 0)
+ (1, 1, 1, 3) | (0, X, X, 0)
+ (4, 3, 0, 0) | (0, 0, X, X)
+
+-- MAPPING --
+
+---------- | ---------- | ----------
+   Card    |   Value    |  Ability
+---------- | ---------- | ----------
+     A     |     1      |   None
+     2     |     2      |   None
+     3     |     3      |   None
+     4     |     4      |   None
+     5     |     5      |   None
+     6     |     6      |   None
+     7     |     7      |   Peek
+     8     |     8      |   Peek
+     9     |     9      |   Spy
+     10    |     10     |   Spy
+     J     |     10     |   Blind swap
+     Q     |     10     |   Blind swap
+     B-K   |     10     |   Peek, Spy and Potentially Swap
+     R-K   |     -1     |   None
+     Joker |     0      |   None
+
+Ability Descriptions
+Peek - Look at one of your own cards secretly
+Spy - Look at an opponent's card secretly
+Blind swap - Swap one of your cards with an opponent's without looking.
+Peek, Spy and Potentially swap - Peek at your own card, Spy on an opponent's and then decide
+  if you want to swap.
