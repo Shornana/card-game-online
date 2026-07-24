@@ -148,5 +148,100 @@ LIMIT 100;
 - Implementing ranking in the database keeps sorting, tie-handling and pagination efficient and accurate for real-time leaderboards.
 
 ---
-# Achievements:
+# Achievements
+
+If we are using a relational database like Neon, we can build an achievement system using a many-to-many relationship. This allows a single user to unlock multiple achievements, and a single achievement to be unlocked by multiple users. By using a mapping table, we can also record the exact time the achievement was earned.
+
+## 1. Database Setup (The Prisma Schema)
+
+* Define the structure in `schema.prisma`. We need three models: `User`, `Achievement` (the static list of possible unlockables), and a mapping table `UserAchievement`.
+* This is called an *explicit many-to-many relationship*. The mapping table holds the foreign keys for both the user and the achievement, along with an `unlockedAt` timestamp.
+* Add a composite `@@unique` constraint to the mapping table to guarantee a user can only unlock a specific achievement once.
+
+Example Prisma models:
+
+```prisma
+model User {
+  id               Int               @id @default(autoincrement())
+  username         String            @unique
+  passwordHash     String
+  scores           Score[]
+  userAchievements UserAchievement[]
+}
+
+model Achievement {
+  id               Int               @id @default(autoincrement())
+  code             String            @unique // e.g., "FIRST_BLOOD"
+  name             String
+  description      String
+  userAchievements UserAchievement[]
+}
+
+model UserAchievement {
+  id            Int         @id @default(autoincrement())
+  user          User        @relation(fields: [userId], references: [id])
+  userId        Int
+  achievement   Achievement @relation(fields: [achievementId], references: [id])
+  achievementId Int
+  unlockedAt    DateTime    @default(now())
+
+  // Ensure a user cannot unlock the exact same achievement twice
+  @@unique([userId, achievementId]) 
+}
+
+```
+
+## 2. Awarding the Achievement (The Event Listener)
+
+* When a game ends or a specific action occurs, your core game logic emits an event (e.g., using Node.js `EventEmitter`).
+* A background listener function checks the game stats against the achievement conditions.
+* If a condition is met, the server uses Prisma to write a new record to the `UserAchievement` table in Neon.
+* Using `create` inside a `try/catch` block ensures the game doesn't crash if the user already has the achievement.
+
+Conceptual example using Prisma:
+
+```javascript
+// Example: Awarding an achievement based on a specific ID
+try {
+  await prisma.userAchievement.create({
+    data: {
+      userId: playerId,
+      achievementId: wonGameAchievementId
+    }
+  });
+  console.log("Achievement unlocked!");
+} catch (error) {
+  // If the unique constraint fails (P2002), they already have it. Just ignore.
+  if (error.code === 'P2002') {
+    console.log("Player already has this achievement.");
+  }
+}
+
+```
+
+## 3. Querying Player Achievements
+
+* To display a player's profile page, use Prisma's `include` feature to fetch the user, the mapping table, and the actual achievement details in a single query.
+* This allows the frontend to show a list of unlocked achievements and exactly when they were earned.
+
+Example query using Prisma:
+
+```javascript
+const playerProfile = await prisma.user.findUnique({
+  where: { id: playerId },
+  include: {
+    userAchievements: {
+      include: {
+        achievement: true // Fetches the name and description from the main Achievement table
+      },
+      orderBy: {
+        unlockedAt: 'desc' // Shows the most recently unlocked achievements first
+      }
+    }
+  }
+});
+
+```
+
+* This decoupled architecture ensures the main game loop stays lightning-fast, while Neon securely persists the permanent unlock history in the background.
 
