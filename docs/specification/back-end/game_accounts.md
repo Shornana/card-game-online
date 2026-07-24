@@ -86,7 +86,7 @@ Phase 2: The Login Flow (Accessing the Account)
 6. The Hand-off: Express sends a "Success" response back to the player, along with the JWT. The player is now fully logged in and ready to join a multiplayer lobby.
 
 ---
-# Leaderboards
+# Leaderboards:
 
 If we are using a relational database like Neon, we can create a leaderboard table that stores player scores. Each time a game ends, we can update the player's score in the database. We can then query the leaderboard table to display the top players.
 
@@ -146,4 +146,7 @@ LIMIT 100;
 ```
 
 - Implementing ranking in the database keeps sorting, tie-handling and pagination efficient and accurate for real-time leaderboards.
+
+---
+# Achievements:
 
