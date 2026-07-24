@@ -1,159 +1,86 @@
 # Game Accounts
 
-## Overview
+Reference: https://dev.to/owo_frostyy_df9242c6be6f5/user-authentication-and-authorization-in-nodejs-expressjs-app-using-typescript-prisma-zod-and-jwt-5b8d
 
-A simple and secure way to handle player accounts for the game is to use a backend authentication flow based on Node.js, Express.js, Prisma ORM, bcrypt, and JSON Web Tokens (JWT).
+This dev uses this stack:
 
-This approach would allow players to:
+- Node.js and Express.js to build the API routes.
+- Prisma ORM to manage the database models and queries.
+- Bcrypt for securely hashing passwords before storing them.
+- JWT (JSON Web Tokens) for generating secure tokens to authorise users after they log in.
+- They also use Typescript which is basically JavaScript but it’s good to highlight.
 
-- create an account
-- log in securely
-- stay authenticated across requests
-- access protected game features after login
+## Node.js and Express.js:
 
-## Recommended Stack
+The sign up route.
 
-The following tools are a strong fit for this project:
+https://expressjs.com
 
-- Node.js and Express.js for building the API routes
-- Prisma ORM for managing database models and queries
-- bcrypt for securely hashing passwords
-- JWT for stateless authentication
-- TypeScript for safer and more maintainable server code
+Node.js is the environment that runs your JavaScript code on the server instead of in a browser.
 
-## 1. Node.js and Express.js
+Express.js is a framework built on top of Node.js that listens for incoming HTTP requests from the players.
 
-Node.js is the runtime environment that executes JavaScript on the server.
+We could use Express.js to create routes/endpoints. For example, when a player registers in our game, their browser will send their chosen username and password directly to this express route by coding an app.post(‘/register’) route.
 
-Express.js is a lightweight web framework built on top of Node.js. It listens for incoming HTTP requests and routes them to the appropriate handlers.
+## Prisma ORM (Object-Relational Mapping):
 
-For this game, we could create endpoints such as:
+The database translator.
 
-- POST /register for account creation
-- POST /login for authentication
+https://www.prisma.io/docs
 
-Example idea:
+Databases normally use SQL, but if we use this when we write JavaScript, Prisma acts as the translator between the two. It allows us to interact with databases using the language of the application instead of SQL queries.
 
-```ts
-app.post('/register', async (req, res) => {
-  // receive username and password
-  // hash password
-  // save user to the database
-});
-```
+How we can use it - we define data in a model in a schema.prisma file. Then, Prisma generates a type-safe client that lets you write JavaScript code to interact with the database. To create a new user we would code - prisma.user.create({ data: { username, password } }).
 
-## 2. Prisma ORM
+## The actual database?:
 
-Prisma is an ORM that helps connect the application to a database without writing raw SQL manually.
+There are a few options we can use alongside Prisma.
 
-Instead of writing complex SQL queries by hand, Prisma lets us define models in a schema file and then interact with the database using JavaScript or TypeScript.
+- NEON - free to use tier - 500mb of storage and 100 hours of active time a month. It is server less, so it’s not used when not in use. And it wakes up fast. - https://neon.com/docs/prisma - It is a  relational database, this means it will come in handy for scoreboards ect.
+- Supabase?
 
-This makes it easier to:
+But open to other options.
 
-- define users and game-related data
-- create and retrieve records safely
-- keep the backend code cleaner and more structured
+## Bcrypt:
 
-Example approach:
+This is the security layer for our database. It is a cryptographic library used to securely hash passwords.
 
-```ts
-await prisma.user.create({
-  data: {
-    username,
-    passwordHash
-  }
-});
-```
+When a user registers we need to run their password through bcrypt.hash(). This turns the passwords into a hash. We then need to save the hash in the database using Prisma. When the user logs in at a later point we need to use bcrypt.compare() to check if the password they used matches the hash stored in the database.
 
-## 3. Password Security with bcrypt
+https://www.freecodecamp.org/news/how-to-hash-passwords-with-bcrypt-in-nodejs/
 
-Passwords should never be stored in plain text.
+## JSON Web Tokens:
 
-bcrypt is used to hash passwords before storing them in the database. This makes accounts much more secure in case the database is ever exposed.
+This is what we use for stateless authentication. HTTP requests are stateless as the server forgets who you are when you refresh etc, we can use this as a way to show a player is logged in without forcing them to sign in every time.
 
-The flow would be:
+JWT is in 3 parts. The header, payload and signature. When a user successfully logs in, the server will generate a JWT containing the users data (player id) and signs it with a secret key. The server sends this JWT back to the players browser. The browser saves this token and attaches it to every future request. The server verifies the tokens signature, knowing which player is taking the action.
 
-1. A player submits a password during sign-up.
-2. The server runs the password through bcrypt.
-3. The hash is stored instead of the raw password.
-4. During login, bcrypt compares the entered password with the stored hash.
+We can set the timeframe for how long the token lasts:
 
-Example:
+const jwt = require('jsonwebtoken');
 
-```ts
-const hashedPassword = await bcrypt.hash(password, 10);
-```
-
-## 4. Authentication with JWT
-
-JSON Web Tokens are used to keep a user logged in without requiring them to log in again on every request.
-
-When a player logs in successfully, the server can create a JWT containing information such as the user ID. That token is then sent back to the client and stored locally, usually in browser storage or memory.
-
-On future requests, the client sends the token so the server can verify that the player is authenticated.
-
-Example:
-
-```ts
+// Generate a token that lasts for 2 hours
 const token = jwt.sign(
-  { userId: user.id },
-  process.env.JWT_SECRET,
-  { expiresIn: '2h' }
+  { userId: user.id }, 
+  process.env.JWT_SECRET, 
+  { expiresIn: '2h' } // <--- Expiration time configured here
 );
-```
 
-## 5. Database Options
+https://www.geeksforgeeks.org/node-js/jwt-authentication-with-node-js/
 
-There are a few database options that could work well with Prisma.
+SO in summary we can use these steps to create game accounts:
 
-### Recommended option: Neon
+Phase 1: The Sign-Up Flow (Creating the Account)
 
-Neon is a serverless PostgreSQL platform with a free tier.
+1. The Request (Express): A player submits their sign-up form. Express catches this request at the /register endpoint.
+2. The Security (Bcrypt): Express immediately takes the player's plain-text password and asks Bcrypt to turn it into a secure hash.
+3. The Save (Prisma to Neon): Express hands the username and the hashed password to Prisma. Prisma translates this into a SQL INSERT command and sends it over the internet directly to your Neon PostgreSQL database.
+4. The Storage (Neon): The Neon serverless database permanently stores this new user record in the cloud.
+Phase 2: The Login Flow (Accessing the Account)
 
-Benefits:
-
-- free tier available
-- good for relational data
-- works well with Prisma
-- scales well for a game backend
-
-It is a strong fit for features such as:
-
-- player accounts
-- leaderboards
-- match history
-- game statistics
-
-### Other possible option: Supabase
-
-Supabase is another strong alternative, especially if a team wants a managed backend with additional features.
-
-At this stage, Neon is a good starting point because the project likely needs relational database support and a simple PostgreSQL setup.
-
-## Sign-Up Flow
-
-1. The player submits their username and password to the /register endpoint.
-2. Express receives the request.
-3. The password is hashed using bcrypt.
-4. Prisma stores the username and hashed password in the database.
-5. The account is created successfully.
-
-## Login Flow
-
-1. The player submits their login credentials to the /login endpoint.
-2. Express passes the request to Prisma to find the matching user.
-3. bcrypt compares the entered password with the stored hash.
-4. If the password is correct, the server generates a JWT.
-5. The token is returned to the player so they can access protected game features.
-
-## Summary
-
-A solid backend authentication design for this game would be:
-
-- Express.js for API endpoints
-- Prisma ORM for database access
-- bcrypt for password hashing
-- JWT for authentication
-- Neon or Supabase as the database backend
-
-This combination provides a practical and secure foundation for creating and managing game accounts.
+1. The Request (Express): A player submits their login form. Express catches this request at the /login endpoint.
+2. The Lookup (Prisma to Neon): Express asks Prisma to check the database: "Do we have a user with this email?". Prisma translates this into a SQL query and sends it over the network to the Neon database.
+3. The Return (Neon to Prisma): The Neon database wakes up, finds the user record, and sends the data (including the stored hashed password) back to Prisma.
+4. The Verification (Bcrypt): Express takes the password the player just typed and asks Bcrypt to compare it against the hashed password that Prisma retrieved from Neon.
+5. The Authorization (JWT): If Bcrypt confirms they match, Express uses the jsonwebtoken package to generate a token containing the player's Neon database ID.
+6. The Hand-off: Express sends a "Success" response back to the player, along with the JWT. The player is now fully logged in and ready to join a multiplayer lobby.
