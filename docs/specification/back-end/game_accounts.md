@@ -84,3 +84,66 @@ Phase 2: The Login Flow (Accessing the Account)
 4. The Verification (Bcrypt): Express takes the password the player just typed and asks Bcrypt to compare it against the hashed password that Prisma retrieved from Neon.
 5. The Authorization (JWT): If Bcrypt confirms they match, Express uses the jsonwebtoken package to generate a token containing the player's Neon database ID.
 6. The Hand-off: Express sends a "Success" response back to the player, along with the JWT. The player is now fully logged in and ready to join a multiplayer lobby.
+
+---
+# Leaderboards
+
+If we are using a relational database like Neon, we can create a leaderboard table that stores player scores. Each time a game ends, we can update the player's score in the database. We can then query the leaderboard table to display the top players.
+
+## 1. Database Setup (The Prisma Schema)
+
+- Define the structure in schema.prisma. Create a users table and a related scores (leaderboard) table.
+- Establish a relation so every score references a user's ID (foreign key).
+- Add an index on the score column to optimise ORDER BY operations for large player counts.
+
+Example Prisma models (illustrative):
+
+```prisma
+model User {
+  id           Int     @id @default(autoincrement())
+  username     String  @unique
+  passwordHash String
+  scores       Score[]
+}
+
+model Score {
+  id     Int  @id @default(autoincrement())
+  user   User @relation(fields: [userId], references: [id])
+  userId Int
+  score  Int
+  @@index([score])
+}
+```
+
+## 2. Updating the Score (The Game Loop)
+
+- When a game ends, your Node.js server captures the result and emits an event.
+- The server uses Prisma to update the player's score in Neon.
+- Use upsert to update an existing leaderboard row or create a new one if this is the player's first game.
+
+Conceptual example using Prisma:
+
+```ts
+await prisma.score.upsert({
+  where: { userId: playerId },
+  update: { score: { increment: pointsEarned } },
+  create: { userId: playerId, score: pointsEarned }
+});
+```
+
+## 3. Querying the Top Players (The SQL Ranking)
+
+- To display numbered ranks (1st, 2nd, 3rd), use a raw SQL query with PostgreSQL's RANK() window function; Prisma requires raw SQL for ranking with row numbers.
+- RANK() evaluates the dataset and assigns a rank ordered by score DESC. Ties receive the same rank; ranks after ties skip accordingly (e.g., two players tied at rank 2 means next rank is 4).
+
+Example raw SQL for Neon/Postgres:
+
+```sql
+SELECT user_id, score, RANK() OVER (ORDER BY score DESC) AS rank
+FROM public.scores
+ORDER BY score DESC
+LIMIT 100;
+```
+
+- Implementing ranking in the database keeps sorting, tie-handling and pagination efficient and accurate for real-time leaderboards.
+
