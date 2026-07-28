@@ -5,7 +5,6 @@ labels: ["bug", "triage"]
 projects: ["card-game-online"]
 assignees:
   - Shornana
-type: bug
 body:
   - type: markdown
     attributes:
