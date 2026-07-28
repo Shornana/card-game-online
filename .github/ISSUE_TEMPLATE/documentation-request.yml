@@ -1,0 +1,33 @@
+name: Documentation Request
+description: File a documentation request.
+title: "[Documentation]: "
+labels: ["documentation"]
+projects:
+  Shornana/2 #Do not change! It specifies project location.
+assignees:
+  - Shornana
+body: 
+  - type: textarea
+    id: explain-documentation
+    attributes:
+      label: Documentation
+      description: What documentation is required to be made?
+      placeholder: Describe the documentation to be made...
+    validations:
+      required: true
+  - type: dropdown
+    id: documentation-type
+    attributes:
+      label: What style of documentation-type?
+      multiple: true
+      options:
+        - Flow diagram
+        - Written documentation
+        - Walkthrough
+        - Other
+  - type: textarea
+    id: logs
+    attributes:
+      label: Relevant log output
+      description: Please copy and paste any relevant log output. This will be automatically formatted into code, so no need for backticks.
+      render: shell
