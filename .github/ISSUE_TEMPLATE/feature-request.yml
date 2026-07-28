@@ -1,5 +1,5 @@
 name: Feature Request
-description: File a feature required.
+description: File a feature request.
 title: "[Feature]: "
 labels: ["enhancement", "In triage"]
 projects:
