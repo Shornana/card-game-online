@@ -1,7 +1,7 @@
 name: Feature Request
 description: File a feature request.
 title: "[Feature]: "
-labels: ["enhancement", "In triage"]
+labels: ["enhancement"]
 projects:
   Shornana/2 #Do not change! it specifies project location.
 assignees:
@@ -13,7 +13,6 @@ body:
       label: Describe the Feature
       description: Describe the feature to be implemented
       placeholder: Descibe the feature...
-      value: "Create/Delete/Alter"
     validations:
       required: true
   - type: textarea
@@ -22,7 +21,6 @@ body:
       label: Related Problem
       description: Is this related to a current problem?
       placeholder: Add the issue number.
-      value: "Issue..."
     validations:
       required: false
   - type: textarea
@@ -31,7 +29,6 @@ body:
       label: Dependencies
       description: Please list any dependencies.
       placeholder: Dependencies...
-      value: "Depedency"
     validations:
       required: false
   - type: textarea
