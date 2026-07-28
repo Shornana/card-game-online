@@ -1,0 +1,57 @@
+name: Feature Request
+description: File a feature required.
+title: "[Feature]: "
+labels: ["enhancement", "In triage"]
+projects:
+  Shornana/1
+assignees:
+  - Shornana
+body: 
+  - type: textarea
+    id: describe-feature
+    attributes:
+      label: Feature name
+      description: Describe the feature to be implemented
+      placeholder: Descibe the feature...
+      value: "Create/Delete/Alter"
+    validations:
+      required: true
+  - type: textarea
+    id: related-problem
+    attributes:
+      label: Related Problem
+      description: Is this related to a current problem?
+      placeholder: Add the issue number.
+      value: "Issue..."
+    validations:
+      required: false
+  - type: textarea
+    id: dependencies
+    attributes:
+      label: Dependencies
+      description: Please list any dependencies.
+      placeholder: Dependencies...
+      value: "Depedency"
+    validations:
+      required: false
+  - type: textarea
+    id: implementation-strategy
+    attributes:
+      label: Implementation Strategy
+      description: How will the feature be implemented.
+      placeholder: Description of the process.
+    validations: 
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Relevant log output
+      description: Please copy and paste any relevant log output. This will be automatically formatted into code, so no need for backticks.
+      render: shell
+  - type: upload
+    id: screenshots
+    attributes:
+      label: Upload screenshots
+      description: If applicable, add screenshots to help explain your problem.
+    validations:
+      required: false

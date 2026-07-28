@@ -6,19 +6,7 @@ projects:
   Shornana/1
 assignees:
   - Shornana
-body:
-  - type: markdown
-    attributes:
-      value: |
-       Fill all relevant details. 
-  - type: input
-    id: contact
-    attributes:
-      label: Contact Details
-      description: How can we get in touch with you if we need more info?
-      placeholder: ex. email@example.com
-    validations:
-      required: false
+body: 
   - type: textarea
     id: what-happened
     attributes:
@@ -34,7 +22,7 @@ body:
       label: Version
       description: Please state version number.
       options:
-        - Version 0.0.1
+        - 0.0.1
       default: 0
     validations:
       required: true
