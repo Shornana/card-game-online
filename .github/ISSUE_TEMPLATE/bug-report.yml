@@ -3,7 +3,7 @@ description: File a bug report.
 title: "[Bug]: "
 labels: ["bug", "In triage"]
 projects:
-  Shornana/1
+  Shornana/2 #Do not change! It specifies project location.
 assignees:
   - Shornana
 body: 

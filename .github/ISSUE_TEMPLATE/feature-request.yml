@@ -3,7 +3,7 @@ description: File a feature request.
 title: "[Feature]: "
 labels: ["enhancement", "In triage"]
 projects:
-  Shornana/1
+  Shornana/2 #Do not change! it specifies project location.
 assignees:
   - Shornana
 body: 
