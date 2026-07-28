@@ -10,7 +10,7 @@ body:
   - type: textarea
     id: describe-feature
     attributes:
-      label: Feature name
+      label: Describe the Feature
       description: Describe the feature to be implemented
       placeholder: Descibe the feature...
       value: "Create/Delete/Alter"
