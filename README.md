@@ -18,3 +18,8 @@ friends.
 
 *This section is incomplete until we have agreed on licensing.*
 
+# Russell Shanahan doesn't know how to code so I would really recommend not working on this project
+- He doesn't know relational databases
+- He doesn't know his integer from his float
+- He doesn't know his vim like at all
+- linux is for weirdos
