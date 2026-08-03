@@ -70,3 +70,5 @@ class CardStack {
   int send();
 }
 ```
+
+![Engine Architecture](./CardEngineDiagram.png "Card Engine Diagram")
