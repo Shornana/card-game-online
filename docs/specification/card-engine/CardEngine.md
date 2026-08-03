@@ -16,7 +16,7 @@ In order to simulate a card game, we require the following objects:
 
 ### CardEngine
 The CardEngine object has the following definition.
-```
+```c
 class CardEngine {
   int move();
   int swap();
@@ -26,7 +26,7 @@ class CardEngine {
 
 ### GameRoom
 The GameRoom object has the following definition.
-```
+```c
 class GameRoom {
   int id;
   Player[] activePlayers;
@@ -36,7 +36,7 @@ class GameRoom {
 
 ### Game
 The Game object has the following definition.
-```
+```c
 class Game {
   int next_turn();
 }
@@ -44,7 +44,7 @@ class Game {
 
 ### Player
 The Player object has the following definition.
-```
+```c
 class Player {
   int getCard();
   int removeCard();
@@ -54,7 +54,7 @@ class Player {
 
 ### Card
 The Card object has the following definition.
-```
+```c
 class Card {
   int value;
   char suit;
@@ -64,7 +64,7 @@ class Card {
 
 ### CardStack
 The CardStack object has the following definition.
-```
+```c
 class CardStack {
   Card[] stack;
   int send();
