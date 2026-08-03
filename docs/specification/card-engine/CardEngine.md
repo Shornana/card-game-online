@@ -15,11 +15,13 @@ In order to simulate a card game, we require the following objects:
 
 ### GameRoom
 The GameRoom object has the following definition.
-> class GameRoom {
->   int id;
->   Player[] activePlayers;
->   Game game;
-> }
+```
+class GameRoom {
+   int id;
+   Player[] activePlayers;
+   Game game;
+}
+```
 
 ## Functionality
 
