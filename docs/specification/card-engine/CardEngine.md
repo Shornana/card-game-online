@@ -18,9 +18,9 @@ In order to simulate a card game, we require the following objects:
 The CardEngine object has the following definition.
 ```csharp
 class CardEngine {
-  int move();
-  int swap();
-  int deal();
+  int move(Card sourceCard, Cardstack targetStack);
+  int swap(Card sourceCard, Card targetCard);
+  int deal(CardStack stack);
 }
 ```
 
@@ -38,7 +38,7 @@ class GameRoom {
 The Game object has the following definition.
 ```csharp
 class Game {
-  int next_turn();
+  int next_turn(function gameRules);
 }
 ```
 
@@ -46,9 +46,12 @@ class Game {
 The Player object has the following definition.
 ```csharp
 class Player {
-  int getCard();
-  int removeCard();
-  int swapCard();
+  string username;
+  int score;
+  int getCard(CardStack targetStack);
+  int removeCard(Card sourceCard, CardStack targetStack);
+  int swapCard(Card sourceCard, Card targetCard);
+  int moveCard(Card sourceCard, CardStack targetStack);
 }
 ```
 
@@ -67,8 +70,18 @@ The CardStack object has the following definition.
 ```csharp
 class CardStack {
   Card[] stack;
-  int send();
+  int minimumNumberOfCards;
+  int maximumNumberOfCards;
+  int take();
 }
 ```
 
+## System Architecture Diagram
+
+A flow diagram representing the architecture of the card engine. 
 ![Engine Architecture](./CardEngineDiagram.png "Card Engine Diagram")
+
+## Multiplayer Implementation Strategy
+Though this card engine will be implemented client side for single player, it will be implemented on the server for
+multiplayer in order to ensure that the actions of players are tracked accordingly. For that, a separate system will
+need to be implemented so it is adapted for multiplayer connection and synchronised for all connecting clients.
