@@ -38,7 +38,11 @@ class GameRoom {
 The Game object has the following definition.
 ```csharp
 class Game {
-  int next_turn(function gameRules);
+  int start();
+  int init();
+  int turn();
+  int next();
+  int end();
 }
 ```
 
