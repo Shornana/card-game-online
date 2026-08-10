@@ -1,0 +1,118 @@
+<mxfile host="drawio-plugin" modified="2026-08-10T21:00:03.129Z" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36" version="22.1.22" etag="EH2GdIX2rBv8zHfGF46v" type="embed">
+  <diagram name="Page-1" id="Fw1VEgfOWp10k9Al_LMN">
+    <mxGraphModel dx="638" dy="511" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="_eznA3S8GDO2cxdQI4NN-21" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="_eznA3S8GDO2cxdQI4NN-1" target="_eznA3S8GDO2cxdQI4NN-16" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="_eznA3S8GDO2cxdQI4NN-1" value="Player UI registration/sign in&amp;nbsp;" style="ellipse;whiteSpace=wrap;html=1;shapeInside=1;fillColor=#f5f5f5;fontColor=#333333;strokeColor=#666666;" parent="1" vertex="1">
+          <mxGeometry x="10" y="250" width="100" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="_eznA3S8GDO2cxdQI4NN-5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="_eznA3S8GDO2cxdQI4NN-2" target="_eznA3S8GDO2cxdQI4NN-4" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="_eznA3S8GDO2cxdQI4NN-2" value="&lt;b&gt;Input:&lt;/b&gt;&amp;nbsp;Player &lt;br&gt;submits a &lt;br&gt;Username and Password" style="shape=parallelogram;perimeter=parallelogramPerimeter;whiteSpace=wrap;html=1;shapeInside=1;fixedSize=1;fillColor=#fff2cc;strokeColor=#d6b656;" parent="1" vertex="1">
+          <mxGeometry x="330" y="255" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="_eznA3S8GDO2cxdQI4NN-7" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="_eznA3S8GDO2cxdQI4NN-4" target="_eznA3S8GDO2cxdQI4NN-6" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="_eznA3S8GDO2cxdQI4NN-4" value="&lt;b&gt;Express.js:&lt;/b&gt;&amp;nbsp;catches the request at the /register endpoint.&amp;nbsp;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" vertex="1">
+          <mxGeometry x="460" y="255" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="_eznA3S8GDO2cxdQI4NN-6" value="&lt;b&gt;Validation:&lt;/b&gt;Express validates if the input meets requirments.&amp;nbsp;" style="rhombus;whiteSpace=wrap;html=1;shapeInside=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="1" vertex="1">
+          <mxGeometry x="610" y="207.5" width="150" height="155" as="geometry" />
+        </mxCell>
+        <mxCell id="_eznA3S8GDO2cxdQI4NN-8" value="" style="endArrow=classic;html=1;rounded=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;" parent="1" source="_eznA3S8GDO2cxdQI4NN-6" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="685" y="177.5" />
+            </Array>
+            <mxPoint x="680" y="207.5" as="sourcePoint" />
+            <mxPoint x="580" y="177.5" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="_eznA3S8GDO2cxdQI4NN-9" value="&lt;b&gt;No&lt;/b&gt;" style="edgeLabel;resizable=0;html=1;;align=center;verticalAlign=middle;" parent="_eznA3S8GDO2cxdQI4NN-8" connectable="0" vertex="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="_eznA3S8GDO2cxdQI4NN-11" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" target="_eznA3S8GDO2cxdQI4NN-4" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="520" y="207.5" as="sourcePoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="_eznA3S8GDO2cxdQI4NN-12" value="" style="endArrow=classic;html=1;rounded=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="_eznA3S8GDO2cxdQI4NN-6" target="_eznA3S8GDO2cxdQI4NN-14" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="750" y="284.5" as="sourcePoint" />
+            <mxPoint x="800" y="284.5" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="_eznA3S8GDO2cxdQI4NN-13" value="&lt;b&gt;Yes&lt;/b&gt;" style="edgeLabel;resizable=0;html=1;;align=center;verticalAlign=middle;" parent="_eznA3S8GDO2cxdQI4NN-12" connectable="0" vertex="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="_eznA3S8GDO2cxdQI4NN-23" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="_eznA3S8GDO2cxdQI4NN-14" target="_eznA3S8GDO2cxdQI4NN-22" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="_eznA3S8GDO2cxdQI4NN-14" value="&lt;b&gt;Bcrypt: &lt;/b&gt;hashes the plain text password into a secure string" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" vertex="1">
+          <mxGeometry x="810" y="255" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="_eznA3S8GDO2cxdQI4NN-16" value="&lt;b&gt;New account?&lt;/b&gt;&amp;nbsp;" style="rhombus;whiteSpace=wrap;html=1;shapeInside=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="1" vertex="1">
+          <mxGeometry x="140" y="207.5" width="150" height="155" as="geometry" />
+        </mxCell>
+        <mxCell id="_eznA3S8GDO2cxdQI4NN-17" value="" style="endArrow=classic;html=1;rounded=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="_eznA3S8GDO2cxdQI4NN-16" target="_eznA3S8GDO2cxdQI4NN-2" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="330" y="420" as="sourcePoint" />
+            <mxPoint x="380" y="420" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="_eznA3S8GDO2cxdQI4NN-18" value="&lt;b&gt;Yes&lt;/b&gt;" style="edgeLabel;resizable=0;html=1;;align=center;verticalAlign=middle;" parent="_eznA3S8GDO2cxdQI4NN-17" connectable="0" vertex="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="_eznA3S8GDO2cxdQI4NN-19" value="" style="endArrow=classic;html=1;rounded=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" parent="1" source="_eznA3S8GDO2cxdQI4NN-16" target="_eznA3S8GDO2cxdQI4NN-27" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points" />
+            <mxPoint x="225" y="420.5" as="sourcePoint" />
+            <mxPoint x="120" y="390.5" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="_eznA3S8GDO2cxdQI4NN-20" value="&lt;b&gt;No&lt;/b&gt;" style="edgeLabel;resizable=0;html=1;;align=center;verticalAlign=middle;" parent="_eznA3S8GDO2cxdQI4NN-19" connectable="0" vertex="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="_eznA3S8GDO2cxdQI4NN-22" value="&lt;b&gt;Prisma: &lt;/b&gt;prepares the data and translates it into a SQL INSERT command" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" vertex="1">
+          <mxGeometry x="960" y="255" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="_eznA3S8GDO2cxdQI4NN-29" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;exitPerimeter=0;" parent="1" source="_eznA3S8GDO2cxdQI4NN-24" target="_eznA3S8GDO2cxdQI4NN-28" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="_eznA3S8GDO2cxdQI4NN-24" value="Database&amp;nbsp;" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;fillColor=#ffe6cc;strokeColor=#d79b00;" parent="1" vertex="1">
+          <mxGeometry x="1170" y="232.5" width="100" height="105" as="geometry" />
+        </mxCell>
+        <mxCell id="_eznA3S8GDO2cxdQI4NN-25" value="" style="endArrow=classic;html=1;rounded=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;entryPerimeter=0;" parent="1" source="_eznA3S8GDO2cxdQI4NN-22" target="_eznA3S8GDO2cxdQI4NN-24" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1070" y="290" as="sourcePoint" />
+            <mxPoint x="1170" y="290" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="_eznA3S8GDO2cxdQI4NN-26" value="Stores the&lt;div&gt;new user&amp;nbsp;&lt;/div&gt;&lt;div&gt;record.&lt;/div&gt;" style="edgeLabel;resizable=0;html=1;;align=center;verticalAlign=middle;" parent="_eznA3S8GDO2cxdQI4NN-25" connectable="0" vertex="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="_eznA3S8GDO2cxdQI4NN-27" value="Player follows the Login process&amp;nbsp;" style="ellipse;whiteSpace=wrap;html=1;shapeInside=1;fillColor=#f5f5f5;fontColor=#333333;strokeColor=#666666;" parent="1" vertex="1">
+          <mxGeometry x="155" y="400" width="120" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="_eznA3S8GDO2cxdQI4NN-31" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="_eznA3S8GDO2cxdQI4NN-28" target="_eznA3S8GDO2cxdQI4NN-30" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="_eznA3S8GDO2cxdQI4NN-28" value="&lt;b&gt;Output:&lt;/b&gt;&amp;nbsp;Express &lt;br&gt;sends the user a &quot;Registration &lt;br&gt;Successful&quot; &lt;br&gt;response&amp;nbsp;" style="shape=parallelogram;perimeter=parallelogramPerimeter;whiteSpace=wrap;html=1;shapeInside=1;fixedSize=1;fillColor=#fff2cc;strokeColor=#d6b656;" parent="1" vertex="1">
+          <mxGeometry x="1300" y="245" width="140" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="_eznA3S8GDO2cxdQI4NN-30" value="&lt;b&gt;End: &lt;/b&gt;Player account is created" style="ellipse;whiteSpace=wrap;html=1;shapeInside=1;fillColor=#f5f5f5;fontColor=#333333;strokeColor=#666666;" parent="1" vertex="1">
+          <mxGeometry x="1470" y="245" width="120" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="_eznA3S8GDO2cxdQI4NN-33" value="If validation &lt;br&gt;fails, error occurs &lt;br&gt;anduser needs &lt;br&gt;to try again." style="shape=parallelogram;perimeter=parallelogramPerimeter;whiteSpace=wrap;html=1;shapeInside=1;fixedSize=1;fillColor=#f8cecc;strokeColor=#b85450;" parent="1" vertex="1">
+          <mxGeometry x="470" y="147.5" width="120" height="60" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
