@@ -13,6 +13,7 @@ In order to simulate a card game, we require the following objects:
 - Player
 - Card
 - CardStack
+- GameRules
 
 ### CardEngine
 The CardEngine object has the following definition.
@@ -111,6 +112,20 @@ class CardStack {
 - *minimumNumberOfCards* is an integer representing the minimum number of cards that must be present in the stack.
 - *maximumNumberOfCards* is an integer representing the maximum number of cards that can be in the stack.
 - *take* is a function.
+
+### GameRules
+
+```csharp
+interface GameRules {
+  int init();
+  int turn();
+  int checkWinConditions();
+}
+```
+
+- *init* is the implementation of how the game should be initialised.
+- *turn* is the implementation of how the turn should progress.
+- *checkWinConditions* is a function that determines if a win is achieved.
 
 ## System Architecture Diagram
 
