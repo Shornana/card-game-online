@@ -2,7 +2,7 @@
 
 ## Description
 
-An interface for implementing player and card functionality.
+An interface for implementing player and card functionality. The card engine should handle game flow as well as be modular enough to implement many different games via the GameRules interface without having to embed game logic within the engine itself.
 
 ## Objects
 
