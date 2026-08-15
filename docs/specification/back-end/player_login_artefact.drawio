@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mxfile host="app.diagrams.net">
+  <diagram name="Page-1" id="icoQIfygDpUVa923U8J6">
+    <mxGraphModel dx="1872" dy="751" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="DcDki2ZA5CF9zrun6K2H-31" edge="1" parent="1" source="DcDki2ZA5CF9zrun6K2H-2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="DcDki2ZA5CF9zrun6K2H-4" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="DcDki2ZA5CF9zrun6K2H-2" parent="1" style="ellipse;whiteSpace=wrap;html=1;shapeInside=1;fillColor=#f5f5f5;fontColor=#333333;strokeColor=#666666;" value="Player login UI" vertex="1">
+          <mxGeometry height="70" width="100" x="90" y="302.5" as="geometry" />
+        </mxCell>
+        <mxCell id="DcDki2ZA5CF9zrun6K2H-32" edge="1" parent="1" source="DcDki2ZA5CF9zrun6K2H-4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="DcDki2ZA5CF9zrun6K2H-6" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="DcDki2ZA5CF9zrun6K2H-4" parent="1" style="shape=parallelogram;perimeter=parallelogramPerimeter;whiteSpace=wrap;html=1;shapeInside=1;fixedSize=1;fillColor=#fff2cc;strokeColor=#d6b656;" value="&lt;b&gt;Input:&lt;/b&gt;&amp;nbsp;Player submits their Username and Password" vertex="1">
+          <mxGeometry height="60" width="120" x="210" y="307.5" as="geometry" />
+        </mxCell>
+        <mxCell id="DcDki2ZA5CF9zrun6K2H-34" edge="1" parent="1" source="DcDki2ZA5CF9zrun6K2H-6" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="DcDki2ZA5CF9zrun6K2H-20" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="DcDki2ZA5CF9zrun6K2H-6" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" value="&lt;b&gt;Express.js:&lt;/b&gt;&amp;nbsp;catches the request at the /login endpoint.&amp;nbsp;" vertex="1">
+          <mxGeometry height="60" width="120" x="354" y="307.5" as="geometry" />
+        </mxCell>
+        <mxCell id="DcDki2ZA5CF9zrun6K2H-22" parent="1" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;fillColor=#ffe6cc;strokeColor=#d79b00;" value="Database&amp;nbsp;" vertex="1">
+          <mxGeometry height="105" width="100" x="727" y="285" as="geometry" />
+        </mxCell>
+        <mxCell id="DcDki2ZA5CF9zrun6K2H-26" edge="1" parent="1" source="DcDki2ZA5CF9zrun6K2H-27" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="DcDki2ZA5CF9zrun6K2H-28" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="DcDki2ZA5CF9zrun6K2H-27" parent="1" style="shape=parallelogram;perimeter=parallelogramPerimeter;whiteSpace=wrap;html=1;shapeInside=1;fixedSize=1;fillColor=#fff2cc;strokeColor=#d6b656;" value="&lt;b&gt;Output:&lt;/b&gt;&amp;nbsp;Express sends the user a &quot;Login Successful&quot; response with JWT to client." vertex="1">
+          <mxGeometry height="80" width="140" x="1680" y="297.5" as="geometry" />
+        </mxCell>
+        <mxCell id="DcDki2ZA5CF9zrun6K2H-28" parent="1" style="ellipse;whiteSpace=wrap;html=1;shapeInside=1;fillColor=#f5f5f5;fontColor=#333333;strokeColor=#666666;" value="&lt;b&gt;End: &lt;/b&gt;Player is authenticated&amp;nbsp;" vertex="1">
+          <mxGeometry height="80" width="120" x="1840" y="297.5" as="geometry" />
+        </mxCell>
+        <mxCell id="DcDki2ZA5CF9zrun6K2H-20" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" value="&lt;b&gt;Prisma: &lt;/b&gt;prepares and translates a SQL SELECT query to find the user.&amp;nbsp;" vertex="1">
+          <mxGeometry height="60" width="120" x="500" y="307.5" as="geometry" />
+        </mxCell>
+        <mxCell id="DcDki2ZA5CF9zrun6K2H-35" edge="1" parent="1" style="endArrow=classic;html=1;rounded=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;entryPerimeter=0;" target="DcDki2ZA5CF9zrun6K2H-22" value="">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="620" y="337.5" as="sourcePoint" />
+            <mxPoint x="730" y="337" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="DcDki2ZA5CF9zrun6K2H-36" connectable="0" parent="DcDki2ZA5CF9zrun6K2H-35" style="edgeLabel;resizable=0;html=1;;align=center;verticalAlign=middle;" value="Queries user&amp;nbsp;&lt;div&gt;record&lt;/div&gt;" vertex="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="DcDki2ZA5CF9zrun6K2H-37" edge="1" parent="1" source="DcDki2ZA5CF9zrun6K2H-22" style="endArrow=classic;html=1;rounded=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="DcDki2ZA5CF9zrun6K2H-39" value="">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="850" y="340" as="sourcePoint" />
+            <mxPoint x="960" y="340" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="DcDki2ZA5CF9zrun6K2H-38" connectable="0" parent="DcDki2ZA5CF9zrun6K2H-37" style="edgeLabel;resizable=0;html=1;;align=center;verticalAlign=middle;" value="Returns user record&lt;div&gt;and stored hash&amp;nbsp;&lt;/div&gt;&lt;div&gt;password&lt;/div&gt;" vertex="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="DcDki2ZA5CF9zrun6K2H-39" parent="1" style="rhombus;whiteSpace=wrap;html=1;shapeInside=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="&lt;b&gt;User exists in database?&lt;/b&gt;" vertex="1">
+          <mxGeometry height="155" width="150" x="970" y="260" as="geometry" />
+        </mxCell>
+        <mxCell id="DcDki2ZA5CF9zrun6K2H-40" edge="1" parent="1" style="endArrow=classic;html=1;rounded=0;entryX=0.915;entryY=0.6;entryDx=0;entryDy=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryPerimeter=0;" target="DcDki2ZA5CF9zrun6K2H-42" value="">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1045" y="182" />
+            </Array>
+            <mxPoint x="1045" y="260" as="sourcePoint" />
+            <mxPoint x="940" y="229.5" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="DcDki2ZA5CF9zrun6K2H-41" connectable="0" parent="DcDki2ZA5CF9zrun6K2H-40" style="edgeLabel;resizable=0;html=1;;align=center;verticalAlign=middle;" value="&lt;b&gt;No&lt;/b&gt;" vertex="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="DcDki2ZA5CF9zrun6K2H-42" parent="1" style="shape=parallelogram;perimeter=parallelogramPerimeter;whiteSpace=wrap;html=1;shapeInside=1;fixedSize=1;fillColor=#f8cecc;strokeColor=#b85450;" value="Output: Express.js sends &quot;Invalid credentials&quot; error response" vertex="1">
+          <mxGeometry height="70" width="130" x="790" y="140" as="geometry" />
+        </mxCell>
+        <mxCell id="DcDki2ZA5CF9zrun6K2H-43" edge="1" parent="1" source="DcDki2ZA5CF9zrun6K2H-42" style="endArrow=classic;html=1;rounded=0;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" target="DcDki2ZA5CF9zrun6K2H-4" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <Array as="points">
+              <mxPoint x="270" y="175" />
+            </Array>
+            <mxPoint x="620" y="290" as="sourcePoint" />
+            <mxPoint x="360" y="180" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="DcDki2ZA5CF9zrun6K2H-44" edge="1" parent="1" source="DcDki2ZA5CF9zrun6K2H-39" style="endArrow=classic;html=1;rounded=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="DcDki2ZA5CF9zrun6K2H-46" value="">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1160" y="320" as="sourcePoint" />
+            <mxPoint x="1180" y="337.5" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="DcDki2ZA5CF9zrun6K2H-45" connectable="0" parent="DcDki2ZA5CF9zrun6K2H-44" style="edgeLabel;resizable=0;html=1;;align=center;verticalAlign=middle;" value="&lt;b&gt;Yes&lt;/b&gt;" vertex="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="DcDki2ZA5CF9zrun6K2H-48" edge="1" parent="1" source="DcDki2ZA5CF9zrun6K2H-46" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="DcDki2ZA5CF9zrun6K2H-47" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="DcDki2ZA5CF9zrun6K2H-46" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" value="&lt;b&gt;Bcrypt: &lt;/b&gt;compares the plain text password with the retrieved hash." vertex="1">
+          <mxGeometry height="60" width="120" x="1181" y="307.5" as="geometry" />
+        </mxCell>
+        <mxCell id="DcDki2ZA5CF9zrun6K2H-47" parent="1" style="rhombus;whiteSpace=wrap;html=1;shapeInside=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="&lt;b&gt;Do passwords match&lt;/b&gt;&lt;b&gt;?&lt;/b&gt;" vertex="1">
+          <mxGeometry height="155" width="150" x="1330" y="260" as="geometry" />
+        </mxCell>
+        <mxCell id="DcDki2ZA5CF9zrun6K2H-52" edge="1" parent="1" source="DcDki2ZA5CF9zrun6K2H-47" style="endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" target="DcDki2ZA5CF9zrun6K2H-51" value="">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1405" y="505" />
+            </Array>
+            <mxPoint x="1405" y="415" as="sourcePoint" />
+            <mxPoint x="1159" y="520" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="DcDki2ZA5CF9zrun6K2H-53" connectable="0" parent="DcDki2ZA5CF9zrun6K2H-52" style="edgeLabel;resizable=0;html=1;;align=center;verticalAlign=middle;" value="&lt;b&gt;No&lt;/b&gt;" vertex="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="DcDki2ZA5CF9zrun6K2H-51" parent="1" style="shape=parallelogram;perimeter=parallelogramPerimeter;whiteSpace=wrap;html=1;shapeInside=1;fixedSize=1;fillColor=#f8cecc;strokeColor=#b85450;" value="Output: Express.js sends &quot;Invalid credentials&quot; error response" vertex="1">
+          <mxGeometry height="70" width="130" x="1171" y="470" as="geometry" />
+        </mxCell>
+        <mxCell id="DcDki2ZA5CF9zrun6K2H-54" edge="1" parent="1" source="DcDki2ZA5CF9zrun6K2H-51" style="endArrow=classic;html=1;rounded=0;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" target="DcDki2ZA5CF9zrun6K2H-4" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <Array as="points">
+              <mxPoint x="270" y="500" />
+            </Array>
+            <mxPoint x="710" y="420" as="sourcePoint" />
+            <mxPoint x="760" y="370" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="DcDki2ZA5CF9zrun6K2H-55" edge="1" parent="1" source="DcDki2ZA5CF9zrun6K2H-47" style="endArrow=classic;html=1;rounded=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="DcDki2ZA5CF9zrun6K2H-57" value="">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1550" y="440" as="sourcePoint" />
+            <mxPoint x="1611" y="440" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="DcDki2ZA5CF9zrun6K2H-56" connectable="0" parent="DcDki2ZA5CF9zrun6K2H-55" style="edgeLabel;resizable=0;html=1;;align=center;verticalAlign=middle;" value="&lt;b&gt;Yes&lt;/b&gt;" vertex="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="DcDki2ZA5CF9zrun6K2H-58" edge="1" parent="1" source="DcDki2ZA5CF9zrun6K2H-57" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="DcDki2ZA5CF9zrun6K2H-27" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="DcDki2ZA5CF9zrun6K2H-57" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" value="&lt;b&gt;JWT Token Generation: &lt;/b&gt;Express generates a signed JSON Web Token containing the players ID." vertex="1">
+          <mxGeometry height="60" width="140" x="1520" y="307.5" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
