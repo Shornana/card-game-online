@@ -244,4 +244,19 @@ const playerProfile = await prisma.user.findUnique({
 ```
 
 * This decoupled architecture ensures the main game loop stays lightning-fast, while Neon securely persists the permanent unlock history in the background.
+---
+# Artefacts:
+
+Registration:
+
+![account_registration_artefact](account_registration_artefact.png)
+
+Login:
+
+![player_login_artefact](player_login_artefact.png)
+
+Leaderboards and Achievements:
+
+![leaderboards_achievements_artefact](leaderboards_achievements_artefact.png)
+
 
