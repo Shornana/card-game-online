@@ -1,6 +1,7 @@
 import { Player } from "../../Player.js";
 import { CardStack, generateStandardCardStacks } from "../../CardStack.js";
 import { Card } from "../../Card.js";
+import { CardFunctions } from "../../CardFunctions.js";
 
 const playerTable = document.getElementById("player-table");
 const createPlayerButton = document.getElementById("create-player");
@@ -12,12 +13,16 @@ let i = 0;
 
 createPlayerButton.addEventListener('click', function(event){
   addPlayerToTable(event);
-})
+});
+
 createCardStack.addEventListener('click', function(event){
-  cardStack = generateStandardCardStacks(numberOfCards.value);
+  cardStack = new CardStack(generateStandardCardStacks(numberOfCards.value));
   console.log(cardStack);
-  console.log("BUTTON CLICKED");
-})
+  CardFunctions.shuffle(CardStack);
+  console.log(cardStack);
+ });
+
+
 
 function addPlayerToTable(event){
   const newPlayer = new Player(document.getElementById("username").value);
