@@ -1,4 +1,4 @@
-import {Card} from "Card.js";
+import {Card} from "./Card.js";
 
 export class CardStack{
   constructor(stack, minimum, maximum){
@@ -6,8 +6,6 @@ export class CardStack{
     this.minimumNumberOfCards = minumum;
     this.maximumNumberOfCards = maximum;
   }
-
-  take(){}
 }
 
 export function generateStandardCardStacks(n){

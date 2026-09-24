@@ -3,6 +3,6 @@ export class Card {
     this.value = value;
     this.suit = suit;
   }
-  let isHidden;
-  let ownerId;
+  isHidden;
+  ownerId;
 }

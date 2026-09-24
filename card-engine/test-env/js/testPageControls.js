@@ -1,11 +1,22 @@
 import { Player } from "../../Player.js";
+import { CardStack, generateStandardCardStacks } from "../../CardStack.js";
+import { Card } from "../../Card.js";
+
 const playerTable = document.getElementById("player-table");
 const createPlayerButton = document.getElementById("create-player");
+const createCardStack = document.getElementById("create-card-stack");
+const numberOfCards = document.getElementById("number-of-decks");
 const players = [];
+let cardStack;
 let i = 0;
 
 createPlayerButton.addEventListener('click', function(event){
   addPlayerToTable(event);
+})
+createCardStack.addEventListener('click', function(event){
+  cardStack = generateStandardCardStacks(numberOfCards.value);
+  console.log(cardStack);
+  console.log("BUTTON CLICKED");
 })
 
 function addPlayerToTable(event){
