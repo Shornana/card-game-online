@@ -16,9 +16,11 @@ createPlayerButton.addEventListener('click', function(event){
 });
 
 createCardStack.addEventListener('click', function(event){
-  cardStack = new CardStack(generateStandardCardStacks(numberOfCards.value));
-  console.log(cardStack);
-  CardFunctions.shuffle(CardStack);
+  const cardStackArray = generateStandardCardStacks(numberOfCards.value);
+  console.log(cardStackArray);
+  cardStack = new CardStack(cardStackArray, 0, 52);
+  console.log(...[cardStack.stack]);
+  CardFunctions.shuffle(cardStack);
   console.log(cardStack);
  });
 

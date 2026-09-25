@@ -1,3 +1,5 @@
+import { CardStack } from "./CardStack.js";
+
 export class CardFunctions {
   static move(sourceCard, targetStack){
     //Need to transfer ownership of the card.
@@ -17,14 +19,16 @@ export class CardFunctions {
     //We simply need to move the top card from stack to the player.
   }
   static shuffle(cardStack){
+    const copyCardStack = [...cardStack.stack]
     const shuffledStackArray = [];
-    for(let i = 0; i < 52; ++i){
-      const randomIndex = Math.floor(Math.random() * (52-i));
-      const randomCard = cardStack[randomIndex];
-      cardStack.pop(randomIndex);
+    const noOfCards = cardStack.stack.length;
+    for(let i = 0; i < noOfCards; ++i){
+      const randomIndex = Math.floor(Math.random() * (noOfCards - i));
+      const randomCard = copyCardStack[randomIndex];
+      copyCardStack.splice(randomIndex, 1);
       shuffledStackArray.push(randomCard);
     }
-    cardStack = shuffledStackArray;
+    cardStack.stack = shuffledStackArray;
     return 0;
   }
 }
