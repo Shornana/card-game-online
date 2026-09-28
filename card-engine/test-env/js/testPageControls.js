@@ -36,16 +36,16 @@ ADD_PLAYER_BUTTON.addEventListener('click', function(event){
   addPlayer(PLAYER_NAME_INPUT.value);
 });
 REMOVE_CARD_BUTTON.addEventListener('click', function(event){
-
+  removeCard(CURRENT_PLAYER_CARD_INDEX.value);
 });
 REMOVE_PLAYER_BUTTON.addEventListener('click', function(event){
-
+  removePlayer(selected_player.id);
 });
 SEND_CARD_BUTTON.addEventListener('click', function(event){
-
+  sendCardToSelected(CURRENT_PLAYER_CARD_INDEX.value);
 });
 SWAP_CARD_BUTTON.addEventListener('click', function(event){
-
+  swapCardWithSelected(CURRENT_PLAYER_CARD_INDEX.value, SELECTED_PLAYER_CARD_INDEX.value);
 });
 SET_SELECTED_AS_CURRENT_BUTTON.addEventListener('click', function(event){
   setCurrentPlayerAsSelected();
@@ -58,7 +58,7 @@ function addPlayer(playerName){
   return 1;
 }
 
-function addPlayerToTable(player){
+function generatePlayerRow(player){
   const table_row = document.createElement('tr');
   const player_name = document.createElement('td'); player_name.innerText = player.username;
   const player_id = document.createElement('td'); player_id.innerText = player.id;
@@ -72,12 +72,30 @@ function addPlayerToTable(player){
   table_row.appendChild(player_name);
   table_row.appendChild(player_id);
   table_row.appendChild(player_select);
-  PLAYER_TABLE.appendChild(table_row);
+  return table_row;
+}
+
+function addPlayerToTable(player){
+  PLAYER_TABLE.appendChild(generatePlayerRow(player));
   return 1;
 }
 
 function removePlayer(playerID){
+  for(let i = 0; i < playerList.length; ++i){
+    if(playerList[i].id === playerID){
+      playerList.splice(i, 1);
+      selected_player = current_player;
+      refershScreenData();
+      return 1;
+    }
+  }
+  refershScreenData();
+  return 0;
+}
 
+function removeCard(index){
+  current_player.cardstack.splice(index, 1);
+  refershScreenData();
 }
 
 function addCard(value, suit){
@@ -108,6 +126,14 @@ function refershScreenData(){
   CURRENT_PLAYER_ID.innerText = current_player.id;
   CURRENT_PLAYER_NAME.innerText = current_player.username;
   refreshCards();
+  refreshPlayers();
+}
+
+function refreshPlayers(){
+  PLAYER_TABLE.innerHTML = '';
+  for(const player of playerList){
+    PLAYER_TABLE.appendChild(generatePlayerRow(player));
+  }
 }
 
 function refreshCards(){
@@ -123,4 +149,19 @@ function refreshCards(){
     cardElement.innerText = card.value + card.suit;
     SELECTED_PLAYER_HAND.appendChild(cardElement);
   }
+}
+
+function sendCardToSelected(card_index){
+  selected_player.cardstack.push(current_player.cardstack[card_index]);
+  current_player.cardstack.splice(card_index, 1);
+  refershScreenData();
+}
+
+function swapCardWithSelected(curr_index, sel_index){
+  const tempCard = current_player.cardstack[curr_index];
+  current_player.cardstack.push(selected_player.cardstack[sel_index]);
+  current_player.cardstack.splice(curr_index, 1);
+  selected_player.cardstack.push(tempCard);
+  selected_player.cardstack.splice(sel_index, 1);
+  refershScreenData();
 }
