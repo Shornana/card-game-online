@@ -6,19 +6,77 @@
   </head>
   <body>
     <h1>Card Engine Testing</h1>
-    <p>Create Player <input type="text" id="username"/> <button id="create-player">Create</button> </p>
-    <table>
-      <thead>
-        <tr>
-          <th>Username</th>
-          <th>Data</th>
-        </tr>
-      </thead>
-      <tbody id="player-table">
+    <div id="player-main-div">
+      <h4>Current/Selected Player Control</h4>
+      <p>Current Player: <span id="current-player-name">??</span></p>
+      <p>Current Player ID: <span id="current-player-id">??</span><p>
+      <p>Current Player Hand:</p>
+      <table>
+        <tbody>
+          <tr id="current-player-hand"></tr>
+        </tbody>
+      </table>
+      <p>Selected Player Name: <span id="selected-player-name">??</span></p>
+      <p>Selected Player ID: <span id="selected-player-id">??</span></p>
+      <p>Selected Player Hand:</p>
+      <table>
+        <tbody> 
+          <tr id="selected-player-hand"></tr>
+        </tbody>
+      </table>
+      <button id="set-selected-as-current-button">Set selected as Current</button>
+    </div>
+    
+    <div id="players-table-div">
+      <h4>Player Controls</h4>
+      <p>Player Name: <input type="text" id="player-name-input"/> <button id="add-player-button">Add Player</button></p>
+      <button id="remove-player-button"> Remove Selected Player</button>
+      <table>
+        <thead>
+          <tr>
+            <th>Player Name</th>
+            <th>Player ID</th>
+            <th>Select</th>
+          </tr>
+        </thead>
+        <tbody id="player-table-body">
 
-      </tbody>
-    </table>
-    <p> Create stack of cards <button id="create-card-stack"> Create </button> <input id="number-of-decks" type="text"/></p>
+        </tbody>
+      </table>
+    </div>
+
+    <div id="card-control-div">
+      <h4>Card Control</h4>
+      <div id="card-adjustment-div">
+        <select id="card-value-select">
+          <option value="1">1</option>
+          <option value="2">2</option> 
+          <option value="3">3</option> 
+          <option value="4">4</option> 
+          <option value="5">5</option> 
+          <option value="6">6</option> 
+          <option value="7">7</option> 
+          <option value="8">8</option> 
+          <option value="9">9</option> 
+          <option value="10">10</option> 
+          <option value="11">11</option> 
+          <option value="12">12</option> 
+          <option value="13">13</option> 
+        </select>
+        <select id="card-suit-select">
+          <option value="c">c</option>
+          <option value="s">s</option>
+          <option value="d">d</option>
+          <option value="h">h</option>
+        </select>
+        <button id="add-card-button">Add Card</button> <br />
+        <button id="remove-card-button">Remove Last Card</button>
+        <p>Current Card Index: <input type="text" id="current-card-index-input"/></p>
+        <p>Selected Card Index: <input type="text" id="selected-card-index-input"/></p>
+        <button id="send-card-button">Send card to selected player</button>
+        <button id="swap-card-button">Swap card with selected player</button>
+      </div>
+    </div>
     <script type="module" src="./js/testPageControls.js"></script>
   </body>
 </html>
