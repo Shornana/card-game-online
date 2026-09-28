@@ -1,12 +1,15 @@
 import { CardStack } from "./CardStack.js";
 
 export class CardFunctions {
-  static move(sourceCard, targetStack){
+  static moveToEnd(sourceCards, targetStack){
     //Need to transfer ownership of the card.
     //Therefore we need to remove the sourceCard from the owner's stack.
     //Once we have done that, we need to append it to the target stack.
     //Perhaps the removal implementation can be handled by the mover.
-    targetStack
+    targetStack.appendToEnd(sourceCards);
+  }
+  static moveToPosition(sourceCards, targetStack, index){
+    targetStack.appendToPosition(sourceCards, index);
   }
   static swap(sourceCard, targetCard){
     //Need to transfer ownership of each card to one another.
