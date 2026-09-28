@@ -112,7 +112,7 @@ function refershScreenData(){
 
 function refreshCards(){
   CURRENT_PLAYER_HAND.innerHTML = ''; //Clear the current-player-hand-tbody
-  SELECTED_PLAYER_HAND.innerHTMl = ''; // Clear the selected-player-hand-tbody
+  SELECTED_PLAYER_HAND.innerHTML = ''; // Clear the selected-player-hand-tbody
   for(const card of current_player.cardstack){
     const cardElement = document.createElement('td');
     cardElement.innerText = card.value + card.suit;
