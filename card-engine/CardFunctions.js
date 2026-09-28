@@ -6,7 +6,7 @@ export class CardFunctions {
     //Therefore we need to remove the sourceCard from the owner's stack.
     //Once we have done that, we need to append it to the target stack.
     //Perhaps the removal implementation can be handled by the mover.
-    targetStack.append(sourceCard);
+    targetStack
   }
   static swap(sourceCard, targetCard){
     //Need to transfer ownership of each card to one another.

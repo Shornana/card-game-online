@@ -6,8 +6,9 @@ export class CardStack{
     this.minimum = minimum;
     this.maximum = maximum;
   }
-
-  stack;
+  
+  appendToPosition(cards, index){ stack.splice(index, 0, ...cards); }
+  appendToEnd(cards){ stack.push(...cards); }
 }
 
 export function generateStandardCardStacks(n){
