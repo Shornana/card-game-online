@@ -8,8 +8,14 @@ export class CardStack{
   }
   
   appendToPosition(cards, index){ stack.splice(index, 0, ...cards); }
-  appendToEnd(cards){ stack.push(...cards); }
-  removeCard(index){ stack.splice(index, 1); }
+  appendToEnd(cards){ 
+    if(Array.isArray(cards)) {
+      this.stack.push(...cards);
+    } else {
+      this.stack.push(cards);
+    }
+  }
+  removeCard(index){ this.stack.splice(index, 1); }
 }
 
 export function generateStandardCardStacks(n){

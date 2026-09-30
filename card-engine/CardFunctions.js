@@ -6,6 +6,7 @@ export class CardFunctions {
     //Therefore we need to remove the sourceCard from the owner's stack.
     //Once we have done that, we need to append it to the target stack.
     //Perhaps the removal implementation can be handled by the mover.
+    console.log(targetStack);
     targetStack.appendToEnd(sourceCards);
   }
   static moveToPosition(sourceCards, targetStack, index){
