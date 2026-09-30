@@ -9,15 +9,18 @@ export class Player {
   }
 
   getCards(numberOfCards, stack){}
-  removeCards(cards){}
+  removeCards(cards){
+    for(let i = 0; i < cardstack.stack.length; ++i){
+      if(cards.includes(cardstack.stack[i])) { cardstack.removeCard(i); --i; }
+    }
+  }
   swapCard(source_card, target_card){}
   moveCardToEnd(source_cards, target){
     CardFunctions.moveToEnd(source_cards, target);
-    for(let i = 0; i < cardstack.stack.length; ++i){
-      if(cardstack.stack[i] in source_cards) { cardstack.removeCard(i); --i; }
-    }
+    removeCards(source_cards);
   }
-  moveCardToPosition(source_card, index, target){
-
+  moveCardToPosition(source_cards, index, target){
+    CardFunctions.moveToPoision(source_cards, index, target);
+    removeCards(source_cards);
   }
 }
