@@ -4,5 +4,4 @@ export class Card {
     this.suit = suit;
   }
   isHidden = true;
-  ownerIdentification = 1;
 }

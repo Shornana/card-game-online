@@ -94,12 +94,12 @@ function removePlayer(playerID){
 }
 
 function removeCard(index){
-  current_player.cardstack.stack.splice(index, 1);
+  current_player.removeCard(index);
   refershScreenData();
 }
 
 function addCard(value, suit){
-  current_player.cardstack.stack.push(new Card(value, suit));
+  current_player.addCard(new Card(value, suit));
   refershScreenData();
 }
 
@@ -139,12 +139,12 @@ function refreshPlayers(){
 function refreshCards(){
   CURRENT_PLAYER_HAND.innerHTML = ''; //Clear the current-player-hand-tbody
   SELECTED_PLAYER_HAND.innerHTML = ''; // Clear the selected-player-hand-tbody
-  for(const card of current_player.cardstack.stack){
+  for(const card of current_player.hand.getAllCards()){
     const cardElement = document.createElement('td');
     cardElement.innerText = card.value + card.suit;
     CURRENT_PLAYER_HAND.appendChild(cardElement);
   }
-  for(const card of selected_player.cardstack.stack){
+  for(const card of selected_player.hand.getAllCards()){
     const cardElement = document.createElement('td');
     cardElement.innerText = card.value + card.suit;
     SELECTED_PLAYER_HAND.appendChild(cardElement);
@@ -152,19 +152,11 @@ function refreshCards(){
 }
 
 function sendCardToSelected(card_index){
-  //selected_player.cardstack.stack.push(current_player.cardstack[card_index]);
-  //current_player.cardstack.stack.splice(card_index, 1);
-  console.log(current_player);
-  console.log(selected_player);
-  current_player.moveCardsToEnd(current_player.cardstack.stack[card_index], selected_player.cardstack);
+  current_player.moveCardsToEnd(current_player.hand.getCard(card_index), selected_player.hand);
   refershScreenData();
 }
 
 function swapCardWithSelected(curr_index, sel_index){
-  const tempCard = current_player.cardstack.stack[curr_index];
-  current_player.cardstack.stack.push(selected_player.cardstack[sel_index]);
-  current_player.cardstack.stack.splice(curr_index, 1);
-  selected_player.cardstack.stack.push(tempCard);
-  selected_player.cardstack.stack.splice(sel_index, 1);
+  current_player.swapCard(curr_index, selected_player, sel_index);
   refershScreenData();
 }

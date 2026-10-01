@@ -2,22 +2,15 @@ import { CardStack } from "./CardStack.js";
 
 export class CardFunctions {
   static moveToEnd(sourceCards, targetStack){
-    //Need to transfer ownership of the card.
-    //Therefore we need to remove the sourceCard from the owner's stack.
-    //Once we have done that, we need to append it to the target stack.
-    //Perhaps the removal implementation can be handled by the mover.
-    console.log(targetStack);
     targetStack.appendToEnd(sourceCards);
   }
   static moveToPosition(sourceCards, targetStack, index){
     targetStack.appendToPosition(sourceCards, index);
   }
-  static swap(sourceCard, targetCard){
-    //Need to transfer ownership of each card to one another.
-    //We can use temporary objects to transfer the cards
-    tempCard = sourceCard;
-    sourceCard = targetCard;
-    targetCard = tempCard;
+  static swap(source_player, source_index, target_player, target_index){
+    const temp = source_player.getCard(source_index);
+    source_player.setCard(source_index, target_player.getCard(target_index));
+    target_player.setCard(target_index, temp);
   }
   static deal(player, stack){
     //We simply need to move the top card from stack to the player.
