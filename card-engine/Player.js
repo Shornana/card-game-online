@@ -20,33 +20,23 @@ export class Player {
     this.hand.removeCard(index);
   }
 
-  getAllCards(){
-    return this.hand.getAllCards();
+  getHand(){
+    return this.hand.getStack();
   }
 
   addCard(card){
     this.hand.addCard(card);
   }
 
-  removeCards(cards){
-    for(let i = 0; i < this.hand.getNumberOfCards(); ++i){
-      if(Array.isArray(cards) && cards.includes(this.getCard(i))){
-        this.hand.removeCard(i); --i;
-      }
-      else if (cards == this.hand.getCard(i)){
-        this.hand.removeCard(i); break;
-      }
-    }
-  }
   swapCard(curr_index, target, target_index){
     CardFunctions.swap(this, curr_index, target, target_index);
   }
-  moveCardsToEnd(source_cards, target){
-    CardFunctions.moveToEnd(source_cards, target);
-    this.removeCards(source_cards);
+  sendCardToEnd(index, target){
+    CardFunctions.moveToEnd(this.hand.getCard(index), target);
+    this.removeCard(index);
   }
-  moveCardsToPosition(source_cards, index, target){
-    CardFunctions.moveToPoision(source_cards, target, index);
-    this.removeCards(source_cards);
+  sendCardToPosition(source_index, target_index, target){
+    CardFunctions.moveToPoision(this.hand.getCard(source_index), target, index);
+    this.removeCard(source_index);
   }
 }

@@ -15,24 +15,16 @@ export class CardStack{
     this.stack[index] = card;
   }
 
-  getAllCards(){
+  getStack(){
     return this.stack;
-  }
-
-  addCard(card){
-    this.stack.push(card);
   }
 
   getNumberOfCards(){
     return this.stack.length;
   }
-  appendToPosition(cards, index){ this.stack.splice(index, 0, ...cards); }
-  appendToEnd(cards){ 
-    if(Array.isArray(cards)) {
-      this.stack.push(...cards);
-    } else {
-      this.stack.push(cards);
-    }
+  addCardToPosition(card, index){ this.stack.splice(index, 0, card); }
+  addCard(card){ 
+    this.stack.push(card);
   }
   removeCard(index){
     this.stack.splice(index, 1);

@@ -152,7 +152,7 @@ function refreshCards(){
 }
 
 function sendCardToSelected(card_index){
-  current_player.moveCardsToEnd(current_player.hand.getCard(card_index), selected_player.hand);
+  current_player.sendCard(current_player.hand.getCard(card_index), selected_player.hand);
   refershScreenData();
 }
 
