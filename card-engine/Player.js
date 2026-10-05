@@ -28,11 +28,15 @@ export class Player {
     this.hand.addCard(card);
   }
 
+  addCardToPosition(card, index){
+    this.hand.addCardToPosition(card, index);
+  }
+
   swapCard(curr_index, target, target_index){
     CardFunctions.swap(this, curr_index, target, target_index);
   }
-  sendCardToEnd(index, target){
-    CardFunctions.moveToEnd(this.hand.getCard(index), target);
+  sendCard(index, target){
+    CardFunctions.send(this.getCard(index), target);
     this.removeCard(index);
   }
   sendCardToPosition(source_index, target_index, target){

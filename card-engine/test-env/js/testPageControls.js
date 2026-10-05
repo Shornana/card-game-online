@@ -19,6 +19,7 @@ const SELECTED_PLAYER_ID = document.getElementById('selected-player-id');
 const SELECTED_PLAYER_HAND = document.getElementById('selected-player-hand');
 const SELECTED_PLAYER_CARD_INDEX = document.getElementById('selected-card-index-input');
 const ADD_CARD_BUTTON = document.getElementById('add-card-button');
+const ADD_CARD_BUTTON_TO_POSITION = document.getElementById('add-card-button-to-position');
 const ADD_PLAYER_BUTTON = document.getElementById('add-player-button');
 const REMOVE_PLAYER_BUTTON = document.getElementById('remove-player-button');
 const REMOVE_CARD_BUTTON = document.getElementById('remove-card-button');
@@ -32,6 +33,9 @@ const PLAYER_NAME_INPUT = document.getElementById('player-name-input');
 ADD_CARD_BUTTON.addEventListener('click', function(event){
   addCard(CARD_VALUE_SELECT.value, CARD_SUIT_SELECT.value);
 });
+ADD_CARD_BUTTON_TO_POSITION.addEventListener('click', function(event){
+  addCardToPosition(CARD_VALUE_SELECT.value, CARD_SUIT_SELECT.value, CURRENT_PLAYER_CARD_INDEX.value);
+})
 ADD_PLAYER_BUTTON.addEventListener('click', function(event){
   addPlayer(PLAYER_NAME_INPUT.value);
 });
@@ -103,6 +107,11 @@ function addCard(value, suit){
   refershScreenData();
 }
 
+function addCardToPosition(value, suit, curr_index){
+  current_player.addCardToPosition(new Card(value, suit), curr_index);
+  refershScreenData();
+}
+
 function selectPlayer(event){
   const player_id = event.target.parentElement.parentElement.children[1].innerText;
   for(const player of playerList){
@@ -139,12 +148,13 @@ function refreshPlayers(){
 function refreshCards(){
   CURRENT_PLAYER_HAND.innerHTML = ''; //Clear the current-player-hand-tbody
   SELECTED_PLAYER_HAND.innerHTML = ''; // Clear the selected-player-hand-tbody
-  for(const card of current_player.hand.getAllCards()){
+
+  for(const card of current_player.getHand()){
     const cardElement = document.createElement('td');
     cardElement.innerText = card.value + card.suit;
     CURRENT_PLAYER_HAND.appendChild(cardElement);
   }
-  for(const card of selected_player.hand.getAllCards()){
+  for(const card of selected_player.getHand()){
     const cardElement = document.createElement('td');
     cardElement.innerText = card.value + card.suit;
     SELECTED_PLAYER_HAND.appendChild(cardElement);
@@ -152,7 +162,7 @@ function refreshCards(){
 }
 
 function sendCardToSelected(card_index){
-  current_player.sendCard(current_player.hand.getCard(card_index), selected_player.hand);
+  current_player.sendCard(card_index, selected_player.hand);
   refershScreenData();
 }
 
