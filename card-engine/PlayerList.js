@@ -10,7 +10,7 @@ export class PlayerList{
 
   nextPlayer(){
     if(currentPlayerIndex > playerList.size - 1) { currentPlayerId = 0; return currentPlayerId; }
-    else { return ++currentPlayerIndex;}
+    else { return ++currentPlayerIndex; }
   }
 
   addPlayer(player){
