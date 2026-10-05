@@ -4,4 +4,12 @@ export class GameRoom {
     this.activePlayers = activePlayers;
     this.game = game;
   }
+
+  addPlayer(player){
+    this.activePlayers.addPlayer(player);
+  }
+
+  removePlayerById(id){
+    this.activePlayers.removePlayerById(id);
+  }
 }

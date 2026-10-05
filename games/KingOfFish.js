@@ -12,7 +12,7 @@ class KingOfFish extends GameRules {
     gameRoom.dealStack = dealStack;
     gameRoom.discardStack = discardStack;
     //Initialise dealing deck.
-    dealStack.generateStack(1);
+    dealStack.generateStack(1, true);
     dealStack.shuffle();
 
     const startingPlayerIndex = random.randInt(0, gameRoom.activePlayers.length);
@@ -56,5 +56,9 @@ class KingOfFish extends GameRules {
         }
       }
     }
+  }
+
+  checkWinConditions(){
+    //If cards === 0, end game.
   }
 }

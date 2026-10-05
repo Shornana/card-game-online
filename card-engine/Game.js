@@ -5,9 +5,15 @@ export class Game{
     this.gameRules = gameRules;
   }
   title = gameRules.title;
-  start(){}
-  init(){}
+  start(){
+    init();
+  }
+  init(){ 
+    turn(); 
+  }
   turn(){}
-  next(){}
+  next(){
+    if(gameRules.checkWinConditions()) { end(); }
+  }
   end(){}
 } 

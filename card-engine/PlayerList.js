@@ -15,7 +15,7 @@ export class PlayerList{
 
   addPlayer(player){
     if(player === null) { console.error("Player cannot be null!"); return ERROR_CODE; }
-    else { 
+    else {
       if(playerList.length >= maxSize) { console.log("Maximum occupancy reached."); return FAILURE; }
       else{ this.playerList.push(player); return SUCCESS; }
     }
