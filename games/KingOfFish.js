@@ -1,7 +1,11 @@
 //Game Name: King of Fish
 class KingOfFish extends GameRules {
-  const dealStack = new CardStack();
-  const discardStack = new CardStack();
+  const dealStack = new DealStack();
+  const discardStack = new DiscardStack();
+
+  constructor(){
+    super("King of Fish");
+  }
 
   init(){
     //Initialise gameRoom defaults.

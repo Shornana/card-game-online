@@ -1,6 +1,6 @@
 export class GameRules {
-  constructor(name){
-    this.name = name;
+  constructor(title){
+    this.title = title;
   }
   init(){}
   turn(){}

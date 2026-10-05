@@ -1,3 +1,5 @@
+import { GameRules } from "./GameRules.js";
+
 export class Game{
   constructor(gameRules){
     this.gameRules = gameRules;
