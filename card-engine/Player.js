@@ -36,11 +36,13 @@ export class Player {
     CardFunctions.swap(this, curr_index, target, target_index);
   }
   sendCard(index, target){
-    CardFunctions.send(this.getCard(index), target);
-    this.removeCard(index);
+    if(CardFunctions.send(this.getCard(index), target)){
+      this.removeCard(index);
+    }
   }
   sendCardToPosition(source_index, target_index, target){
-    CardFunctions.moveToPoision(this.hand.getCard(source_index), target, index);
-    this.removeCard(source_index);
+    if(CardFunctions.sendToPosition(this.hand.getCard(source_index), target, index)){
+      this.removeCard(source_index);
+    }
   }
 }
