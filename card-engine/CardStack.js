@@ -1,4 +1,5 @@
 import { Card } from "./Card.js";
+import { CardFunctions } from "./CardFunctions.js";
 
 const ERROR_CODE = 0;
 const SUCCESS = 1;
@@ -42,10 +43,19 @@ export class CardStack{
     if(index < 0 || index >= this.stack.length) { console.error("Index out of bounds!"); return ERROR_CODE; }
     else { this.stack.splice(index, 1); return SUCCESS; }
   }
+
+  shuffle(){
+    if(this.stack.length > 0){
+      CardFunctions.shuffle(this);
+    }
+    else{
+      console.error("Need positive number of cards in stack.");
+    }
+  }
 }
 
 export function generateStandardCardStacks(n, withJokers){
-  const cardStack = new CardStack(0, n*52 + 2*n*withJokers, [])
+  const cardStack = new CardStack([], 0, n*52 + 2*n*withJokers)
   for(let i = 0; i < n; ++i){
     for(let j = 1; j <= 13; ++j){
       cardStack.addCard(new Card(j, "h")); // Generate hearts. 
@@ -54,8 +64,8 @@ export function generateStandardCardStacks(n, withJokers){
       cardStack.addCard(new Card(j, "s")); // Generate spades. 
     }
     if(withJokers){
-      cardStack.addCard(0, "r"); //Red joker
-      cardStack.addCard(0, "b"); //Black joker
+      cardStack.addCard(new Card(0, "r")); //Red joker
+      cardStack.addCard(new Card(0, "b")); //Black joker
     }
   }
   return cardStack;

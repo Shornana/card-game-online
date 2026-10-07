@@ -4,8 +4,10 @@ import { GameRules } from "../../GameRules.js";
 import { Player } from "../../Player.js";
 import { Bot } from "../../Bot.js";
 import { PlayerList } from "../../PlayerList.js";
-import { CardStack } from "../../CardStack.js";
+import { CardStack, generateStandardCardStacks } from "../../CardStack.js";
 import { KingOfFish } from "../../../games/KingOfFish.js";
+
+import { CardFunctions } from "../../CardFunctions.js";
 
 //Global Variables
 const player = new Player("Shornana", 0, new CardStack(0, 52, []));
@@ -14,6 +16,8 @@ const playerList = new PlayerList([player, bot], 2);
 const gameRules = new KingOfFish();
 const game = new Game(gameRules);
 const gameRoom = new GameRoom(0, playerList, game);
+
+console.log(generateStandardCardStacks(1, true));
 
 
 //Player variables
