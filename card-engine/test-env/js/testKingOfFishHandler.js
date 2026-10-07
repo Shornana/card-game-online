@@ -23,6 +23,8 @@ const deck = new DealStack(cards.stack, 0, 52);
 deck.shuffle();
 
 //Player variables
+let currentlyPlaying = false;
+let gameActive = false;
 let number_of_selected_cards = 0;
 //Bot variables
 
@@ -43,29 +45,80 @@ const pickup_button = document.getElementById("pickup-button");
 start_game_button.addEventListener('click', function(event){
   start();
 });
-soft_swap_button.addEventListener('click', function(event){
-  test(event);
-});
-hard_swap_button.addEventListener('click', function(event){
-  test(event);
-});
-play_button.addEventListener('click', function(event){
-  test(event);
-});
-pickup_button.addEventListener('click', function(event){
-  test(event);
-});
 //Functionality.
 
 function test(event){
   window.alert("Clicked " + event.target.id);
 }
 
-function start(){
+async function start(){
+  gameActive = true;
+  currentlyPlaying = true;
   deck.deal(player, 7);
   deck.deal(bot, 7);
-
   refreshPageElements();
+
+  while(gameActive){
+    if(currentlyPlaying){
+      console.log("Player Turn");
+      const action = await playerDecision();
+      turn(action);
+    }
+    else{
+      //BOT LOGIC
+      console.log("Bot Turn");
+      currentlyPlaying = true; //Just to return to player for time being
+    }
+
+    if(!gameActive && currentlyPlaying){
+           //PLAYER WIN
+    }
+    else if(!gameActive && !currentlyPlaying){
+            //BOT WIN
+    }
+  }
+}
+
+function turn(turnoption){
+    switch (turnoption) {
+      case 1: // Soft swap
+        break;
+      case 2: // Hard swap
+        const hardSwapNumber = Number(window.prompt("Which value? (0-13?:"));
+        for(let i = 0; i < bot.hand.getNumberOfCards(); ++i){
+          if(bot.getCard(i).value === hardSwapNumber){
+            bot.sendCard(i, player.hand);
+            refreshPageElements();
+            return 0;
+          }
+        }
+        deck.deal(player, 2);
+        currentlyPlaying = false;
+        refreshPageElements();
+        break;
+      case 3: // Lay pair
+        break;
+      case 4: // Pickup
+        break;
+    }
+  return 0;
+}
+
+async function playerDecision(){
+  return new Promise((resolve) => {
+    soft_swap_button.addEventListener('click', function(event){
+      resolve(1);
+    });
+    hard_swap_button.addEventListener('click', function(event){
+      resolve(2);
+    });
+    play_button.addEventListener('click', function(event){
+      resolve(3);
+    });
+    pickup_button.addEventListener('click', function(event){
+      resolve(4);
+    });
+  })
 }
 
 function refreshPageElements(){

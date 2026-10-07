@@ -1,7 +1,7 @@
 import { CardStack } from "./CardStack.js";
 import { CardFunctions } from "./CardFunctions.js";
 
-const FAILURE = 0; SUCCESS = 1;
+const FAILURE = 0, SUCCESS = 1;
 
 export class DealStack extends CardStack {
   constructor(stack, minimum, maximum){
@@ -9,7 +9,7 @@ export class DealStack extends CardStack {
   }
 
   deal(player, n){
-    if(n > this.stack.length){
+    if(n > 0 && n <= this.stack.length){
       for(let i = 0; i < n; ++i){
         CardFunctions.send(this.getCard(0), player.hand); //The 0th element is the top card of the stack.
         this.removeCard(this.getCard(0));
