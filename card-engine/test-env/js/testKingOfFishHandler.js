@@ -1,6 +1,4 @@
-//Setup a local prototype of the card game
-//Imports
-import {GameRoom} from "../../GameRoom.js"
+import { GameRoom } from "../../GameRoom.js";
 
 //Global Variables
 
