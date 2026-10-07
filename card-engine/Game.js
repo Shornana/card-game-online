@@ -3,8 +3,8 @@ import { GameRules } from "./GameRules.js";
 export class Game{
   constructor(gameRules){
     this.gameRules = gameRules;
+    this.title = gameRules.title;
   }
-  title = gameRules.title;
   start(){
     init();
   }
