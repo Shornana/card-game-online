@@ -2,6 +2,10 @@
 //Imports
 import {GameRoom} from "../../GameRoom.js"
 
+//Global Variables
+
+//Player variables
+
 //Declaration of HTML objects
 
 //Event Handlers of HTML objects
