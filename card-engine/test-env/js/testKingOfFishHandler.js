@@ -5,13 +5,16 @@ import { Player } from "../../Player.js";
 import { Bot } from "../../Bot.js";
 import { PlayerList } from "../../PlayerList.js";
 import { CardStack } from "../../CardStack.js";
+import { KingOfFish } from "../../../games/KingOfFish.js";
 
 //Global Variables
-const gameRoom = new GameRoom();
-const game = new Game();
-const playerList = new PlayerList();
-const player = new Player("Shornana", 0, new CardStack());
-const bot = new Bot();
+const player = new Player("Shornana", 0, new CardStack(0, 52, []));
+const bot = new Bot("Bot", 1, new CardStack(0, 52, []));
+const playerList = new PlayerList([player, bot], 2);
+const gameRules = new KingOfFish();
+const game = new Game(gameRules);
+const gameRoom = new GameRoom(0, playerList, game);
+
 
 //Player variables
 let number_of_selected_cards = 0;
