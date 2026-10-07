@@ -20,7 +20,7 @@ export class Player {
     this.hand.removeCard(index);
   }
 
-  getHand(){
+  getHand(){ //Do we really want the array or the Stack object?? Think about it
     return this.hand.getStack();
   }
 

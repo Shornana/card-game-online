@@ -5,19 +5,25 @@ import { Player } from "../../Player.js";
 import { Bot } from "../../Bot.js";
 import { PlayerList } from "../../PlayerList.js";
 import { CardStack, generateStandardCardStacks } from "../../CardStack.js";
+import { DealStack } from "../../DealStack.js";
 import { KingOfFish } from "../../../games/KingOfFish.js";
 
 import { CardFunctions } from "../../CardFunctions.js";
 
 //Global Variables
-const player = new Player("Shornana", 0, new CardStack(0, 52, []));
-const bot = new Bot("Bot", 1, new CardStack(0, 52, []));
+const player = new Player("Shornana", 0, new CardStack([], 0, 52));
+const bot = new Bot("Bot", 1, new CardStack([], 0, 52));
 const playerList = new PlayerList([player, bot], 2);
 const gameRules = new KingOfFish();
 const game = new Game(gameRules);
 const gameRoom = new GameRoom(0, playerList, game);
 
-console.log(generateStandardCardStacks(1, true));
+const cards = generateStandardCardStacks(1, true);
+const deck = new DealStack(cards.stack, 0, 52);
+deck.shuffle();
+console.log(deck);
+deck.deal(player, 5);
+console.log(player.getHand());
 
 
 //Player variables

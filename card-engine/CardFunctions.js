@@ -21,7 +21,7 @@ export class CardFunctions {
     }
   }
 
-  static shuffle(cardStack){ // Will require reformatting and adjustments after changes to mutliple files
+  static shuffle(cardStack){ // Will require reformatting and adjustments after changes to mutliple files (Potentially not??)
     const copyCardStack = [...cardStack.stack]
     const shuffledStackArray = [];
     const noOfCards = cardStack.stack.length;
