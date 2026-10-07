@@ -1,4 +1,4 @@
-const ERROR_CODE, FAILURE = 0;
+const ERROR_CODE = 0, FAILURE = 0;
 const SUCCESS = 1;
 
 export class PlayerList{
