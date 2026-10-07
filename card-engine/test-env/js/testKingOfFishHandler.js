@@ -1,6 +1,17 @@
 import { GameRoom } from "../../GameRoom.js";
+import { Game } from "../../Game.js";
+import { GameRules } from "../../GameRules.js";
+import { Player } from "../../Player.js";
+import { Bot } from "../../Bot.js";
+import { PlayerList } from "../../PlayerList.js";
+import { CardStack } from "../../CardStack.js";
 
 //Global Variables
+const gameRoom = new GameRoom();
+const game = new Game();
+const playerList = new PlayerList();
+const player = new Player("Shornana", 0, new CardStack());
+const bot = new Bot();
 
 //Player variables
 let number_of_selected_cards = 0;

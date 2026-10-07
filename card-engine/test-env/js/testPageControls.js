@@ -1,7 +1,6 @@
 import { Player } from "../../Player.js";
 import { CardStack, generateStandardCardStacks } from "../../CardStack.js";
 import { Card } from "../../Card.js";
-import { CardFunctions } from "../../CardFunctions.js";
 
 let GLOBAL_CURRENT_ID = 0;
 let current_player = null;
