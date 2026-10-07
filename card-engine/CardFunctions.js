@@ -2,9 +2,9 @@ import { CardStack } from "./CardStack.js";
 
 export class CardFunctions {
   static send(sourceCard, targetStack){
-    if(sourceCard === null) { console.error("Source card cannot be null!"); }
-    else if(targetStack === null) { console.error("Target stack cannot be null!"); }
-    else { targetStack.addCard(sourceCard); } 
+    if(sourceCard === null) { console.error("Source card cannot be null!"); return 0; }
+    else if(targetStack === null) { console.error("Target stack cannot be null!"); return 0; }
+    else { targetStack.addCard(sourceCard); return 1; } 
   }
   static sendToPosition(sourceCard, targetStack, index){
     if(sourceCard !== null) { console.error("Source card cannot be null!"); }
