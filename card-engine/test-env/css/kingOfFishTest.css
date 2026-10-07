@@ -5,3 +5,7 @@ table {
 td {
   border: 1px solid gray;
 }
+
+.selected {
+  background-color: #00EE22;
+}

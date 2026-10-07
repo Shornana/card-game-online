@@ -10,7 +10,7 @@
     <button>Start Game</button>
     <div id="game-screen">
       <div id="bot-container">
-        <h2>Bot Cards (0):</h2>
+        <h2>Bot Cards (<span id="bot-score">0</span>):</h2>
         <table>
           <tbody id="bot-hand">
             <td>9H</td>
@@ -20,10 +20,10 @@
       </div>
 
       <div id="player-container">
-        <h2>Player Cards (0):</h2> 
+        <h2>Player Cards (<span id="player-score">0</span>):</h2> 
         <table>
           <tbody id="player-hand">
-            <td>3D</td>
+            <td class="selected">3D</td>
             <td>1C</td>
             <td>9C</td>
             <td>13C</td>
@@ -38,5 +38,6 @@
         <button>Pick-up</button>
       </div>
     </div>
+    <script src="./js/testKingOfFishHandler.js"></script>
   </body>
 </html>
