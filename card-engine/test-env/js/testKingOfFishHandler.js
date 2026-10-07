@@ -21,10 +21,6 @@ const gameRoom = new GameRoom(0, playerList, game);
 const cards = generateStandardCardStacks(1, true);
 const deck = new DealStack(cards.stack, 0, 52);
 deck.shuffle();
-console.log(deck);
-deck.deal(player, 5);
-console.log(player.getHand());
-
 
 //Player variables
 let number_of_selected_cards = 0;
@@ -66,9 +62,21 @@ function test(event){
 }
 
 function start(){
-  for(let i = 1; i <= 3; ++i){
-    player_hand.appendChild(createCardElement(i, 'c'));
-    bot_hand.appendChild(createCardElement(i + 3, 'h'));
+  deck.deal(player, 7);
+  deck.deal(bot, 7);
+
+  refreshPageElements();
+}
+
+function refreshPageElements(){
+  player_hand.innerHTML = '';
+  bot_hand.innerHTML = '';
+
+  for(const card of player.getHand()){
+    player_hand.appendChild(createCardElement(card.value, card.suit));
+  }
+  for(const card of bot.getHand()){
+    bot_hand.appendChild(createCardElement(card.value, card.suit));
   }
 }
 
