@@ -17,9 +17,11 @@ const playerList = new PlayerList([player, bot], 2);
 const gameRules = new KingOfFish();
 const game = new Game(gameRules);
 const gameRoom = new GameRoom(0, playerList, game);
+let hasSwapped = false;
 
 const cards = generateStandardCardStacks(1, true);
 const deck = new DealStack(cards.stack, 0, 52);
+const discard = new CardStack([], 0, 52);
 deck.shuffle();
 
 //Player variables
@@ -82,12 +84,34 @@ async function start(){
 function turn(turnoption){
     switch (turnoption) {
       case 1: // Soft swap
+        if(hasSwapped) {console.error("Already swapped!"); break;}
+        if(number_of_selected_cards != 2){
+          console.error("Must select 2 cards");
+          break;
+        }
+        let player_index = -1, bot_index = -1;
+        for(let i = 0; i < player_hand.children.length; ++i){
+          if(player_hand.children[i].classList.contains('selected')){
+            player_index = i;
+          }
+        }
+        for(let i = 0; i < bot_hand.children.length; ++i){
+          if(bot_hand.children[i].classList.contains('selected')){
+            bot_index = i;
+          }
+        }
+        if(player_index < 0 || bot_index < 0){ console.error("Must select one player and one bot card"); break; }
+        player.swapCard(player_index, bot, bot_index);
+        hasSwapped = true;
+        refreshPageElements();
         break;
       case 2: // Hard swap
-        const hardSwapNumber = Number(window.prompt("Which value? (0-13?:"));
+        if(hasSwapped) {console.error("Already swapped!"); break;}
+        const hardSwapNumber = Number(window.prompt("Which value? (0-13)?:"));
         for(let i = 0; i < bot.hand.getNumberOfCards(); ++i){
           if(bot.getCard(i).value === hardSwapNumber){
             bot.sendCard(i, player.hand);
+            hasSwapped = true;
             refreshPageElements();
             return 0;
           }
@@ -97,8 +121,30 @@ function turn(turnoption){
         refreshPageElements();
         break;
       case 3: // Lay pair
+        if(number_of_selected_cards != 2){
+          console.error("Must select 2 cards");
+          break;
+        }
+        let player_index1 = -1, player_index2 = -1;
+        for(let i = 0; i < player_hand.children.length; ++i){
+          if(player_hand.children[i].classList.contains('selected')){
+            if(player_index1 < 0) {player_index1 = i;}
+            else{player_index2 = i; break;}
+          }
+        }
+        if(player_index1 < 0 || player_index2 < 0) {console.error("Must select 2 player cards!"); break; }
+        if(player.getHand()[player_index1].value !== player.getHand()[player_index2].value) {console.error("Values must match"); break;}
+        player.sendCard(player_index2, discard);
+        player.sendCard(player_index1, discard);
+        refreshPageElements();
+        currentlyPlaying = false;
+        hasSwapped = false;
         break;
       case 4: // Pickup
+        deck.deal(player, 1);
+        hasSwapped = false;
+        currentlyPlaying = false;
+        refreshPageElements();
         break;
     }
   return 0;
@@ -124,6 +170,8 @@ async function playerDecision(){
 function refreshPageElements(){
   player_hand.innerHTML = '';
   bot_hand.innerHTML = '';
+
+  number_of_selected_cards = 0;
 
   for(const card of player.getHand()){
     player_hand.appendChild(createCardElement(card.value, card.suit));
