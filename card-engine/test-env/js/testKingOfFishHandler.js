@@ -29,6 +29,7 @@ let currentlyPlaying = false;
 let gameActive = false;
 let number_of_selected_cards = 0;
 //Bot variables
+let knownCards = [];
 
 //Declaration of HTML objects
 const player_hand = document.getElementById("player-hand");
@@ -63,20 +64,21 @@ async function start(){
   while(gameActive){
     if(currentlyPlaying){
       console.log("Player Turn");
-      const action = await playerDecision();
-      turn(action);
+      const action = await playerDecision(); // CurrentlyPlaying changes in playerDecision before checking the win condition 
+      turn(action);                          //in if statements below meaning bot will always win XD. Terrible programmer you!
     }
     else{
       //BOT LOGIC
       console.log("Bot Turn");
+      const action = await performBotTurn();
       currentlyPlaying = true; //Just to return to player for time being
     }
 
     if(!gameActive && currentlyPlaying){
-           //PLAYER WIN
+      console.log("Player wins!");
     }
     else if(!gameActive && !currentlyPlaying){
-            //BOT WIN
+      console.log("Bot wins!");
     }
   }
 }
@@ -113,6 +115,7 @@ function turn(turnoption){
             bot.sendCard(i, player.hand);
             hasSwapped = true;
             refreshPageElements();
+            checkWinConditions(player);
             return 0;
           }
         }
@@ -139,6 +142,7 @@ function turn(turnoption){
         refreshPageElements();
         currentlyPlaying = false;
         hasSwapped = false;
+        checkWinConditions(player);
         break;
       case 4: // Pickup
         deck.deal(player, 1);
@@ -165,6 +169,46 @@ async function playerDecision(){
       resolve(4);
     });
   })
+}
+
+function checkWinConditions(currentPlayer){
+  if(currentPlayer.hand.getNumberOfCards() === 0){
+    gameActive = false;
+  }
+}
+
+async function performBotTurn(){
+  //Are there pairs?
+   for(let i = 0; i < bot.hand.getNumberOfCards() - 1; ++i){
+    let index1 = i, index2 = -1;
+    for(let j = i + 1; j < bot.hand.getNumberOfCards(); ++j){
+      if(bot.getHand()[i].value === bot.getHand()[j].value){
+        index2 = j;
+        break;
+      }
+    }
+    if(index2 > 0){ 
+      setTimeout(()=>{
+        console.log("Waited 2 seconds");
+        bot.sendCard(index2, discard); 
+        bot.sendCard(index1, discard); 
+        refreshPageElements();
+        checkWinConditions(bot);
+        return 0; 
+      }, 2000);
+    }
+  }
+
+  //If not, does bot have a card they know we have? (Will have to do normal swapping first)
+
+  //Attempt to swap with player?
+  
+  //Deal card to bot.
+  setTimeout(()=> {
+    deck.deal(bot, 1);
+    refreshPageElements();
+    return 0;
+  }, 3000);
 }
 
 function refreshPageElements(){
