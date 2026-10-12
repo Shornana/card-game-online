@@ -46,7 +46,8 @@ const pickup_button = document.getElementById("pickup-button");
 
 //Event Handlers of HTML objects
 start_game_button.addEventListener('click', function(event){
-  start();
+  if(!gameActive)
+    { start();}
 });
 //Functionality.
 

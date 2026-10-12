@@ -7,27 +7,32 @@ An interface for implementing player and card functionality. The card engine sho
 ## Objects
 
 In order to simulate a card game, we require the following objects:
-- CardEngine
+- CardFunctions
 - GameRoom
 - Game
 - Player
+- PlayerList
 - Card
 - CardStack
+- DealStack
+- DiscardStack
 - GameRules
 
-### CardEngine
-The CardEngine object has the following definition.
+### CardFunctions
+The CardFunctions object has the following definition.
 ```csharp
-class CardEngine {
-  int move(Card sourceCard, CardStack targetStack);
-  int swap(Card sourceCard, Card targetCard);
-  int deal(CardStack stack, int numberOfCards, Player reciever);
+class CardFunctions {
+  int send(Card sourceCard, CardStack targetStack);
+  int sendToPosition(Card sourceCard, CardStack targetStack, int index);
+  int swap(Player sourcePlayer, int sourceIndex, Player targetPlayer, int targetIndex);
+  int shuffle(CardStack stack);
 }
 ```
 
-- *move* transfers a card *sourceCard* to a card stack *targetStack*.
-- *swap* moves the card *sourceCard* to the location of *targetCard* and conversely transfers *targetCard* to the original location of *sourceCard*.
-- deal is a specialised version of *move* which transfers *numberOfCards* number of cards from the card stack *stack* to the player *receiver*.
+- *send* transfers a card *sourceCard* to a card stack *targetStack*.
+- *sendToPosition* transfers a card *sourceCard* to a card stack *targetStack* at the index *index*.
+- *swap* moves the card at index *sourceIndex* of player *sourcePlayer* to the player of *targetPlayer* and conversely transfers the card at index *targetIndex* to the original location of the source card.
+- *shuffle* takes a card stack *cardStack* and shuffles the order of the cards in the stack.
 
 ### GameRoom
 The GameRoom object has the following definition.
