@@ -73,19 +73,29 @@ The Player object has the following definition.
 class Player {
   string username;
   int score;
-  int getCards(CardStack targetStack, int numberOfCards);
-  int removeCards(Card[] sourceCards, CardStack targetStack);
-  int swapCard(Card sourceCard, Card targetCard);
-  int moveCard(Card sourceCard, CardStack targetStack);
+  CardStack hand;
+  int getCard(int index);
+  int setCard(int index, Card card);
+  int removeCard(int index);
+  int addCard(Card card);
+  int addCardToPosition(Card card, int index);
+  int getHand();
+  int swapCard(int currentIndex, Player targetPlayer, int targetIndex);
+  int sendCard(int index, CardStack targetStack);
+  int sendCardToPosition(int sourceIndex, CardStack targetStack, int targetIndex);
 }
 ```
 
 - *username* is the current player's username.
 - *score* is the total number of points earned for the current game room.
-- *getCards* is a function that takes *numberOfCards* number of cards from the stack *targetStack*.
-- *removeCards* is a function that removes all *sourceCards* and moves them to the stack *targetStack*.
+- *hand* is the player's card stack.
+- *getCard* is a function that takes *numberOfCards* number of cards from the stack *targetStack*.
+- *removeCard* is a function that removes all *sourceCards* and moves them to the stack *targetStack*.
 - *swapCard* is a function that swaps the player's *sourceCard* with another player's *targetCard*.
-- *moveCard* is a function that moves a player's *sourceCard* to a stack *targetStack*.
+- *addCard* is a function that adds a card *card* to the player's hand.
+- *addCardToPosition* is a function that adds a card *card* to a player's hand at the index *index*.
+- *sendCard* is a function that moves a player's *sourceCard* to a stack *targetStack*.
+- *sendCardToPosition* is a function that moves a player's card at *sourceIndex* to a player *targetPlayer* at location *targetIndex*.
 
 
 ### Card
@@ -109,7 +119,11 @@ class CardStack {
   Card[] stack;
   int minimumNumberOfCards;
   int maximumNumberOfCards;
-  int take();
+
+  int getCard();
+  int setCard();
+  int removeCard();
+  int addCard();
 }
 ```
 

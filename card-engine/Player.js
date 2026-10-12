@@ -40,7 +40,7 @@ export class Player {
       this.removeCard(index);
     }
   }
-  sendCardToPosition(source_index, target_index, target){
+  sendCardToPosition(source_index, target, target_index){
     if(CardFunctions.sendToPosition(this.hand.getCard(source_index), target, index)){
       this.removeCard(source_index);
     }
