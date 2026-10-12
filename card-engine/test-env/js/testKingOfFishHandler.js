@@ -29,7 +29,7 @@ let currentlyPlaying = false;
 let gameActive = false;
 let number_of_selected_cards = 0;
 //Bot variables
-let knownCards = [];
+let botKnownCards = [];
 
 //Declaration of HTML objects
 const player_hand = document.getElementById("player-hand");
@@ -103,6 +103,14 @@ function turn(turnoption){
           }
         }
         if(player_index < 0 || bot_index < 0){ console.error("Must select one player and one bot card"); break; }
+        const indexOfCard = botKnownCards.indexOf(player.getCard(player_index));
+        if(indexOfCard >= 0){
+          botKnownCards.splice(indexOfCard, 1);
+        }
+        botKnownCards.push(bot.getCard(bot_index));
+        console.log("Known cards :");
+        console.log(botKnownCards);
+        
         player.swapCard(player_index, bot, bot_index);
         hasSwapped = true;
         refreshPageElements();
@@ -137,6 +145,16 @@ function turn(turnoption){
         }
         if(player_index1 < 0 || player_index2 < 0) {console.error("Must select 2 player cards!"); break; }
         if(player.getHand()[player_index1].value !== player.getHand()[player_index2].value) {console.error("Values must match"); break;}
+        const knownIndex1 = botKnownCards.indexOf(player.getCard(player_index1));
+        const knownIndex2 = botKnownCards.indexOf(player.getCard(player_index2));
+        if(knownIndex2 > knownIndex1 && knownIndex2 >= 0){
+          botKnownCards.splice(knownIndex2, 1);
+          if(knownIndex1 >= 0) {botKnownCards.splice(knownIndex1, 1);}
+        }
+        if(knownIndex1 > knownIndex2 && knownIndex1 >= 0){
+          botKnownCards.splice(knownIndex1, 1);
+          if(knownIndex2 >= 0) {botKnownCards.splice(knownIndex2, 1);}
+        }
         player.sendCard(player_index2, discard);
         player.sendCard(player_index1, discard);
         refreshPageElements();
@@ -184,6 +202,7 @@ async function performBotTurn(){
     for(let j = i + 1; j < bot.hand.getNumberOfCards(); ++j){
       if(bot.getHand()[i].value === bot.getHand()[j].value){
         index2 = j;
+        console.log("index1: " + index1 + " index2: " + index2);
         break;
       }
     }
@@ -194,21 +213,36 @@ async function performBotTurn(){
         bot.sendCard(index1, discard); 
         refreshPageElements();
         checkWinConditions(bot);
-        return 0; 
       }, 2000);
+      return 0;
     }
   }
 
   //If not, does bot have a card they know we have? (Will have to do normal swapping first)
-
+  for(const card of botKnownCards){
+    console.log(card);
+    for(let i = 0; i < bot.hand.getNumberOfCards(); ++i ){
+      if(card.value === bot.getCard(i).value){
+        setTimeout(()=> {
+          const player_index = player.getHand().indexOf(card);
+          player.sendCard(player_index, discard);
+          bot.sendCard(i, discard);
+          bot.sendCard(0, player);
+          refreshPageElements();
+          console.log("Used hard swap!");
+        }, 2000);
+        return 0;
+      }
+    }
+  }
   //Attempt to swap with player?
   
   //Deal card to bot.
   setTimeout(()=> {
     deck.deal(bot, 1);
     refreshPageElements();
-    return 0;
   }, 3000);
+  return 0;
 }
 
 function refreshPageElements(){
