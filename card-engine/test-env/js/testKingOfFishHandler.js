@@ -119,19 +119,21 @@ function turn(turnoption){
         const hardSwapNumber = Number(window.prompt("Which value? (0-13)?:"));
         for(let i = 0; i < bot.hand.getNumberOfCards(); ++i){
           if(bot.getCard(i).value === hardSwapNumber){
-            let indexOfPlayerSwapCard = -1;
-            for(let i = 0; i < player_hand.children.length; ++i){
-              if(player_hand.children[i].classList.contains('selected')){
-                indexOfPlayerSwapCard = i;
-                break;
+            if(player.hand.getNumberOfCards() != 1){
+              let indexOfPlayerSwapCard = -1;
+              for(let i = 0; i < player_hand.children.length; ++i){
+                if(player_hand.children[i].classList.contains('selected')){
+                  indexOfPlayerSwapCard = i;
+                  break;
+                }
               }
-            }
-            if(indexOfPlayerSwapCard < 0){
-              console.error("Must select own card!");
-              return 0;
+              if(indexOfPlayerSwapCard < 0){
+                console.error("Must select own card!");
+                return 0;
+              }
+              player.sendCard(indexOfPlayerSwapCard, bot.hand);
             }
             bot.sendCard(i, player.hand);
-            player.sendCard(indexOfPlayerSwapCard, bot.hand);
             hasSwapped = true;
             refreshPageElements();
             checkWinConditions(player);
@@ -257,6 +259,8 @@ async function performBotTurn(){
       const randomBotIndex = Math.floor(Math.random() * (bot.hand.getNumberOfCards()));
       console.log("Bot index : " + randomBotIndex + " Player Index : " + randomPlayerIndex);
       console.log("Swapping Bot's Card " + bot.getCard(randomBotIndex).value + " with Player's " + player.getCard(randomPlayerIndex).value);
+      if(botKnownCards.includes(player.getCard(randomPlayerIndex))) {botKnownCards.splice(botKnownCards.indexOf(player.getCard(randomPlayerIndex)) ,1);}
+      botKnownCards.push(bot.getCard(randomBotIndex));
       bot.swapCard(randomBotIndex, player, randomPlayerIndex);
       refreshPageElements();
     
