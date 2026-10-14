@@ -148,9 +148,16 @@ interface GameRules {
 
 ## System Architecture Diagram
 
+### Game room creation
+When a call for a game room is created, an instance of the GameRoom class is created and stored on the server of active game rooms. Any calls to join the game room are then validated and if successful, the player are added to the list of active players. Once the game leader calls the game start function, game information is fetched from the database
+and the game screen page is loaded with game information.
+
 ### Game process 
 When a game is started via the *start* function, it first calls *init* to setup the initial placement and hand of all players as well as any game decks. If initialization is successfully completed, the *turn* function is called to let a player take action. (Will need to have a setup for turn based games vs non-turn based). Once the win condition is met for a player, the end function is called which cleans up and terminates the game.
+
 ![Game Process Architecture](./GameProcess.png "Game Process Diagram")
+
+
 
 ## Multiplayer Implementation Strategy
 Though this card engine will be implemented client side for single player, it will be implemented on the server for
