@@ -118,10 +118,23 @@ function turn(turnoption){
         break;
       case 2: // Hard swap
         if(hasSwapped) {console.error("Already swapped!"); break;}
+        if(number_of_selected_cards != 1) {console.error("Must select 1 card to swap with!"); break;}
         const hardSwapNumber = Number(window.prompt("Which value? (0-13)?:"));
         for(let i = 0; i < bot.hand.getNumberOfCards(); ++i){
           if(bot.getCard(i).value === hardSwapNumber){
+            let indexOfPlayerSwapCard = -1;
+            for(let i = 0; i < player_hand.children.length; ++i){
+              if(player_hand.children[i].classList.contains('selected')){
+                indexOfPlayerSwapCard = i;
+                break;
+              }
+            }
+            if(indexOfPlayerSwapCard < 0){
+              console.error("Must select own card!");
+              return 0;
+            }
             bot.sendCard(i, player.hand);
+            player.sendCard(indexOfPlayerSwapCard, bot.hand);
             hasSwapped = true;
             refreshPageElements();
             checkWinConditions(player);
@@ -226,6 +239,7 @@ async function performBotTurn(){
       if(card.value === bot.getCard(i).value){
         setTimeout(()=> {
           const player_index = player.getHand().indexOf(card);
+          botKnownCards.splice(botKnownCards.indexOf(card), 1); //Remove from known cards.
           player.sendCard(player_index, discard);
           bot.sendCard(i, discard);
           bot.sendCard(0, player);
