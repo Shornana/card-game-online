@@ -211,7 +211,7 @@ function checkWinConditions(currentPlayer){
 
 async function performBotTurn(){
   //Are there pairs?
-   for(let i = 0; i < bot.hand.getNumberOfCards() - 1; ++i){
+  for(let i = 0; i < bot.hand.getNumberOfCards() - 1; ++i){
     let index1 = i, index2 = -1;
     for(let j = i + 1; j < bot.hand.getNumberOfCards(); ++j){
       if(bot.getHand()[i].value === bot.getHand()[j].value){
@@ -250,8 +250,40 @@ async function performBotTurn(){
       }
     }
   }
-  //Attempt to swap with player?
-  
+  //Attempt to swap with player? Let's be dumb and use a random swap.
+  if(Math.random() > 0.8){
+    const randomPlayerIndex = Math.floor(Math.random() * (player.hand.getNumberOfCards()));
+    const randomBotIndex = Math.floor(Math.random() * (bot.hand.getNumberOfCards()));
+    bot.swapCard(randomBotIndex, player, randomPlayerIndex);
+    refreshPageElements();
+    
+    //Same code as above but check for pairs again.
+    for(let i = 0; i < bot.hand.getNumberOfCards() - 1; ++i){
+    let index1 = i, index2 = -1;
+    for(let j = i + 1; j < bot.hand.getNumberOfCards(); ++j){
+      if(bot.getHand()[i].value === bot.getHand()[j].value){
+        index2 = j;
+        console.log("index1: " + index1 + " index2: " + index2);
+        break;
+      }
+    }
+    if(index2 > 0){ 
+      setTimeout(()=>{
+        console.log("Swapped and matched!");
+        bot.sendCard(index2, discard); 
+        bot.sendCard(index1, discard); 
+        refreshPageElements();
+        checkWinConditions(bot);
+      }, 2000);
+      return 0;
+    }
+    else{
+      setTimeout(()=>{
+        console.log("Swapped and no match!");
+      }, 2000);
+    }
+  }
+
   //Deal card to bot.
   setTimeout(()=> {
     deck.deal(bot, 1);
