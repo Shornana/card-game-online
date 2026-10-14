@@ -58,6 +58,8 @@ function test(event){
 async function start(){
   gameActive = true;
   currentlyPlaying = true;
+  player.hand = [];
+  bot.hand = [];
   deck.deal(player, 7);
   deck.deal(bot, 7);
   refreshPageElements();
@@ -73,15 +75,10 @@ async function start(){
       console.log("Bot Turn");
       const action = await performBotTurn();
       currentlyPlaying = true; //Just to return to player for time being
-    }
-
-    if(!gameActive && currentlyPlaying){
-      console.log("Player wins!");
-    }
-    else if(!gameActive && !currentlyPlaying){
-      console.log("Bot wins!");
-    }
+    } 
   }
+  player_score.innerHTML = player.score;
+  bot_score.innerHTML = bot.score;
 }
 
 function turn(turnoption){
@@ -206,6 +203,7 @@ async function playerDecision(){
 function checkWinConditions(currentPlayer){
   if(currentPlayer.hand.getNumberOfCards() === 0){
     gameActive = false;
+    currentPlayer.score += 1;
   }
 }
 
