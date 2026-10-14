@@ -67,6 +67,8 @@ async function start(){
   while(gameActive){
     if(currentlyPlaying){
       console.log("Player Turn");
+      console.log("Bots Hand:");
+      console.log(bot.hand);
       const action = await playerDecision(); // CurrentlyPlaying changes in playerDecision before checking the win condition 
       turn(action);                          //in if statements below meaning bot will always win XD. Terrible programmer you!
     }
@@ -304,10 +306,10 @@ function refreshPageElements(){
   number_of_selected_cards = 0;
 
   for(const card of player.getHand()){
-    player_hand.appendChild(createCardElement(card.value, card.suit));
+    player_hand.appendChild(createCardElement(card.value, card.suit, false));
   }
   for(const card of bot.getHand()){
-    bot_hand.appendChild(createCardElement(card.value, card.suit));
+    bot_hand.appendChild(createCardElement(card.value, card.suit, true));
   }
 }
 
@@ -326,9 +328,14 @@ function selectCard(event){
   }
 }
 
-function createCardElement(value, suit){
+function createCardElement(value, suit, hidden){
   const table_datum = document.createElement('td');
-  table_datum.innerHTML = value + suit;
+  if(!hidden){
+    table_datum.innerHTML = value + suit;
+  }
+  else{
+    table_datum.innerHTML = "??";
+  }
   table_datum.addEventListener('click', function(event){ selectCard(event); })
   return table_datum;
 }
