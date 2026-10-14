@@ -148,7 +148,8 @@ interface GameRules {
 
 ## System Architecture Diagram
 
-A flow diagram representing the architecture of the card engine. 
+### Game process 
+When a game is started via the *start* function, it first calls *init* to setup the initial placement and hand of all players as well as any game decks. If initialization is successfully completed, the *turn* function is called to let a player take action. (Will need to have a setup for turn based games vs non-turn based). Once the win condition is met for a player, the end function is called which cleans up and terminates the game.
 ![Engine Architecture](./CardEngineDiagram.png "Card Engine Diagram")
 
 ## Multiplayer Implementation Strategy
