@@ -58,8 +58,8 @@ function test(event){
 async function start(){
   gameActive = true;
   currentlyPlaying = true;
-  player.hand = [];
-  bot.hand = [];
+  player.hand = new CardStack([], 0, 52);
+  bot.hand = new CardStack([], 0, 52);
   deck.deal(player, 7);
   deck.deal(bot, 7);
   refreshPageElements();
