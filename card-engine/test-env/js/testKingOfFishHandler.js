@@ -77,8 +77,8 @@ async function start(){
       currentlyPlaying = true; //Just to return to player for time being
     } 
   }
-  player_score.innerHTML = player.score;
-  bot_score.innerHTML = bot.score;
+  player_score.innerHTML = player.points;
+  bot_score.innerHTML = bot.points;
 }
 
 function turn(turnoption){
@@ -115,7 +115,7 @@ function turn(turnoption){
         break;
       case 2: // Hard swap
         if(hasSwapped) {console.error("Already swapped!"); break;}
-        if(number_of_selected_cards != 1) {console.error("Must select 1 card to swap with!"); break;}
+        if(number_of_selected_cards != 1 && player.hand.getNumberOfCards() != 1) {console.error("Must select 1 card to swap with!"); break;}
         const hardSwapNumber = Number(window.prompt("Which value? (0-13)?:"));
         for(let i = 0; i < bot.hand.getNumberOfCards(); ++i){
           if(bot.getCard(i).value === hardSwapNumber){
@@ -203,7 +203,7 @@ async function playerDecision(){
 function checkWinConditions(currentPlayer){
   if(currentPlayer.hand.getNumberOfCards() === 0){
     gameActive = false;
-    currentPlayer.score += 1;
+    currentPlayer.points += 1;
   }
 }
 
@@ -249,7 +249,7 @@ async function performBotTurn(){
     }
   }
   //Attempt to swap with player? Let's be dumb and use a random swap.
-  const randomNumber = Math.random();
+  const randomNumber = Math.random(); // REMEMBER TO ADD LOGIC FOR KNOWN CARDS WHEN THE BOT SWAPS!!!
   console.log("The random number:" + randomNumber);
   if(randomNumber > 0.5){ //Hopefully 50/50 chance of soft swap.
     setTimeout(()=> {
