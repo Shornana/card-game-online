@@ -3,6 +3,6 @@ export class GameRules {
     this.title = title;
   }
   init(){}
-  turn(){}
+  async turn(){}
   checkWinConditions(){}
 }
