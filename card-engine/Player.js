@@ -1,7 +1,8 @@
 import { CardFunctions } from "./CardFunctions.js";
+import { CardStack } from "./CardStack.js";
 
 export class Player {
-  constructor(username, id, hand){
+  constructor(username, id, hand = new CardStack([] ,0, 52)){
     this.username = username;
     this.id = id;
     this.hand = hand;
