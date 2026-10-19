@@ -13,7 +13,7 @@ const game = new Game(kingOfFish);
 
 //Setup game room.
 gameRoom.addPlayer(player);
-gameRoom.addPlayer(bot);
+gameRoom.addPlayer(bot)
 
 //Declaration of HTML objects
 const player_hand = document.getElementById("player-hand");
