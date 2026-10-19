@@ -1,3 +1,5 @@
+import { PlayerList } from "./PlayerList.js";
+
 export class GameRoom {
   constructor(id, activePlayers = new PlayerList([], 0), game){
     this.id = id;
@@ -5,11 +7,23 @@ export class GameRoom {
     this.game = game;
   }
 
+  gameActive = false;
+
   addPlayer(player){
     this.activePlayers.addPlayer(player);
   }
 
   removePlayerById(id){
     this.activePlayers.removePlayerById(id);
+  }
+
+  startGame(){
+    if(!gameActive){
+      gameActive = true;
+      game.start();
+    }
+    else{
+      console.error("Game already active");
+    }
   }
 }

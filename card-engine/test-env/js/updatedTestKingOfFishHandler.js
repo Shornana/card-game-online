@@ -1,20 +1,24 @@
 import { GameRoom } from "../../GameRoom.js";
 import { Game } from "../../Game.js";
-import { GameRules } from "../../GameRules.js";
 import { Player } from "../../Player.js";
-import { Bot } from "../../Bot.js";
-import { PlayerList } from "../../PlayerList.js";
-import { CardStack, generateStandardCardStacks } from "../../CardStack.js";
-import { DealStack } from "../../DealStack.js";
+import { KingOfFishBot } from "../../../games/KingOfFishBot.js";
 import { KingOfFish } from "../../../games/KingOfFish.js";
 
-import { CardFunctions } from "../../CardFunctions.js";
-
 //Global Variables
+const kingOfFish = new KingOfFish();
+const player = new Player("Shornana", 0);
+const bot = new KingOfFishBot("Jerry Bot", 1);
+const gameRoom = new GameRoom(0, undefined, game);
+const game = new Game(kingOfFish);
+
+//Setup game room.
+gameRoom.addPlayer(player);
+gameRoom.addPlayer(bot);
 
 //Declaration of HTML objects
 const player_hand = document.getElementById("player-hand");
 const player_score = document.getElementById("player-score");
+
 const bot_hand = document.getElementById("bot-hand");
 const bot_score = document.getElementById("bot-score");
 
@@ -28,7 +32,8 @@ const pickup_button = document.getElementById("pickup-button");
 //Event Handlers of HTML objects
 start_game_button.addEventListener('click', function(event){
   if(!gameActive)
-    { /*Start();*/}
+    { gameRoom.startGame(); }
 });
+
 //Functionality.
 
