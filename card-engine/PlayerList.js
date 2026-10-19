@@ -5,7 +5,7 @@ export class PlayerList{
   constructor(playerList = [], maxSize){
     this.playerList = playerList;
     this.maxSize = maxSize;
-    this.currentPlayerIndex =  0;
+    this.currentPlayerIndex =  -1;
   }
 
   nextPlayer(){
@@ -32,5 +32,9 @@ export class PlayerList{
       return SUCCESS;
     }
     return ERROR_CODE; // If player is not in list;
+  }
+
+  getPlayerByIndex(index){
+    return this.playerList[index];
   }
 }
