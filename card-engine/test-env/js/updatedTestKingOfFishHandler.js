@@ -33,6 +33,9 @@ const hard_swap_button = document.getElementById("hard-swap-button");
 const play_button = document.getElementById("play-button");
 const pickup_button = document.getElementById("pickup-button");
 
+//Selection system
+const selection = {sourcePlayer: null, sourceIndex: -1, targetPlayer: null, targetIndex: -1};
+
 //Graphics for the page.
 kingOfFish.graphics.renderGraphics = function(){
   player_score.innerHTML = player.points;
@@ -49,7 +52,7 @@ kingOfFish.graphics.renderGraphics = function(){
 
 // Linking GUI to game logic
 kingOfFish.playerDecision = async function(){
-  const options = {}; // Create options object
+  const options = {decision: 'null', selected: , target:}; // Create options object
   return new Promise((resolve) => {
     soft_swap_button.addEventListener('click', function(event){
       resolve(options);
@@ -64,6 +67,32 @@ kingOfFish.playerDecision = async function(){
       resolve(options);
     });
   })
+}
+
+function selectableCard(event){
+  const card = event.target;
+  const cardIndex = Array.from(card.parentElement.children).indexOf(card);
+  const cardParent = card.parentElement.id;
+  
+  //Deselecting player card.
+  if(selection.sourcePlayer ===  && selection.sourceIndex === cardIndex){
+    selection.sourcePlayer = null; selection.sourceIndex = -1;
+    card.classList.remove('selected');
+    return -1;
+  }
+
+  //Deselecting target card
+  else if(selection.targetPlayer === && selection.targetIndex === cardIndex){
+    selection.targetPlayer = null; selection.targetIndex = -1;
+    card.classList.remove('selected');
+    return -1;
+  }
+  
+  //Trying to select card when cards already selected
+  if(selection.sourceIndex >= 0 && selection.targetIndex >= 0){
+    console.error("Cards already selected!");
+  }
+  
 }
 
 function createCardGraphic(card){
