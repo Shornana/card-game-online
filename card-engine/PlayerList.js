@@ -41,4 +41,11 @@ export class PlayerList{
   getPlayerByIndex(index){
     return this.playerList[index];
   }
+
+  getPlayerById(id){
+    for(let i = 0; i < this.playerList.length; ++i){
+      if(this.playerList[i].id === id) { return this.playerList[i]; }
+    }
+    return null; // If player is not in list;
+  }
 }

@@ -52,7 +52,7 @@ kingOfFish.graphics.renderGraphics = function(){
 
 // Linking GUI to game logic
 kingOfFish.playerDecision = async function(){
-  const options = {decision: 'null', selected: , target:}; // Create options object
+  const options = {decision: null, selected: null, target: null}; // Create options object
   return new Promise((resolve) => {
     soft_swap_button.addEventListener('click', function(event){
       resolve(options);
@@ -72,17 +72,17 @@ kingOfFish.playerDecision = async function(){
 function selectableCard(event){
   const card = event.target;
   const cardIndex = Array.from(card.parentElement.children).indexOf(card);
-  const cardParent = card.parentElement.id;
+  const cardParent = card.parentElement.playerId;
   
   //Deselecting player card.
-  if(selection.sourcePlayer ===  && selection.sourceIndex === cardIndex){
+  if(selection.sourcePlayer === gameRoom.activePlayers.getPlayerById(cardParent) && selection.sourceIndex === cardIndex){
     selection.sourcePlayer = null; selection.sourceIndex = -1;
     card.classList.remove('selected');
     return -1;
   }
 
   //Deselecting target card
-  else if(selection.targetPlayer === && selection.targetIndex === cardIndex){
+  else if(selection.targetPlayer === gameRoom.activePlayers.getPlayerById(cardParent) && selection.targetIndex === cardIndex){
     selection.targetPlayer = null; selection.targetIndex = -1;
     card.classList.remove('selected');
     return -1;
@@ -92,7 +92,23 @@ function selectableCard(event){
   if(selection.sourceIndex >= 0 && selection.targetIndex >= 0){
     console.error("Cards already selected!");
   }
-  
+
+  //Select card
+  if(selection.sourceIndex == -1){
+    selection.sourceIndex = cardIndex;
+    selection.sourcePlayer = gameRoom.activePlayers.getPlayerById(cardParent);;
+    card.classList.add('selected');
+  }
+  else if(selection.targetIndex == -1){
+    selection.targetIndex = cardIndex;
+    selection.targetPlayer = gameRoom.activePlayers.getPlayerById(cardParent);
+    card.classList.add('selected');
+  }
+  else{
+    console.error("Logic error!");
+  }
+
+  //BUGS INCLUDE MULTIPLE SELECTS AND LOGIC ERROR APPEARING EVERY TIME BECAUSE NO RETURNS
 }
 
 function createCardGraphic(card){
@@ -103,6 +119,11 @@ function createCardGraphic(card){
   else{
     td.innerHTML = card.value + card.suit;
   }
+
+  td.addEventListener('click', function(event){
+    selectableCard(event);
+  })
+
   return td;
 }
 
