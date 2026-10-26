@@ -1,17 +1,31 @@
 import { GameRules } from "./GameRules.js";
 
 export class Game{
-  constructor(gameRules){
+  constructor(gameRules, players){
     this.gameRules = gameRules;
+    this.players = players;
     this.title = gameRules.title;
     this.gameActive = false;
   }
-  start(){
+  async start(){
     this.gameActive = true;
-    this.gameRules.init();
+    await this.gameRules.init();
+    game();
   }
+
+  async game(){
+    if(this.players.nextPlayer() === 0) // THIS IS THE PLAYER AT THE MOMENT. WILL FIX IN FUTURE. WILL DESIGN FOR SINGLE PLAYER ONLY.
+    {
+      //Need to wait for player's response.
+    }
+    else{ //FOR BOTS
+      this.players.currentPlayer.turn();
+    }
+    next();
+  }
+
   next(){
-    if(gameRules.checkWinConditions()) { end(); }
+    if(this.gameRules.checkWinConditions()) { end(); }
   }
 
   end(){

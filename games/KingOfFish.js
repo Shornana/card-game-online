@@ -17,7 +17,7 @@ export class KingOfFish extends GameRules {
     super("King of Fish");
   }
   
-  init(){
+  async init(){
     this.dealStack.shuffle();
     for(const player of this.playerList.playerList){
       this.dealStack.deal(player, 7);
@@ -25,25 +25,14 @@ export class KingOfFish extends GameRules {
     this.graphics.renderGraphics();
   }
 
-  async turn(){
+  async turn(currentPlayerIndex, options){
     //Render Graphics
-    graphics.renderGraphics();
-    let currentPlayerIndex = playerList.nextPlayer();
-    if(currentPlayerIndex === playerList.indexOf(player))
-    {
-      
-    }
-    elseif(currentPlayerIndex === playerList.indexOf(bot)) //Check if player is a bot.
-    {
-      const response = await bot.turn();
-      graphics.renderGraphics();
-      if(checkWinConditions(currentPlayerIndex)){ return false; }
-      else{ return true; }
-    }
+    this.graphics.renderGraphics();
+    if()
   }
 
   checkWinConditions(currentPlayerIndex){
-    if(playerList.getPlayerByIndex(currentPlayerIndex).numberOfCards() === 0){
+    if(this.playerList.getPlayerByIndex(currentPlayerIndex).numberOfCards() === 0){
       return true;
     }
     return false;
