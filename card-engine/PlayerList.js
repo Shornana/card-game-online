@@ -9,7 +9,7 @@ export class PlayerList{
   }
 
   currentPlayer(){
-    return this.playerList[currentPlayerIndex];
+    return this.playerList[this.currentPlayerIndex];
   }
 
   nextPlayer(){

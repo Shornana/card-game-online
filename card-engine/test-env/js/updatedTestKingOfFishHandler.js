@@ -17,7 +17,7 @@ gameRoom.addPlayer(player);
 gameRoom.addPlayer(bot);
 
 //FIX IN FUTURE
-kingOfFish.playerList = gameRoom.activePlayers;
+kingOfFish.players = gameRoom.activePlayers;
 
 //Declaration of HTML objects
 const player_hand = document.getElementById("player-hand");
