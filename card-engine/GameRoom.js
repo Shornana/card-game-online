@@ -18,9 +18,9 @@ export class GameRoom {
   }
 
   startGame(){
-    if(!gameActive){
-      gameActive = true;
-      game.start();
+    if(!this.gameActive){
+      this.gameActive = true;
+      this.game.start();
     }
     else{
       console.error("Game already active");

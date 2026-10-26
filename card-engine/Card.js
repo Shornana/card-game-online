@@ -3,5 +3,5 @@ export class Card {
     this.value = value;
     this.suit = suit;
   }
-  isHidden = true;
+  isHidden = false;
 }

@@ -8,15 +8,12 @@ export class Game{
   }
   start(){
     this.gameActive = true;
-    init();
+    this.gameRules.init();
   }
-  init(){console.error("Incomplete init function.");}
-
-  async turn(){console.error("Incomplete turn function".);}
-
   next(){
     if(gameRules.checkWinConditions()) { end(); }
   }
+
   end(){
     this.gameActive = false;
   }

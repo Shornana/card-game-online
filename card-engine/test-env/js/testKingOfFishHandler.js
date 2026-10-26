@@ -1,6 +1,3 @@
-import { GameRoom } from "../../GameRoom.js";
-import { Game } from "../../Game.js";
-import { GameRules } from "../../GameRules.js";
 import { Player } from "../../Player.js";
 import { Bot } from "../../Bot.js";
 import { PlayerList } from "../../PlayerList.js";
@@ -14,9 +11,6 @@ import { CardFunctions } from "../../CardFunctions.js";
 const player = new Player("Shornana", 0, new CardStack([], 0, 52));
 const bot = new Bot("Bot", 1, new CardStack([], 0, 52));
 const playerList = new PlayerList([player, bot], 2);
-const gameRules = new KingOfFish();
-const game = new Game(gameRules);
-const gameRoom = new GameRoom(0, playerList, game);
 let hasSwapped = false;
 
 const cards = generateStandardCardStacks(1, true);

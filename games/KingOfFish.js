@@ -18,8 +18,11 @@ export class KingOfFish extends GameRules {
   }
   
   init(){
-    dealStack.shuffle();
-    graphics.renderGraphics();
+    this.dealStack.shuffle();
+    for(const player of this.playerList.playerList){
+      this.dealStack.deal(player, 7);
+    }
+    this.graphics.renderGraphics();
   }
 
   async turn(){

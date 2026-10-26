@@ -8,12 +8,16 @@ import { KingOfFish } from "../../../games/KingOfFish.js";
 const kingOfFish = new KingOfFish();
 const player = new Player("Shornana", 0);
 const bot = new KingOfFishBot("Jerry Bot", 1);
-const gameRoom = new GameRoom(0, undefined, game);
 const game = new Game(kingOfFish);
+const gameRoom = new GameRoom(0, undefined, game);
+gameRoom.activePlayers.maxSize = 2;
 
 //Setup game room.
 gameRoom.addPlayer(player);
-gameRoom.addPlayer(bot)
+gameRoom.addPlayer(bot);
+
+//FIX IN FUTURE
+kingOfFish.playerList = gameRoom.activePlayers;
 
 //Declaration of HTML objects
 const player_hand = document.getElementById("player-hand");
@@ -36,17 +40,27 @@ kingOfFish.graphics.renderGraphics = function(){
   player_hand.innerHTML = ''; //Clear player hand.
   bot_hand.innerHTML = ''; // Clear bot hand.
   for(const card of player.getHand()){
-    //Add card element to table.
+    player_hand.appendChild(createCardGraphic(card));
   }
   for(const card of bot.getHand()){
-    //Add card element to table.
+    bot_hand.appendChild(createCardGraphic(card));
   }
+}
+
+function createCardGraphic(card){
+  const td = document.createElement('td');
+  if(card.isHidden){
+    td.innerHTML = '??';
+  }
+  else{
+    td.innerHTML = card.value + card.suit;
+  }
+  return td;
 }
 
 //Event Handlers of HTML objects
 start_game_button.addEventListener('click', function(event){
-  if(!gameActive)
-    { gameRoom.startGame(); }
+  gameRoom.startGame();
 });
 
 //Functionality.
