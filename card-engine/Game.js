@@ -1,34 +1,43 @@
 import { GameRules } from "./GameRules.js";
 
 export class Game{
-  constructor(gameRules, players){
+  constructor(gameRules){
     this.gameRules = gameRules;
-    this.players = players;
     this.title = gameRules.title;
     this.gameActive = false;
   }
+  players;
+
   async start(){
     this.gameActive = true;
     await this.gameRules.init();
-    game();
+    while(await this.turn()){ //While the turns are still going.
+      //Logging
+    }
   }
 
-  async game(){
+  async turn(){
     if(this.players.nextPlayer() === 0) // THIS IS THE PLAYER AT THE MOMENT. WILL FIX IN FUTURE. WILL DESIGN FOR SINGLE PLAYER ONLY.
     {
-      //Need to wait for player's response.
+      this.players.currentPlayer().stillPlaying = true;
+      while(this.players.currentPlayer().stillPlaying){
+        const options = await this.gameRules.playerDecision();
+        this.gameRules.turn(this.players.currentPlayer(), options);
+      }
     }
     else{ //FOR BOTS
       this.players.currentPlayer.turn();
     }
-    next();
+    return this.next();
   }
 
   next(){
-    if(this.gameRules.checkWinConditions()) { end(); }
+    if(this.gameRules.checkWinConditions()) { return this.end(); }
+    return true;
   }
 
   end(){
     this.gameActive = false;
+    return false;
   }
 } 

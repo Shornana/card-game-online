@@ -20,6 +20,7 @@ export class GameRoom {
   startGame(){
     if(!this.gameActive){
       this.gameActive = true;
+      this.game.players = this.activePlayers;
       this.game.start();
     }
     else{

@@ -8,6 +8,10 @@ export class PlayerList{
     this.currentPlayerIndex =  -1;
   }
 
+  currentPlayer(){
+    return this.playerList[currentPlayerIndex];
+  }
+
   nextPlayer(){
     if(this.currentPlayerIndex > this.playerList.size - 1) { this.currentPlayerIndex = 0; return currentPlayerIndex; }
     else { return ++this.currentPlayerIndex; }

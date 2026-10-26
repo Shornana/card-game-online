@@ -47,6 +47,25 @@ kingOfFish.graphics.renderGraphics = function(){
   }
 }
 
+// Linking GUI to game logic
+kingOfFish.playerDecision = async function(){
+  const options = {}; // Create options object
+  return new Promise((resolve) => {
+    soft_swap_button.addEventListener('click', function(event){
+      resolve(options);
+    });
+    hard_swap_button.addEventListener('click', function(event){
+      resolve(options);
+    });
+    play_button.addEventListener('click', function(event){
+      resolve(options);
+    });
+    pickup_button.addEventListener('click', function(event){
+      resolve(options);
+    });
+  })
+}
+
 function createCardGraphic(card){
   const td = document.createElement('td');
   if(card.isHidden){
