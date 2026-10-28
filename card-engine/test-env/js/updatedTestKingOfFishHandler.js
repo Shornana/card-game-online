@@ -52,7 +52,7 @@ kingOfFish.graphics.renderGraphics = function(){
 }
 
 // Linking GUI to game logic
-kingOfFish.playerDecision = async function(){
+kingOfFish.playerDecision = async function(){ //Decision still called even if game is not active
   const options = {decision: 'error', selected: null, target: null}; // Create options object
   return new Promise((resolve) => {
     soft_swap_button.addEventListener('click', function(event){
