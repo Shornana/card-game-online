@@ -52,7 +52,7 @@ kingOfFish.graphics.renderGraphics = function(){
 }
 
 // Linking GUI to game logic
-kingOfFish.playerDecision = async function(){ //Decision still called even if game is not active
+kingOfFish.playerDecision = async function(){ //Decision still called even if game is not active. Of course it is you dumbass but it just won't be ran on turn!!!
   const options = {decision: 'error', selected: null, target: null}; // Create options object
   return new Promise((resolve) => {
     soft_swap_button.addEventListener('click', function(event){

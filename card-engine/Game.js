@@ -14,6 +14,7 @@ export class Game{
     while(await this.turn()){ //While the turns are still going.
       //Logging
     }
+    console.log("Reached here");
   }
 
   async turn(){
