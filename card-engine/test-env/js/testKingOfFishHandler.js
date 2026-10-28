@@ -1,0 +1,335 @@
+import { Player } from "../../Player.js";
+import { Bot } from "../../Bot.js";
+import { PlayerList } from "../../PlayerList.js";
+import { CardStack, generateStandardCardStacks } from "../../CardStack.js";
+import { DealStack } from "../../DealStack.js";
+import { KingOfFish } from "../../../games/KingOfFish.js";
+
+import { CardFunctions } from "../../CardFunctions.js";
+
+//Global Variables
+const player = new Player("Shornana", 0, new CardStack([], 0, 52));
+const bot = new Bot("Bot", 1, new CardStack([], 0, 52));
+const playerList = new PlayerList([player, bot], 2);
+let hasSwapped = false;
+
+const cards = generateStandardCardStacks(1, true);
+const deck = new DealStack(cards.stack, 0, 52);
+const discard = new CardStack([], 0, 52);
+deck.shuffle();
+
+//Player variables
+let currentlyPlaying = false;
+let gameActive = false;
+let number_of_selected_cards = 0;
+//Bot variables
+let botKnownCards = [];
+
+//Declaration of HTML objects
+const player_hand = document.getElementById("player-hand");
+const player_score = document.getElementById("player-score");
+const bot_hand = document.getElementById("bot-hand");
+const bot_score = document.getElementById("bot-score");
+
+const start_game_button = document.getElementById("start-game-button");
+
+const soft_swap_button = document.getElementById("soft-swap-button");
+const hard_swap_button = document.getElementById("hard-swap-button");
+const play_button = document.getElementById("play-button");
+const pickup_button = document.getElementById("pickup-button");
+
+//Event Handlers of HTML objects
+start_game_button.addEventListener('click', function(event){
+  if(!gameActive)
+    { start();}
+});
+//Functionality.
+
+function test(event){
+  window.alert("Clicked " + event.target.id);
+}
+
+async function start(){
+  gameActive = true;
+  currentlyPlaying = true;
+  player.hand = new CardStack([], 0, 52);
+  bot.hand = new CardStack([], 0, 52);
+  deck.deal(player, 7);
+  deck.deal(bot, 7);
+  refreshPageElements();
+
+  while(gameActive){
+    if(currentlyPlaying){
+      console.log("Player Turn");
+      console.log("Bots Hand:");
+      console.log(bot.hand);
+      const action = await playerDecision(); // CurrentlyPlaying changes in playerDecision before checking the win condition 
+      turn(action);                          //in if statements below meaning bot will always win XD. Terrible programmer you!
+    }
+    else{
+      //BOT LOGIC
+      console.log("Bot Turn");
+      const action = await performBotTurn();
+      currentlyPlaying = true; //Just to return to player for time being
+    } 
+  }
+  player_score.innerHTML = player.points;
+  bot_score.innerHTML = bot.points;
+}
+
+function turn(turnoption){
+    switch (turnoption) {
+      case 1: // Soft swap
+        if(hasSwapped) {console.error("Already swapped!"); break;}
+        if(number_of_selected_cards != 2){
+          console.error("Must select 2 cards");
+          break;
+        }
+        let player_index = -1, bot_index = -1;
+        for(let i = 0; i < player_hand.children.length; ++i){
+          if(player_hand.children[i].classList.contains('selected')){
+            player_index = i;
+          }
+        }
+        for(let i = 0; i < bot_hand.children.length; ++i){
+          if(bot_hand.children[i].classList.contains('selected')){
+            bot_index = i;
+          }
+        }
+        if(player_index < 0 || bot_index < 0){ console.error("Must select one player and one bot card"); break; }
+        const indexOfCard = botKnownCards.indexOf(player.getCard(player_index));
+        if(indexOfCard >= 0){
+          botKnownCards.splice(indexOfCard, 1);
+        }
+        botKnownCards.push(bot.getCard(bot_index));
+        console.log("Known cards :");
+        console.log(botKnownCards);
+        
+        player.swapCard(player_index, bot, bot_index);
+        hasSwapped = true;
+        refreshPageElements();
+        break;
+      case 2: // Hard swap
+        if(hasSwapped) {console.error("Already swapped!"); break;}
+        if(number_of_selected_cards != 1 && player.hand.getNumberOfCards() != 1) {console.error("Must select 1 card to swap with!"); break;}
+        const hardSwapNumber = Number(window.prompt("Which value? (0-13)?:"));
+        for(let i = 0; i < bot.hand.getNumberOfCards(); ++i){
+          if(bot.getCard(i).value === hardSwapNumber){
+            if(player.hand.getNumberOfCards() != 1){
+              let indexOfPlayerSwapCard = -1;
+              for(let i = 0; i < player_hand.children.length; ++i){
+                if(player_hand.children[i].classList.contains('selected')){
+                  indexOfPlayerSwapCard = i;
+                  break;
+                }
+              }
+              if(indexOfPlayerSwapCard < 0){
+                console.error("Must select own card!");
+                return 0;
+              }
+              player.sendCard(indexOfPlayerSwapCard, bot.hand);
+            }
+            bot.sendCard(i, player.hand);
+            hasSwapped = true;
+            refreshPageElements();
+            checkWinConditions(player);
+            return 0;
+          }
+        }
+        deck.deal(player, 2);
+        currentlyPlaying = false;
+        refreshPageElements();
+        break;
+      case 3: // Lay pair
+        if(number_of_selected_cards != 2){
+          console.error("Must select 2 cards");
+          break;
+        }
+        let player_index1 = -1, player_index2 = -1;
+        for(let i = 0; i < player_hand.children.length; ++i){
+          if(player_hand.children[i].classList.contains('selected')){
+            if(player_index1 < 0) {player_index1 = i;}
+            else{player_index2 = i; break;}
+          }
+        }
+        if(player_index1 < 0 || player_index2 < 0) {console.error("Must select 2 player cards!"); break; }
+        if(player.getHand()[player_index1].value !== player.getHand()[player_index2].value) {console.error("Values must match"); break;}
+        const knownIndex1 = botKnownCards.indexOf(player.getCard(player_index1));
+        const knownIndex2 = botKnownCards.indexOf(player.getCard(player_index2));
+        if(knownIndex2 > knownIndex1 && knownIndex2 >= 0){
+          botKnownCards.splice(knownIndex2, 1);
+          if(knownIndex1 >= 0) {botKnownCards.splice(knownIndex1, 1);}
+        }
+        if(knownIndex1 > knownIndex2 && knownIndex1 >= 0){
+          botKnownCards.splice(knownIndex1, 1);
+          if(knownIndex2 >= 0) {botKnownCards.splice(knownIndex2, 1);}
+        }
+        player.sendCard(player_index2, discard);
+        player.sendCard(player_index1, discard);
+        refreshPageElements();
+        currentlyPlaying = false;
+        hasSwapped = false;
+        checkWinConditions(player);
+        break;
+      case 4: // Pickup
+        deck.deal(player, 1);
+        hasSwapped = false;
+        currentlyPlaying = false;
+        refreshPageElements();
+        break;
+    }
+  return 0;
+}
+
+async function playerDecision(){
+  return new Promise((resolve) => {
+    soft_swap_button.addEventListener('click', function(event){
+      resolve(1);
+    });
+    hard_swap_button.addEventListener('click', function(event){
+      resolve(2);
+    });
+    play_button.addEventListener('click', function(event){
+      resolve(3);
+    });
+    pickup_button.addEventListener('click', function(event){
+      resolve(4);
+    });
+  })
+}
+
+function checkWinConditions(currentPlayer){
+  if(currentPlayer.hand.getNumberOfCards() === 0){
+    gameActive = false;
+    currentPlayer.points += 1;
+  }
+}
+
+async function performBotTurn(){
+  //Are there pairs?
+  for(let i = 0; i < bot.hand.getNumberOfCards() - 1; ++i){
+    let index1 = i, index2 = -1;
+    for(let j = i + 1; j < bot.hand.getNumberOfCards(); ++j){
+      if(bot.getHand()[i].value === bot.getHand()[j].value){
+        index2 = j;
+        console.log("index1: " + index1 + " index2: " + index2);
+        break;
+      }
+    }
+    if(index2 > 0){ 
+      setTimeout(()=>{
+        console.log("Waited 2 seconds");
+        bot.sendCard(index2, discard); 
+        bot.sendCard(index1, discard); 
+        refreshPageElements();
+        checkWinConditions(bot);
+      }, 2000);
+      return 0;
+    }
+  }
+
+  //If not, does bot have a card they know we have? (Will have to do normal swapping first)
+  for(const card of botKnownCards){
+    console.log(card);
+    for(let i = 0; i < bot.hand.getNumberOfCards(); ++i ){
+      if(card.value === bot.getCard(i).value){
+        setTimeout(()=> {
+          const player_index = player.getHand().indexOf(card);
+          botKnownCards.splice(botKnownCards.indexOf(card), 1); //Remove from known cards.
+          player.sendCard(player_index, discard);
+          bot.sendCard(i, discard);
+          bot.sendCard(0, player);
+          refreshPageElements();
+          console.log("Used hard swap!");
+        }, 2000);
+        return 0;
+      }
+    }
+  }
+  //Attempt to swap with player? Let's be dumb and use a random swap.
+  const randomNumber = Math.random(); // REMEMBER TO ADD LOGIC FOR KNOWN CARDS WHEN THE BOT SWAPS!!!
+  console.log("The random number:" + randomNumber);
+  if(randomNumber > 0.5){ //Hopefully 50/50 chance of soft swap.
+    setTimeout(()=> {
+      const randomPlayerIndex = Math.floor(Math.random() * (player.hand.getNumberOfCards()));
+      const randomBotIndex = Math.floor(Math.random() * (bot.hand.getNumberOfCards()));
+      console.log("Bot index : " + randomBotIndex + " Player Index : " + randomPlayerIndex);
+      console.log("Swapping Bot's Card " + bot.getCard(randomBotIndex).value + " with Player's " + player.getCard(randomPlayerIndex).value);
+      if(botKnownCards.includes(player.getCard(randomPlayerIndex))) {botKnownCards.splice(botKnownCards.indexOf(player.getCard(randomPlayerIndex)) ,1);}
+      botKnownCards.push(bot.getCard(randomBotIndex));
+      bot.swapCard(randomBotIndex, player, randomPlayerIndex);
+      refreshPageElements();
+    
+      //Same code as above but check for pairs again.
+      for(let i = 0; i < bot.hand.getNumberOfCards() - 1; ++i){
+        let index1 = i, index2 = -1;
+        for(let j = i + 1; j < bot.hand.getNumberOfCards(); ++j){
+          if(bot.getHand()[i].value === bot.getHand()[j].value){
+            index2 = j;
+            break;
+          }
+        }
+        if(index2 > 0){ 
+          setTimeout(()=>{
+            console.log("Swapped and matched!");
+            bot.sendCard(index2, discard); 
+            bot.sendCard(index1, discard); 
+            refreshPageElements();
+            checkWinConditions(bot);
+          }, 2000);
+          return 0;
+        }
+      }
+      setTimeout(()=>{
+        console.log("Swapped and no match!");
+      }, 2000);
+    }, 2000); //End of first timeout.
+  } 
+  //Deal card to bot.
+  setTimeout(()=> {
+    deck.deal(bot, 1);
+    refreshPageElements();
+  }, 3000);
+  return 0;
+}
+
+function refreshPageElements(){
+  player_hand.innerHTML = '';
+  bot_hand.innerHTML = '';
+
+  number_of_selected_cards = 0;
+
+  for(const card of player.getHand()){
+    player_hand.appendChild(createCardElement(card.value, card.suit, false));
+  }
+  for(const card of bot.getHand()){
+    bot_hand.appendChild(createCardElement(card.value, card.suit, true));
+  }
+}
+
+function selectCard(event){
+  const selectedCard = event.target;
+  if(selectedCard.classList.contains('selected')){
+    --number_of_selected_cards;
+    selectedCard.classList.remove('selected');
+  }
+  else if (number_of_selected_cards >= 2){
+    console.error("Trying to select more than 2 cards");
+  }
+  else{
+    selectedCard.classList.add('selected');
+    ++number_of_selected_cards;
+  }
+}
+
+function createCardElement(value, suit, hidden){
+  const table_datum = document.createElement('td');
+  if(!hidden){
+    table_datum.innerHTML = value + suit;
+  }
+  else{
+    table_datum.innerHTML = "??";
+  }
+  table_datum.addEventListener('click', function(event){ selectCard(event); })
+  return table_datum;
+}
