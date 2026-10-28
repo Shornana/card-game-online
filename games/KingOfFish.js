@@ -29,7 +29,7 @@ export class KingOfFish extends GameRules {
   async turn(currentPlayerIndex, options){
     //Render Graphics
     this.graphics.renderGraphics();
-    const player = this.players.getPlayerByIndex(currentPlayerIndex);
+    const player = this.players.currentPlayer();
 
     switch (options.decision) {
       case "soft": // Soft swap
@@ -58,7 +58,7 @@ export class KingOfFish extends GameRules {
        // console.log("Known cards :");
        // console.log(botKnownCards);
        // OLD WAY OF SPECIFYING SELECTED CARDS AND ADDING TO KNOWN BOTS CARDS. WILL SEND JSON OF DATA NOW. 
-        player.swapCard(options.playerIndex, options.target, options.targetIndex);
+        player.swapCard(options.selected[0], options.target.hand, options.selected[1]);
         player.hasSwapped = true;
         this.graphics.renderGraphics();
         break;
@@ -82,7 +82,7 @@ export class KingOfFish extends GameRules {
               //   return 0;
               // }
               // OLD SYSTEM OF FINDING SELECTED CARD. FIND IT IN THE OPTIONS
-              player.sendCard(options.selected.playerIndex, options.target.hand);
+              player.sendCard(options.selected[0], options.target.hand);
             }
             options.target.sendCard(i, player.hand);
             player.hasSwapped = true;
@@ -119,10 +119,17 @@ export class KingOfFish extends GameRules {
         //  if(knownIndex2 >= 0) {botKnownCards.splice(knownIndex2, 1);}
         //}
         //OLD SYSTEM FOR FINDING SELECTED. USE OPTIONS. INTRODUCE BETTER BOT RECOGINITION SYSTEM.
-        player.sendCard(options.playerIndex2, this.discardStack);
-        player.sendCard(options.playerIndex2, this.discardStack);
+        if(player.getCard(options.selected[0]).value === player.getCard(options.selected[1]).value){
+          player.sendCard(options.selected[1], this.discardStack);
+          player.sendCard(options.selected[0], this.discardStack); //Will need to fix issue where selected 1 should be the higher index otherwise will send wrong card.
+        }
+        else{
+          console.error("Values must match");
+          break;
+        }
         this.graphics.renderGraphics();
-        player.hasSwapped = false; //Reset before next turn
+        player.hasSwapped = false;
+        player.stillPlaying = false;//Reset before next turn
         break;
       case "pickup": // Pickup
         this.dealStack.deal(player, 1);
@@ -136,7 +143,7 @@ export class KingOfFish extends GameRules {
   async playerDecision(){} //Options from GUI interface implementation.
 
   checkWinConditions(currentPlayerIndex){
-    if(this.playerList.getPlayerByIndex(currentPlayerIndex).numberOfCards() === 0){
+    if(this.players.currentPlayer().hand.getNumberOfCards() === 0){
       return true;
     }
     return false;

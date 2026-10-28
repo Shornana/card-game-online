@@ -19,6 +19,7 @@ export class Game{
   async turn(){
     if(this.players.nextPlayer() === 0) // THIS IS THE PLAYER AT THE MOMENT. WILL FIX IN FUTURE. WILL DESIGN FOR SINGLE PLAYER ONLY.
     {
+      console.log("PLAYER TURN");
       this.players.currentPlayer().stillPlaying = true;
       while(this.players.currentPlayer().stillPlaying){
         const options = await this.gameRules.playerDecision();
@@ -26,7 +27,8 @@ export class Game{
       }
     }
     else{ //FOR BOTS
-      this.players.currentPlayer.turn();
+      console.log("BOT TURN");
+      this.players.currentPlayer().turn();
     }
     return this.next();
   }
@@ -38,6 +40,7 @@ export class Game{
 
   end(){
     this.gameActive = false;
+    console.log(this.players.currentPlayer().username + " is the Winner!");
     return false;
   }
 } 

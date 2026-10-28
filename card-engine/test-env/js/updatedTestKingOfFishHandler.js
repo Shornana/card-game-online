@@ -48,22 +48,63 @@ kingOfFish.graphics.renderGraphics = function(){
   for(const card of bot.getHand()){
     bot_hand.appendChild(createCardGraphic(card));
   }
+  resetSelection();
 }
 
 // Linking GUI to game logic
 kingOfFish.playerDecision = async function(){
-  const options = {decision: null, selected: null, target: null}; // Create options object
+  const options = {decision: 'error', selected: null, target: null}; // Create options object
   return new Promise((resolve) => {
     soft_swap_button.addEventListener('click', function(event){
+      if(selection.sourcePlayer != selection.targetPlayer && selection.sourcePlayer != null && selection.targetPlayer != null)
+      {
+        options.decision = 'soft';
+        if(selection.sourcePlayer === player){
+          options.selected = [selection.sourceIndex, selection.targetIndex];
+          options.target = bot; //Replace with turn logic.
+        }
+        else if (selection.targetPlayer === player){
+          options.selected = [selection.targetIndex, selection.sourceIndex];
+          options.target = bot;
+        }
+        else{
+          options.decision = 'error';
+          console.error("Neither player is current player");
+        }
+      }
+      else{
+        console.error("Targets are null or same");
+      }
       resolve(options);
     });
     hard_swap_button.addEventListener('click', function(event){
+      if(selection.sourceIndex >= 0 && selection.targetIndex == -1 && selection.sourcePlayer.id == 0) // Replace zero with proper logic for turns
+      {
+        options.decision = 'hard';
+        options.selected = [selection.sourceIndex];
+        options.target = bot; // Replace with proper logic
+      }
       resolve(options);
     });
     play_button.addEventListener('click', function(event){
+      if(selection.sourcePlayer == selection.targetPlayer && selection.sourcePlayer === player) // Replace with proper logic for turns
+      {
+        options.decision = 'play';
+        //Check cards are lowest index to highest
+        if(selection.sourceIndex > selection.targetIndex){
+          options.selected = [selection.targetIndex, selection.sourceIndex];
+        }
+        else{
+          options.selected = [selection.sourceIndex, selection.targetIndex];
+        }
+      }
+      else{
+        console.error("Must be your cards");
+      }
       resolve(options);
     });
     pickup_button.addEventListener('click', function(event){
+      options.decision = 'pickup';
       resolve(options);
     });
   })
@@ -72,11 +113,12 @@ kingOfFish.playerDecision = async function(){
 function selectableCard(event){
   const card = event.target;
   const cardIndex = Array.from(card.parentElement.children).indexOf(card);
-  const cardParent = card.parentElement.playerId;
+  const cardParent = card.parentElement.getAttribute('playerid');
   
   //Deselecting player card.
   if(selection.sourcePlayer === gameRoom.activePlayers.getPlayerById(cardParent) && selection.sourceIndex === cardIndex){
-    selection.sourcePlayer = null; selection.sourceIndex = -1;
+    selection.sourcePlayer = selection.targetPlayer; selection.sourceIndex = selection.targetIndex; //Shift target to source
+    selection.targetPlayer = null; selection.targetIndex = -1; // Clear target
     card.classList.remove('selected');
     return -1;
   }
@@ -91,12 +133,13 @@ function selectableCard(event){
   //Trying to select card when cards already selected
   if(selection.sourceIndex >= 0 && selection.targetIndex >= 0){
     console.error("Cards already selected!");
+    return;
   }
 
   //Select card
   if(selection.sourceIndex == -1){
     selection.sourceIndex = cardIndex;
-    selection.sourcePlayer = gameRoom.activePlayers.getPlayerById(cardParent);;
+    selection.sourcePlayer = gameRoom.activePlayers.getPlayerById(cardParent);
     card.classList.add('selected');
   }
   else if(selection.targetIndex == -1){
@@ -107,8 +150,12 @@ function selectableCard(event){
   else{
     console.error("Logic error!");
   }
-
   //BUGS INCLUDE MULTIPLE SELECTS AND LOGIC ERROR APPEARING EVERY TIME BECAUSE NO RETURNS
+}
+
+function resetSelection(){
+  selection.sourceIndex = -1; selection.targetIndex = -1;
+  selection.sourcePlayer = null; selection.targetPlayer = null;
 }
 
 function createCardGraphic(card){

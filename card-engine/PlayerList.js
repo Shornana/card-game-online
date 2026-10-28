@@ -13,7 +13,7 @@ export class PlayerList{
   }
 
   nextPlayer(){
-    if(this.currentPlayerIndex > this.playerList.size - 1) { this.currentPlayerIndex = 0; return currentPlayerIndex; }
+    if(this.currentPlayerIndex >= this.playerList.length - 1) { this.currentPlayerIndex = 0; return this.currentPlayerIndex; }
     else { return ++this.currentPlayerIndex; }
   }
 
@@ -44,7 +44,7 @@ export class PlayerList{
 
   getPlayerById(id){
     for(let i = 0; i < this.playerList.length; ++i){
-      if(this.playerList[i].id === id) { return this.playerList[i]; }
+      if(this.playerList[i].id == id) { return this.playerList[i]; } // == because of string values
     }
     return null; // If player is not in list;
   }
