@@ -33,6 +33,9 @@ const hard_swap_button = document.getElementById("hard-swap-button");
 const play_button = document.getElementById("play-button");
 const pickup_button = document.getElementById("pickup-button");
 
+const deal_pile = document.getElementById('deal-pile');
+const discard_pile = document.getElementById("discard-pile");
+
 //Selection system
 const selection = {sourcePlayer: null, sourceIndex: -1, targetPlayer: null, targetIndex: -1};
 
@@ -42,11 +45,24 @@ kingOfFish.graphics.renderGraphics = function(){
   bot_score.innerHTML = bot.points;
   player_hand.innerHTML = ''; //Clear player hand.
   bot_hand.innerHTML = ''; // Clear bot hand.
+  deal_pile.innerHTML = '';
+  discard_pile.innerHTML = '';
+
   for(const card of player.getHand()){
+    card.isHidden = false;
     player_hand.appendChild(createCardGraphic(card));
   }
   for(const card of bot.getHand()){
+    card.isHidden = true;
     bot_hand.appendChild(createCardGraphic(card));
+  }
+  for(const card of kingOfFish.dealStack.stack){
+    card.isHidden = true;
+    deal_pile.appendChild(createCardGraphic(card));
+  }
+  for(const card of kingOfFish.discardStack.stack){
+    card.isHidden = false;
+    discard_pile.appendChild(createCardGraphic(card));
   }
   resetSelection();
 }
