@@ -19,6 +19,8 @@ gameRoom.addPlayer(player);
 gameRoom.addPlayer(bot);
 gameRoom.addPlayer(bot2);
 
+//THERE IS NOW AN ISSUE WITH INDEX OUT OF BOUNDS WHEN SOFT SWAPPING. AHHHHHH!!!!!
+
 //FIX IN FUTURE
 kingOfFish.players = gameRoom.activePlayers;
 
