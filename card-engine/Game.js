@@ -18,7 +18,7 @@ export class Game{
   }
 
   async turn(){
-    if(this.players.nextPlayer() === 0) // THIS IS THE PLAYER AT THE MOMENT. WILL FIX IN FUTURE. WILL DESIGN FOR SINGLE PLAYER ONLY.
+    if(this.players.nextPlayer().id == 0) // THIS IS THE PLAYER AT THE MOMENT. WILL FIX IN FUTURE. WILL DESIGN FOR SINGLE PLAYER ONLY.
     {
       console.log("PLAYER TURN");
       this.players.currentPlayer().stillPlaying = true;
@@ -29,6 +29,7 @@ export class Game{
     }
     else{ //FOR BOTS
       console.log("BOT TURN");
+      console.log(this.players.currentPlayer());
       this.players.currentPlayer().turn(this.gameRules.graphics, this.players.playerList[0], this.gameRules.dealStack, this.gameRules.discardStack); //Replace when turn system better.
       //In fact, what the actual f***. Need to find the best way to find turn information to pass to bot. Maybe another interface?
     }

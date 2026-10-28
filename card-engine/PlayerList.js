@@ -13,8 +13,8 @@ export class PlayerList{
   }
 
   nextPlayer(){
-    if(this.currentPlayerIndex >= this.playerList.length - 1) { this.currentPlayerIndex = 0; return this.currentPlayerIndex; }
-    else { return ++this.currentPlayerIndex; }
+    if(this.currentPlayerIndex >= this.playerList.length - 1) { this.currentPlayerIndex = 0; return this.playerList[this.currentPlayerIndex]; }
+    else { return this.playerList[++this.currentPlayerIndex]; }
   }
 
   addPlayer(player){
@@ -48,4 +48,21 @@ export class PlayerList{
     }
     return null; // If player is not in list;
   }
+
+  randomiseOrder(){
+    const newPlayerList = [];
+    for(let i = 0; i < this.playerList.length; ++i){
+      const randomNumber = Math.floor(Math.random() * this.playerList.length);
+      newPlayerList.push(this.playerList[randomNumber]);
+      this.playerList.splice(randomNumber, 1);
+    }
+    this.playerList = newPlayerList;
+  }
+
+  reorderPlayerByIndex(sourceIndex, targetIndex){
+    const player = this.playerList[sourceIndex];
+    this.playerList.splice(sourceIndex, 1);
+    this.playerList.splice(targetIndex, 0, player);
+  }
+
 }

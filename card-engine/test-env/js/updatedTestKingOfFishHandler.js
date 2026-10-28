@@ -8,23 +8,31 @@ import { KingOfFish } from "../../../games/KingOfFish.js";
 const kingOfFish = new KingOfFish();
 const player = new Player("Shornana", 0);
 const bot = new KingOfFishBot("Jerry Bot", 1);
+const bot2 = new KingOfFishBot("Steve Bot", 2);
+const bot3 = new KingOfFishBot("Dave Bot", 3);
 const game = new Game(kingOfFish);
 const gameRoom = new GameRoom(0, undefined, game);
-gameRoom.activePlayers.maxSize = 2;
+gameRoom.activePlayers.maxSize = 4;
 
 //Setup game room.
 gameRoom.addPlayer(player);
 gameRoom.addPlayer(bot);
+gameRoom.addPlayer(bot2);
 
 //FIX IN FUTURE
 kingOfFish.players = gameRoom.activePlayers;
 
 //Declaration of HTML objects
-const player_hand = document.getElementById("player-hand");
-const player_score = document.getElementById("player-score");
+//const player_hand = document.getElementById("player-0");
+//const player_score = document.getElementById("player-score");
 
-const bot_hand = document.getElementById("bot-hand");
-const bot_score = document.getElementById("bot-score");
+const player_hands = []; // Array containing all HTML elements for the tables
+const player_scores = []; // Array container all HTML elements for the scores
+const bot_container = document.getElementById('bot-container');
+
+
+//const bot_hand = document.getElementById("bot-hand");
+//const bot_score = document.getElementById("bot-score");
 
 const start_game_button = document.getElementById("start-game-button");
 
@@ -41,21 +49,39 @@ const selection = {sourcePlayer: null, sourceIndex: -1, targetPlayer: null, targ
 
 //Graphics for the page.
 kingOfFish.graphics.renderGraphics = function(){
-  player_score.innerHTML = player.points;
-  bot_score.innerHTML = bot.points;
-  player_hand.innerHTML = ''; //Clear player hand.
-  bot_hand.innerHTML = ''; // Clear bot hand.
+  //player_score.innerHTML = player.points;
+  //bot_score.innerHTML = bot.points;
+  //player_hand.innerHTML = ''; //Clear player hand.
+  //bot_hand.innerHTML = ''; // Clear bot hand.
+  
+  for(const player_hand of player_hands){
+    player_hand.innerHTML = '';
+    for(const card of gameRoom.activePlayers.getPlayerById(player_hand.getAttribute('playerid')).getHand()){
+      if(gameRoom.activePlayers.getPlayerById(player_hand.getAttribute('playerid')).id === 0){
+        card.isHidden = false;
+      }
+      else{
+        card.isHidden = true;
+      }
+      player_hand.appendChild(createCardGraphic(card));
+    }
+  }
+
+  for(const player_score of player_scores){
+    player_score.innerHTML = `${gameRoom.activePlayers.getPlayerById(player_score.getAttribute('playerid')).points}`; // Need to map the player to the player score using the ID
+  }
+
   deal_pile.innerHTML = '';
   discard_pile.innerHTML = '';
 
-  for(const card of player.getHand()){
-    card.isHidden = false;
-    player_hand.appendChild(createCardGraphic(card));
-  }
-  for(const card of bot.getHand()){
-    card.isHidden = true;
-    bot_hand.appendChild(createCardGraphic(card));
-  }
+  //for(const card of player.getHand()){
+    //card.isHidden = false;
+    //player_hand.appendChild(createCardGraphic(card));
+  //}
+  //for(const card of bot.getHand()){
+    //card.isHidden = true;
+    //bot_hand.appendChild(createCardGraphic(card));
+  //}
   for(const card of kingOfFish.dealStack.stack){
     card.isHidden = true;
     deal_pile.appendChild(createCardGraphic(card));
@@ -126,6 +152,26 @@ kingOfFish.playerDecision = async function(){ //Decision still called even if ga
   })
 }
 
+function createArrayOfTableAndScoreElements(){
+  for(const player of gameRoom.activePlayers.playerList){
+    createHandForPlayer(player);
+    player_hands.push(document.getElementById(`player-${player.id}`));
+    player_scores.push(document.getElementById(`player-${player.id}-score`));
+  }
+}
+
+function createHandForPlayer(player){
+  const table = document.createElement('table');
+  const tbody = document.createElement('tbody');
+  const h2 = document.createElement('h2');
+  h2.innerHTML = `${player.username} Cards (<span id="player-${player.id}-score" playerid="${player.id}">${player.points}</span>):`;
+  tbody.id = `player-${player.id}`;
+  tbody.setAttribute('playerid', player.id);
+  table.appendChild(tbody);
+  bot_container.appendChild(h2);
+  bot_container.appendChild(table);
+}
+
 function selectableCard(event){
   const card = event.target;
   const cardIndex = Array.from(card.parentElement.children).indexOf(card);
@@ -192,6 +238,7 @@ function createCardGraphic(card){
 
 //Event Handlers of HTML objects
 start_game_button.addEventListener('click', function(event){
+  createArrayOfTableAndScoreElements();
   gameRoom.startGame();
 });
 
