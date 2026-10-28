@@ -8,7 +8,7 @@ friends.
 
 ## Version History
 
-# Version 0.0.1
+### Version 0.0.1
 A completed rudimentary version of the card engine that only supports local play with bots and is only active inside of a preloaded game environment. It comes completed with a rudimentary form of King of Fish and a simplistic King of Fish bot. The game runs on the browser in a test HTML file inside of the test-env folder located in the card-engine directory. The current user interface is constructed from basic HTML elements with minimal CSS styling.
 
 ## Prerequisites
