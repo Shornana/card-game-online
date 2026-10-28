@@ -28,7 +28,7 @@ kingOfFish.players = gameRoom.activePlayers;
 
 const player_hands = []; // Array containing all HTML elements for the tables
 const player_scores = []; // Array container all HTML elements for the scores
-const bot_container = document.getElementById('bot-container');
+const bot_container = document.getElementById('players-container');
 
 
 //const bot_hand = document.getElementById("bot-hand");
