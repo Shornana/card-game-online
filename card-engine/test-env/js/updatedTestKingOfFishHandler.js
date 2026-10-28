@@ -39,7 +39,7 @@ const selection = {sourcePlayer: null, sourceIndex: -1, targetPlayer: null, targ
 //Graphics for the page.
 kingOfFish.graphics.renderGraphics = function(){
   player_score.innerHTML = player.points;
-  bot_score.innerHTML = player.points;
+  bot_score.innerHTML = bot.points;
   player_hand.innerHTML = ''; //Clear player hand.
   bot_hand.innerHTML = ''; // Clear bot hand.
   for(const card of player.getHand()){

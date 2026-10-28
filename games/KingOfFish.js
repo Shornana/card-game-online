@@ -1,6 +1,6 @@
 import { DealStack } from "../card-engine/DealStack.js";
 import { DiscardStack } from "../card-engine/DiscardStack.js";
-import { generateStandardCardStacks } from "../card-engine/CardStack.js";
+import { CardStack, generateStandardCardStacks } from "../card-engine/CardStack.js";
 import { GameRules } from "../card-engine/GameRules.js";
 import { Player } from "../card-engine/Player.js";
 import { PlayerList } from "../card-engine/PlayerList.js";
@@ -8,8 +8,8 @@ import { GraphicsEngine } from "../card-engine/graphics/GraphicsEngine.js";
 
 //Game Name: King of Fish
 export class KingOfFish extends GameRules {
-  dealStack = new DealStack(generateStandardCardStacks(1, true).stack, 0, 52);
-  discardStack = new DiscardStack([], 0, 52);
+  dealStack;
+  discardStack;
   graphics = new GraphicsEngine();
   players = new PlayerList();
 
@@ -18,8 +18,11 @@ export class KingOfFish extends GameRules {
   }
   
   async init(){
+    this.discardStack = new DiscardStack([], 0, 52);
+    this.dealStack = new DealStack(generateStandardCardStacks(1, true).stack, 0, 52);
     this.dealStack.shuffle();
     for(const player of this.players.playerList){
+      player.hand = new CardStack([], 0, 52); //reset each hand
       this.dealStack.deal(player, 7);
       player.hasSwapped = false; // Initalise new swap variable for player.
     }

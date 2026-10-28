@@ -29,7 +29,8 @@ export class Game{
     }
     else{ //FOR BOTS
       console.log("BOT TURN");
-      this.players.currentPlayer().turn();
+      this.players.currentPlayer().turn(this.gameRules.graphics, this.players.playerList[0], this.gameRules.dealStack, this.gameRules.discardStack); //Replace when turn system better.
+      //In fact, what the actual f***. Need to find the best way to find turn information to pass to bot. Maybe another interface?
     }
     return this.next();
   }
@@ -42,6 +43,8 @@ export class Game{
   end(){
     this.gameActive = false;
     console.log(this.players.currentPlayer().username + " is the Winner!");
+    ++this.players.currentPlayer().points;
+    this.gameRules.graphics.renderGraphics();
     return false;
   }
 } 

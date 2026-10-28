@@ -7,8 +7,6 @@ export class GameRoom {
     this.game = game;
   }
 
-  gameActive = false;
-
   addPlayer(player){
     this.activePlayers.addPlayer(player);
   }
@@ -18,8 +16,7 @@ export class GameRoom {
   }
 
   startGame(){
-    if(!this.gameActive){
-      this.gameActive = true;
+    if(!this.game.gameActive){
       this.game.players = this.activePlayers;
       this.game.start();
     }
