@@ -89,6 +89,10 @@ export class KingOfFish extends GameRules {
         this.graphics.renderGraphics();
         player.stillPlaying = false;
         break;
+      case "error":
+        console.error("Invalid input.");
+        break;
+        return false;
     }
   } //ENSURE THAT WE RETURN TRUE OR FALSE DEPENDING ON IF TURN IS DONE!!!
 

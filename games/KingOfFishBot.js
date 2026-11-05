@@ -16,7 +16,8 @@ export class KingOfFishBot extends Bot{
     return [-1];
   }
 
-  turn(graphics, player, deck, discard){ //Pass player for now until choosing of player happens
+  turn(graphics, players, deck, discard){ //Pass player for now until choosing of player happens
+    const player = players[Math.floor(Math.random() * players.length)]; //Temporary fix. Will need to run through players without current player.
     let findPairRes = this.findPair();
     if(findPairRes[1] > 0){ // Will only be more than zero if matches with index 1.
       console.log("Discarded the " + this.getCard(findPairRes[0]).value 
@@ -55,7 +56,7 @@ export class KingOfFishBot extends Bot{
     if(randomNumber > 0.5){ //Hopefully 50/50 chance of soft swap.
       const randomPlayerIndex = Math.floor(Math.random() * (player.hand.getNumberOfCards()));
       const randomBotIndex = Math.floor(Math.random() * (this.hand.getNumberOfCards()));
-      console.log("Swapping Bot's Card " + this.getCard(randomBotIndex).value + " with Player's " + player.getCard(randomPlayerIndex).value);
+      console.log("Swapping " + this.username + "'s Card " + this.getCard(randomBotIndex).value + " with " + player.username + "'s " + player.getCard(randomPlayerIndex).value);
       //if(botKnownCards.includes(player.getCard(randomPlayerIndex))) {botKnownCards.splice(botKnownCards.indexOf(player.getCard(randomPlayerIndex)) ,1);}
       //botKnownCards.push(bot.getCard(randomBotIndex));
       this.swapCard(randomBotIndex, player, randomPlayerIndex);
@@ -76,6 +77,7 @@ export class KingOfFishBot extends Bot{
     }
     //Deal card to bot.
     deck.deal(this, 1);
+    console.log(this.username + " picked up.")
     graphics.renderGraphics();
     return 0;
   }
