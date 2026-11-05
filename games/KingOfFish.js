@@ -49,7 +49,7 @@ export class KingOfFish extends GameRules {
       case "hard": // Hard swap
         if(player.hasSwapped) {console.error("Already swapped!"); break;}
         if(options.selected.length != 1 && player.hand.getNumberOfCards() != 1) {console.error("Must select 1 card to swap with!"); break;}
-        const hardSwapNumber = Number(window.prompt("Which value? (0-13)?:"));
+        const hardSwapNumber = Number(window.prompt(`Which card value do you want to swap from ${options.target.username}? (0-13)?:`));
         for(let i = 0; i < options.target.hand.getNumberOfCards(); ++i){
           if(options.target.getCard(i).value === hardSwapNumber){
             if(player.hand.getNumberOfCards() != 1){

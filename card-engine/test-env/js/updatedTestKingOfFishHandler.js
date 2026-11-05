@@ -32,6 +32,7 @@ const start_game_button = document.getElementById("start-game-button");
 
 const deal_pile = document.getElementById('deal-pile');
 const discard_pile = document.getElementById("discard-pile");
+const player_selection = document.getElementById("other-players");
 
 //Selection system
 const selection = {sourcePlayer: null, sourceIndex: -1, targetPlayer: null, targetIndex: -1};
@@ -58,10 +59,12 @@ kingOfFish.graphics.renderGraphics = function(){
   deal_pile.innerHTML = '';
   discard_pile.innerHTML = '';
 
-  for(const card of kingOfFish.dealStack.stack){
-    card.isHidden = true;
-    deal_pile.appendChild(createCardGraphic(card));
-  }
+  const discardIndicator = document.createElement('td'); discardIndicator.innerHTML = "??";
+  const numberOfCards = document.createElement('td'); numberOfCards.innerHTML = `x ${kingOfFish.dealStack.getNumberOfCards()}`;
+
+  deal_pile.appendChild(discardIndicator);
+  deal_pile.appendChild(numberOfCards);
+
   for(const card of kingOfFish.discardStack.stack){
     card.isHidden = false;
     discard_pile.appendChild(createCardGraphic(card));
@@ -93,11 +96,11 @@ kingOfFish.playerDecision = async function(){ //Decision still called even if ga
         options.decision = 'soft';
         if(selection.sourcePlayer === player){
           options.selected = [selection.sourceIndex, selection.targetIndex];
-          options.target = gameRoom.activePlayers.getPlayerById(selection.targetPlayer); //Replace with turn logic.
+          options.target = selection.targetPlayer; //Replace with turn logic.
         }
         else if (selection.targetPlayer === player){
           options.selected = [selection.targetIndex, selection.sourceIndex];
-          options.target = gameRoom.activePlayers.getPlayerById(selection.sourcePlayer); // If somehow this triggers.
+          options.target = selection.sourcePlayer; // If somehow this triggers.
         }
         else{
           options.decision = 'error';
@@ -114,7 +117,7 @@ kingOfFish.playerDecision = async function(){ //Decision still called even if ga
       {
         options.decision = 'hard';
         options.selected = [(selection.sourceIndex >= 0 ? selection.sourceIndex : selection.targetIndex)];
-        options.target = bot; // Replace with proper logic
+        options.target = gameRoom.activePlayers.getPlayerById(player_selection.value); // Replace with proper logic
       }
   
       resolve(options);
@@ -146,9 +149,19 @@ kingOfFish.playerDecision = async function(){ //Decision still called even if ga
 function createArrayOfTableAndScoreElements(){
   for(const player of gameRoom.activePlayers.playerList){
     createHandForPlayer(player);
+    if(player.id !== 0){
+      player_selection.appendChild(createPlayerOption(player.username, player.id));
+    }
     player_hands.push(document.getElementById(`player-${player.id}`));
     player_scores.push(document.getElementById(`player-${player.id}-score`));
   }
+}
+
+function createPlayerOption(username, id){
+  const option = document.createElement('option');
+  option.innerHTML = username;
+  option.value = id;
+  return option;
 }
 
 function createHandForPlayer(player){
