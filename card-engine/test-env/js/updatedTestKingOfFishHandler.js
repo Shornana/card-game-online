@@ -111,6 +111,7 @@ kingOfFish.playerDecision = async function(){ //Decision still called even if ga
         console.error("Targets are null or same");
       }
       resolve(options);
+      removeEventsFromButtons();
     }, {once : true});
     hard_swap_button.addEventListener('click', function(event){
       if((selection.sourceIndex >= 0 && selection.targetIndex == -1 && selection.sourcePlayer.id == 0) || (selection.sourceIndex == -1 && selection.targetIndex >= 0 && selection.targetPlayer.id == 0)) // Replace zero with proper logic for turns
@@ -121,6 +122,7 @@ kingOfFish.playerDecision = async function(){ //Decision still called even if ga
       }
   
       resolve(options);
+      removeEventsFromButtons();
     }, {once : true});
     play_button.addEventListener('click', function(event){
       if(selection.sourcePlayer == selection.targetPlayer && selection.sourcePlayer === player) // Replace with proper logic for turns
@@ -138,15 +140,18 @@ kingOfFish.playerDecision = async function(){ //Decision still called even if ga
         console.error("Must be your cards");
       }
       resolve(options);
+      removeEventsFromButtons();
     }, {once : true});
     pickup_button.addEventListener('click', function(event){
       options.decision = 'pickup';
       resolve(options);
+      removeEventsFromButtons();
     }, {once : true});
   })
 }
 
 function createArrayOfTableAndScoreElements(){
+  bot_container.innerHTML = '';
   for(const player of gameRoom.activePlayers.playerList){
     createHandForPlayer(player);
     if(player.id !== 0){
