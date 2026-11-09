@@ -46,7 +46,7 @@ kingOfFish.graphics.renderGraphics = function(){
         card.isHidden = false;
       }
       else{
-        card.isHidden = false;
+        card.isHidden = true;
       }
       player_hand.appendChild(createCardGraphic(card));
     }
@@ -196,7 +196,6 @@ function selectableCard(event){
       selection.sourcePlayer = null; selection.sourceIndex = -1; //If target is a different player, keep in target.
     }
     card.classList.remove('selected');
-    console.log(selection);
     return -1;
   }
 
@@ -204,14 +203,12 @@ function selectableCard(event){
   else if(selection.targetPlayer === gameRoom.activePlayers.getPlayerById(cardParent) && selection.targetIndex === cardIndex){
     selection.targetPlayer = null; selection.targetIndex = -1;
     card.classList.remove('selected');
-    console.log(selection);
     return -1;
   }
   
   //Trying to select card when cards already selected
   if(selection.sourceIndex >= 0 && selection.targetIndex >= 0){
     console.error("Cards already selected!");
-    console.log(selection);
     return;
   }
 
@@ -236,7 +233,6 @@ function selectableCard(event){
   else{
     console.error("Logic error!");
   }
-  console.log(selection);
   //BUGS INCLUDE MULTIPLE SELECTS AND LOGIC ERROR APPEARING EVERY TIME BECAUSE NO RETURNS
 }
 
