@@ -5,6 +5,7 @@ import { GameRules } from "../card-engine/GameRules.js";
 import { Player } from "../card-engine/Player.js";
 import { PlayerList } from "../card-engine/PlayerList.js";
 import { GraphicsEngine } from "../card-engine/graphics/GraphicsEngine.js";
+import { GameLogger } from "../card-engine/GameLogger.js"
 
 //Game Name: King of Fish
 export class KingOfFish extends GameRules {
@@ -13,8 +14,8 @@ export class KingOfFish extends GameRules {
   graphics = new GraphicsEngine();
   players = new PlayerList();
 
-  constructor(){
-    super("King of Fish");
+  constructor(gameLogger){
+    super("King of Fish", gameLogger);
   }
   
   async init(){
@@ -24,6 +25,7 @@ export class KingOfFish extends GameRules {
     for(const player of this.players.playerList){
       player.hand = new CardStack([], 0, 52); //reset each hand
       this.dealStack.deal(player, 7);
+      this.gameLogger.log(player.username, "has been given 7 cards");
       player.hasSwapped = false; // Initalise new swap variable for player.
     }
     this.graphics.renderGraphics();
@@ -36,8 +38,9 @@ export class KingOfFish extends GameRules {
 
     switch (options.decision) {
       case "soft": // Soft swap
-        if(player.hasSwapped) {console.error("Already swapped!"); break;}
+        if(player.hasSwapped) {console.error("Already swapped!"); this.gameLogger.error(player.username, "Already swapped!"); break;}
         if(options.selected.length != 2){
+          this.gameLogger.error(player.username, "Must select 2 cards");
           console.error("Must select 2 cards");
           break;
         }
@@ -47,16 +50,18 @@ export class KingOfFish extends GameRules {
         break;
 
       case "hard": // Hard swap
-        if(player.hasSwapped) {console.error("Already swapped!"); break;}
-        if(options.selected.length != 1 && player.hand.getNumberOfCards() != 1) {console.error("Must select 1 card to swap with!"); break;}
+        if(player.hasSwapped) {console.error("Already swapped!"); this.gameLogger.error(player.username, "Already swapped!"); break;}
+        if(options.selected.length != 1 && player.hand.getNumberOfCards() != 1) {console.error("Must select 1 card to swap with!"); this.gameLogger.error(player.username, "Must select 1 card to swap with!"); break;}
         const hardSwap = window.prompt(`Which card value do you want to swap from ${options.target.username}? (0-13)?:`);
         const hardSwapNumber = Number(hardSwap);
         if(hardSwap === null){
           console.error("Cancelled hard swap.");
+          this.gameLogger.error(player.username, "Cancelled hard swap.");
           return false;
         }
         else if(hardSwapNumber < 0 || hardSwapNumber > 13){
           console.error("Number must be in range 0 - 13");
+          this.gameLogger.error(player.username, "Number must be in range 0-13");
           return false;
         }
         for(let i = 0; i < options.target.hand.getNumberOfCards(); ++i){
@@ -76,6 +81,7 @@ export class KingOfFish extends GameRules {
         break;
       case "play": // Lay pair
         if(options.selected.length != 2){
+          this.gameLogger.error(player.username, "Must select 2 cards"); 
           console.error("Must select 2 cards");
           break;
         }
@@ -99,6 +105,7 @@ export class KingOfFish extends GameRules {
         player.stillPlaying = false;
         break;
       case "error":
+        this.gameLogger.error(player.username, "Invalid input.");
         console.error("Invalid input.");
         break;
         return false;

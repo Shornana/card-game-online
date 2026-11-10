@@ -1,6 +1,7 @@
 export class GameRules {
-  constructor(title){
+  constructor(title, gameLogger){
     this.title = title;
+    this.gameLogger = gameLogger;
   }
   init(){}
   async turn(){}

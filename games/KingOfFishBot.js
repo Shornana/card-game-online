@@ -1,8 +1,10 @@
 import {Bot} from "../card-engine/Bot.js";
+import {GameLogger} from "../card-engine/GameLogger.js";
 
 export class KingOfFishBot extends Bot{
-  constructor(username, id, hand){
+  constructor(username, id, hand, gameLogger){
     super(username, id, hand);
+    this.gameLogger = gameLogger;
   }
   
   findPair(){
@@ -16,11 +18,16 @@ export class KingOfFishBot extends Bot{
     return [-1];
   }
 
-  turn(graphics, players, deck, discard){ //Pass player for now until choosing of player happens
+  async turn(graphics, players, deck, discard){ //Pass player for now until choosing of player happens
     const player = players[Math.floor(Math.random() * players.length)]; //Temporary fix. Will need to run through players without current player.
     let findPairRes = this.findPair();
     if(findPairRes[1] > 0){ // Will only be more than zero if matches with index 1.
       console.log("Discarded the " + this.getCard(findPairRes[0]).value 
+          + this.getCard(findPairRes[0]).suit 
+          + " and the " +  this.getCard(findPairRes[1]).value 
+          + this.getCard(findPairRes[1]).suit
+      );
+      this.gameLogger.log(this.username, "Discarded the " + this.getCard(findPairRes[0]).value 
           + this.getCard(findPairRes[0]).suit 
           + " and the " +  this.getCard(findPairRes[1]).value 
           + this.getCard(findPairRes[1]).suit
@@ -57,6 +64,8 @@ export class KingOfFishBot extends Bot{
       const randomPlayerIndex = Math.floor(Math.random() * (player.hand.getNumberOfCards()));
       const randomBotIndex = Math.floor(Math.random() * (this.hand.getNumberOfCards()));
       console.log("Swapping " + this.username + "'s Card " + this.getCard(randomBotIndex).value + " with " + player.username + "'s " + player.getCard(randomPlayerIndex).value);
+      this.gameLogger.log(this.username, "Swapping " + this.username + "'s Card " + this.getCard(randomBotIndex).value + " with " + player.username + "'s " + player.getCard(randomPlayerIndex).value);
+
       //if(botKnownCards.includes(player.getCard(randomPlayerIndex))) {botKnownCards.splice(botKnownCards.indexOf(player.getCard(randomPlayerIndex)) ,1);}
       //botKnownCards.push(bot.getCard(randomBotIndex));
       this.swapCard(randomBotIndex, player, randomPlayerIndex);
@@ -64,6 +73,12 @@ export class KingOfFishBot extends Bot{
 
       findPairRes = this.findPair();
       if(findPairRes[1] > 0){ // Will only be more than zero if matches with index 1.
+        this.gameLogger.log(this.username, "Discarded the " + this.getCard(findPairRes[0]).value 
+          + this.getCard(findPairRes[0]).suit 
+          + " and the " +  this.getCard(findPairRes[1]).value 
+          + this.getCard(findPairRes[1]).suit
+        );
+
         console.log("Discarded the " + this.getCard(findPairRes[0]).value 
           + this.getCard(findPairRes[0]).suit 
           + " and the " +  this.getCard(findPairRes[1]).value 
@@ -77,7 +92,8 @@ export class KingOfFishBot extends Bot{
     }
     //Deal card to bot.
     deck.deal(this, 1);
-    console.log(this.username + " picked up.")
+    this.gameLogger.log(this.username, this.username + " picked up.")
+    console.log(this.username + " picked up.");
     graphics.renderGraphics();
     return 0;
   }

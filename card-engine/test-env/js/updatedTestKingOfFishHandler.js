@@ -3,26 +3,7 @@ import { Game } from "../../Game.js";
 import { Player } from "../../Player.js";
 import { KingOfFishBot } from "../../../games/KingOfFishBot.js";
 import { KingOfFish } from "../../../games/KingOfFish.js";
-
-//Global Variables
-const kingOfFish = new KingOfFish();
-const player = new Player("Shornana", 0);
-const bot = new KingOfFishBot("Jerry Bot", 1);
-const bot2 = new KingOfFishBot("Steve Bot", 2);
-const bot3 = new KingOfFishBot("Dave Bot", 3);
-const game = new Game(kingOfFish);
-const gameRoom = new GameRoom(0, undefined, game);
-gameRoom.activePlayers.maxSize = 4;
-
-//Setup game room.
-gameRoom.addPlayer(player);
-gameRoom.addPlayer(bot);
-gameRoom.addPlayer(bot2);
-
-//THERE IS NOW AN ISSUE WITH INDEX OUT OF BOUNDS WHEN SOFT SWAPPING. AHHHHHH!!!!!
-
-//FIX IN FUTURE
-kingOfFish.players = gameRoom.activePlayers;
+import { GameLogger } from "../../GameLogger.js";
 
 const player_hands = []; // Array containing all HTML elements for the tables
 const player_scores = []; // Array container all HTML elements for the scores
@@ -33,7 +14,41 @@ const start_game_button = document.getElementById("start-game-button");
 const deal_pile = document.getElementById('deal-pile');
 const discard_pile = document.getElementById("discard-pile");
 const player_selection = document.getElementById("other-players");
+const player_message = document.getElementById("player-message");
+const clear_message = document.getElementById("clear-button");
 
+clear_message.addEventListener('click', function(){gameLogger.clear();});
+
+//Global Variables
+const gameLogger = new GameLogger(player_message);
+const kingOfFish = new KingOfFish(gameLogger);
+const player = new Player("Shornana", 0);
+const bot = new KingOfFishBot("Jerry Bot", 1, undefined, gameLogger);
+const bot2 = new KingOfFishBot("Steve Bot", 2, undefined, gameLogger);
+const bot3 = new KingOfFishBot("Dave Bot", 3, undefined, gameLogger);
+const game = new Game(kingOfFish);
+const gameRoom = new GameRoom(0, undefined, game);
+gameRoom.activePlayers.maxSize = 4;
+
+//Setup game room.
+gameRoom.addPlayer(player);
+gameRoom.addPlayer(bot);
+gameRoom.addPlayer(bot2);
+
+gameLogger.log = function(entity, log){
+  this.logger.appendChild(createLoggingMessage(entity, log));
+}
+
+gameLogger.error = function(entity, err){
+  this.logger.appendChild(createLoggingMessage(entity, err));
+}
+
+gameLogger.clear = function(){
+  this.logger.innerHTML = '';
+}
+
+//FIX IN FUTURE
+kingOfFish.players = gameRoom.activePlayers;
 //Selection system
 const selection = {sourcePlayer: null, sourceIndex: -1, targetPlayer: null, targetIndex: -1};
 
@@ -264,4 +279,10 @@ start_game_button.addEventListener('click', function(event){
 });
 
 //Functionality.
-
+function createLoggingMessage(entity, message){
+  const tr = document.createElement('tr');
+  const ent = document.createElement('td'); ent.innerHTML = entity;
+  const mess = document.createElement('td'); mess.innerHTML = message;
+  tr.appendChild(ent); tr.appendChild(mess);
+  return tr;
+}
