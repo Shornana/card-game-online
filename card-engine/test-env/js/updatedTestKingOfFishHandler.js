@@ -15,9 +15,7 @@ const deal_pile = document.getElementById('deal-pile');
 const discard_pile = document.getElementById("discard-pile");
 const player_selection = document.getElementById("other-players");
 const player_message = document.getElementById("player-message");
-const clear_message = document.getElementById("clear-button");
-
-clear_message.addEventListener('click', function(){gameLogger.clear();});
+const number_of_bots = document.getElementById("no-of-bots");
 
 //Global Variables
 const gameLogger = new GameLogger(player_message);
@@ -32,15 +30,15 @@ gameRoom.activePlayers.maxSize = 4;
 
 //Setup game room.
 gameRoom.addPlayer(player);
-gameRoom.addPlayer(bot);
-gameRoom.addPlayer(bot2);
 
 gameLogger.log = function(entity, log){
-  this.logger.appendChild(createLoggingMessage(entity, log));
+  this.logger.appendChild(createLoggingMessage(entity, log, false));
+  this.logger.parentElement.scrollTop = this.logger.parentElement.scrollHeight; //Scroll to bottom of table.
 }
 
 gameLogger.error = function(entity, err){
-  this.logger.appendChild(createLoggingMessage(entity, err));
+  this.logger.appendChild(createLoggingMessage(entity, err, true));
+  this.logger.parentElement.scrollTop = this.logger.parentElement.scrollHeight; //Scroll to bottom of table.
 }
 
 gameLogger.clear = function(){
@@ -274,15 +272,27 @@ function createCardGraphic(card){
 
 //Event Handlers of HTML objects
 start_game_button.addEventListener('click', function(event){
-  createArrayOfTableAndScoreElements();
+  if(!gameRoom.game.gameActive){
+    if(number_of_bots.value == "2"){
+      gameRoom.addPlayer(bot);
+    } else if(number_of_bots.value == "3"){
+      gameRoom.addPlayer(bot); gameRoom.addPlayer(bot2);
+    } else if(number_of_bots.value == "4"){
+      gameRoom.addPlayer(bot); gameRoom.addPlayer(bot2); gameRoom.addPlayer(bot3);
+    }
+    createArrayOfTableAndScoreElements();
+    kingOfFish.graphics.renderGraphics();
+  }
   gameRoom.startGame();
 });
 
 //Functionality.
-function createLoggingMessage(entity, message){
+function createLoggingMessage(entity, message, isError){
   const tr = document.createElement('tr');
-  const ent = document.createElement('td'); ent.innerHTML = entity;
-  const mess = document.createElement('td'); mess.innerHTML = message;
+  tr.style.height = "20px";
+  const ent = document.createElement('td'); ent.innerHTML = entity; ent.classList.add(isError ? 'error' : 'informative');
+  const mess = document.createElement('td'); mess.innerHTML = message; mess.classList.add(isError ? 'error' : 'informative');
+  mess.style.width="100%";
   tr.appendChild(ent); tr.appendChild(mess);
   return tr;
 }

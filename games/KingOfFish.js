@@ -19,6 +19,7 @@ export class KingOfFish extends GameRules {
   }
   
   async init(){
+    this.gameLogger.clear();
     this.discardStack = new DiscardStack([], 0, 52);
     this.dealStack = new DealStack(generateStandardCardStacks(1, true).stack, 0, 52);
     this.dealStack.shuffle();
@@ -44,6 +45,7 @@ export class KingOfFish extends GameRules {
           console.error("Must select 2 cards");
           break;
         }
+        this.gameLogger.log(player.username, "swapped cards.");
         player.swapCard(options.selected[0], options.target.hand, options.selected[1]);
         player.hasSwapped = true;
         this.graphics.renderGraphics();
@@ -69,12 +71,14 @@ export class KingOfFish extends GameRules {
             if(player.hand.getNumberOfCards() != 1){
               player.sendCard(options.selected[0], options.target.hand);
             }
+            this.gameLogger.log(player.username, "successfully swapped.");
             options.target.sendCard(i, player.hand);
             player.hasSwapped = true;
             this.graphics.renderGraphics();
             return false; // Player's turn has not ended
           }
         }
+        this.gameLogger.log(player.username, "failed to swap.");
         this.dealStack.deal(player, 2);
         player.stillPlaying = false;
         this.graphics.renderGraphics();
@@ -87,6 +91,7 @@ export class KingOfFish extends GameRules {
         }
         
         if(player.getCard(options.selected[0]).value === player.getCard(options.selected[1]).value){
+          this.gameLogger.log(player.username, "laid down a pair.");
           player.sendCard(options.selected[1], this.discardStack);
           player.sendCard(options.selected[0], this.discardStack); //Will need to fix issue where selected 1 should be the higher index otherwise will send wrong card.
         }
@@ -99,6 +104,7 @@ export class KingOfFish extends GameRules {
         player.stillPlaying = false;//Reset before next turn
         break;
       case "pickup": // Pickup
+        this.gameLogger.log(player.username, "picked up.");
         this.dealStack.deal(player, 1);
         player.hasSwapped = false;
         this.graphics.renderGraphics();

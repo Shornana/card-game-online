@@ -1,10 +1,12 @@
 import { GameRules } from "./GameRules.js";
+import { GameLogger } from "./GameLogger.js";
 
 export class Game{
   constructor(gameRules){
     this.gameRules = gameRules;
     this.title = gameRules.title;
     this.gameActive = false;
+    this.gameLogger = this.gameRules.gameLogger;
   }
   players;
 
@@ -12,7 +14,7 @@ export class Game{
     this.gameActive = true;
     await this.gameRules.init();
     while(await this.turn()){ //While the turns are still going.
-      //Logging
+      this.gameLogger.log(this.players.currentPlayer().username, "turn ended.");
     }
     console.log("Game loop ended");
   }
@@ -20,6 +22,7 @@ export class Game{
   async turn(){
     if(this.players.nextPlayer().id == 0) // THIS IS THE PLAYER AT THE MOMENT. WILL FIX IN FUTURE. WILL DESIGN FOR SINGLE PLAYER ONLY.
     {
+      this.gameLogger.log(this.players.currentPlayer().username, " turn.");
       console.log(this.players.currentPlayer().username + " turn.");
       this.players.currentPlayer().stillPlaying = true;
       while(this.players.currentPlayer().stillPlaying){
@@ -28,7 +31,8 @@ export class Game{
       }
     }
     else{ //FOR BOTS
-      console.log(this.players.currentPlayer().username + " turn");
+      console.log(this.players.currentPlayer().username + " turn.");
+      this.gameLogger.log(this.players.currentPlayer().username, " turn.")
       const otherPlayers = [...this.players.playerList];
       otherPlayers.splice(this.players.currentPlayerIndex, 1);
       await this.players.currentPlayer().turn(this.gameRules.graphics, otherPlayers, this.gameRules.dealStack, this.gameRules.discardStack); //Replace when turn system better.

@@ -26,9 +26,9 @@ export class KingOfFishBot extends Bot{
 
   async turn(graphics, players, deck, discard){ //Pass player for now until choosing of player happens
     const player = players[Math.floor(Math.random() * players.length)]; //Temporary fix. Will need to run through players without current player.
-    await this.wait(2);
     let findPairRes = this.findPair();
     if(findPairRes[1] > 0){ // Will only be more than zero if matches with index 1.
+      await this.wait(2);
       console.log("Discarded the " + this.getCard(findPairRes[0]).value 
           + this.getCard(findPairRes[0]).suit 
           + " and the " +  this.getCard(findPairRes[1]).value 
@@ -68,6 +68,7 @@ export class KingOfFishBot extends Bot{
     //Attempt to swap with player? Let's be dumb and use a random swap.
     const randomNumber = Math.random();
     if(randomNumber > 0.5){ //Hopefully 50/50 chance of soft swap.
+      await this.wait(2);
       const randomPlayerIndex = Math.floor(Math.random() * (player.hand.getNumberOfCards()));
       const randomBotIndex = Math.floor(Math.random() * (this.hand.getNumberOfCards()));
       console.log("Swapping " + this.username + "'s Card " + this.getCard(randomBotIndex).value + " with " + player.username + "'s " + player.getCard(randomPlayerIndex).value);

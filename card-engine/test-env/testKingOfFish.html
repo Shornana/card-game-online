@@ -8,6 +8,27 @@
   <body>
     <h1>King of Fish test page</h1>
     <button id="start-game-button">Start Game</button>
+    <label for="no-bots">Number of bots:</label>
+    <select id="no-of-bots" name="no-bots">
+      <option value="2">2</option>
+      <option value="3">3</option>
+      <option value="4">4</option>
+    </select>
+    <div id="player-console" style="float: right;">
+      <table style="height: 600px; width: 400px; display: block; overflow: auto;">
+        <thead>
+          <tr>  
+            <th>Player</th>
+            <th>Message Log</th>
+          </tr>
+        </thead>
+        <tbody id="player-message">
+        </tbody>
+      </table>
+    </div>
+    <script type="module" src="./js/updatedTestKingOfFishHandler.js"></script>
+  </body>
+
     <div id="game-screen">
       <div id="players-container">
       </div>
@@ -33,20 +54,4 @@
       <label for="players">Hard swap player:</label>
       <select id="other-players" name="players">
       </select>
-      <div id="player-console">
-        <table>
-          <thead>
-            <tr>
-              <th>Player</th>
-              <th>Message Log</th>
-            </tr>
-          </thead>
-          <tbody id="player-message">
-          </tbody>
-        </table>
-        <button id="clear-button">Clear</button>
-      </div>
-    </div>
-    <script type="module" src="./js/updatedTestKingOfFishHandler.js"></script>
-  </body>
-</html>
+ </html>

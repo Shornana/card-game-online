@@ -9,3 +9,11 @@ td {
 .selected {
   background-color: #00EE22;
 }
+
+.informative {
+  background-color: #EEEEEE;
+}
+
+.error {
+  background-color: #FF2244;
+}
