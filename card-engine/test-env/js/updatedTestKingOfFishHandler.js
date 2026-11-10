@@ -46,7 +46,6 @@ gameLogger.clear = function(){
 }
 
 //FIX IN FUTURE
-kingOfFish.players = gameRoom.activePlayers;
 //Selection system
 const selection = {sourcePlayer: null, sourceIndex: -1, targetPlayer: null, targetIndex: -1};
 
@@ -280,8 +279,8 @@ start_game_button.addEventListener('click', function(event){
     } else if(number_of_bots.value == "4"){
       gameRoom.addPlayer(bot); gameRoom.addPlayer(bot2); gameRoom.addPlayer(bot3);
     }
+    kingOfFish.players = gameRoom.activePlayers;
     createArrayOfTableAndScoreElements();
-    kingOfFish.graphics.renderGraphics();
   }
   gameRoom.startGame();
 });
