@@ -31,7 +31,7 @@ export class Game{
       console.log(this.players.currentPlayer().username + " turn");
       const otherPlayers = [...this.players.playerList];
       otherPlayers.splice(this.players.currentPlayerIndex, 1);
-      this.players.currentPlayer().turn(this.gameRules.graphics, otherPlayers, this.gameRules.dealStack, this.gameRules.discardStack); //Replace when turn system better.
+      await this.players.currentPlayer().turn(this.gameRules.graphics, otherPlayers, this.gameRules.dealStack, this.gameRules.discardStack); //Replace when turn system better.
       //In fact, what the actual f***. Need to find the best way to find turn information to pass to bot. Maybe another interface?
     }
     return this.next();

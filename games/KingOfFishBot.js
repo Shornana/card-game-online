@@ -6,7 +6,13 @@ export class KingOfFishBot extends Bot{
     super(username, id, hand);
     this.gameLogger = gameLogger;
   }
-  
+ 
+  wait(seconds) {
+   return new Promise(resolve => {
+      setTimeout(resolve, seconds * 1000);
+   });
+  }
+
   findPair(){
     for(let i = 0; i < this.hand.getNumberOfCards() - 1; ++i){
       for(let j = i + 1; j < this.hand.getNumberOfCards(); ++j){
@@ -20,6 +26,7 @@ export class KingOfFishBot extends Bot{
 
   async turn(graphics, players, deck, discard){ //Pass player for now until choosing of player happens
     const player = players[Math.floor(Math.random() * players.length)]; //Temporary fix. Will need to run through players without current player.
+    await this.wait(2);
     let findPairRes = this.findPair();
     if(findPairRes[1] > 0){ // Will only be more than zero if matches with index 1.
       console.log("Discarded the " + this.getCard(findPairRes[0]).value 
@@ -91,6 +98,7 @@ export class KingOfFishBot extends Bot{
       }
     }
     //Deal card to bot.
+    await this.wait(2);
     deck.deal(this, 1);
     this.gameLogger.log(this.username, this.username + " picked up.")
     console.log(this.username + " picked up.");
