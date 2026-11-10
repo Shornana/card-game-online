@@ -14,13 +14,13 @@ export class Game{
     while(await this.turn()){ //While the turns are still going.
       //Logging
     }
-    console.log("Reached here");
+    console.log("Game loop ended");
   }
 
   async turn(){
-    if(this.players.nextPlayer() === 0) // THIS IS THE PLAYER AT THE MOMENT. WILL FIX IN FUTURE. WILL DESIGN FOR SINGLE PLAYER ONLY.
+    if(this.players.nextPlayer().id == 0) // THIS IS THE PLAYER AT THE MOMENT. WILL FIX IN FUTURE. WILL DESIGN FOR SINGLE PLAYER ONLY.
     {
-      console.log("PLAYER TURN");
+      console.log(this.players.currentPlayer().username + " turn.");
       this.players.currentPlayer().stillPlaying = true;
       while(this.players.currentPlayer().stillPlaying){
         const options = await this.gameRules.playerDecision();
@@ -28,8 +28,10 @@ export class Game{
       }
     }
     else{ //FOR BOTS
-      console.log("BOT TURN");
-      this.players.currentPlayer().turn(this.gameRules.graphics, this.players.playerList[0], this.gameRules.dealStack, this.gameRules.discardStack); //Replace when turn system better.
+      console.log(this.players.currentPlayer().username + " turn");
+      const otherPlayers = [...this.players.playerList];
+      otherPlayers.splice(this.players.currentPlayerIndex, 1);
+      this.players.currentPlayer().turn(this.gameRules.graphics, otherPlayers, this.gameRules.dealStack, this.gameRules.discardStack); //Replace when turn system better.
       //In fact, what the actual f***. Need to find the best way to find turn information to pass to bot. Maybe another interface?
     }
     return this.next();

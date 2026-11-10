@@ -8,58 +8,63 @@ import { KingOfFish } from "../../../games/KingOfFish.js";
 const kingOfFish = new KingOfFish();
 const player = new Player("Shornana", 0);
 const bot = new KingOfFishBot("Jerry Bot", 1);
+const bot2 = new KingOfFishBot("Steve Bot", 2);
+const bot3 = new KingOfFishBot("Dave Bot", 3);
 const game = new Game(kingOfFish);
 const gameRoom = new GameRoom(0, undefined, game);
-gameRoom.activePlayers.maxSize = 2;
+gameRoom.activePlayers.maxSize = 4;
 
 //Setup game room.
 gameRoom.addPlayer(player);
 gameRoom.addPlayer(bot);
+gameRoom.addPlayer(bot2);
+
+//THERE IS NOW AN ISSUE WITH INDEX OUT OF BOUNDS WHEN SOFT SWAPPING. AHHHHHH!!!!!
 
 //FIX IN FUTURE
 kingOfFish.players = gameRoom.activePlayers;
 
-//Declaration of HTML objects
-const player_hand = document.getElementById("player-hand");
-const player_score = document.getElementById("player-score");
-
-const bot_hand = document.getElementById("bot-hand");
-const bot_score = document.getElementById("bot-score");
+const player_hands = []; // Array containing all HTML elements for the tables
+const player_scores = []; // Array container all HTML elements for the scores
+const bot_container = document.getElementById('players-container');
 
 const start_game_button = document.getElementById("start-game-button");
 
-const soft_swap_button = document.getElementById("soft-swap-button");
-const hard_swap_button = document.getElementById("hard-swap-button");
-const play_button = document.getElementById("play-button");
-const pickup_button = document.getElementById("pickup-button");
-
 const deal_pile = document.getElementById('deal-pile');
 const discard_pile = document.getElementById("discard-pile");
+const player_selection = document.getElementById("other-players");
 
 //Selection system
 const selection = {sourcePlayer: null, sourceIndex: -1, targetPlayer: null, targetIndex: -1};
 
 //Graphics for the page.
 kingOfFish.graphics.renderGraphics = function(){
-  player_score.innerHTML = player.points;
-  bot_score.innerHTML = bot.points;
-  player_hand.innerHTML = ''; //Clear player hand.
-  bot_hand.innerHTML = ''; // Clear bot hand.
+  for(const player_hand of player_hands){
+    player_hand.innerHTML = '';
+    for(const card of gameRoom.activePlayers.getPlayerById(player_hand.getAttribute('playerid')).getHand()){
+      if(gameRoom.activePlayers.getPlayerById(player_hand.getAttribute('playerid')).id === 0){ //Player ID always 0 for now.
+        card.isHidden = false;
+      }
+      else{
+        card.isHidden = true;
+      }
+      player_hand.appendChild(createCardGraphic(card));
+    }
+  }
+
+  for(const player_score of player_scores){
+    player_score.innerHTML = `${gameRoom.activePlayers.getPlayerById(player_score.getAttribute('playerid')).points}`; // Need to map the player to the player score using the ID
+  }
+
   deal_pile.innerHTML = '';
   discard_pile.innerHTML = '';
 
-  for(const card of player.getHand()){
-    card.isHidden = false;
-    player_hand.appendChild(createCardGraphic(card));
-  }
-  for(const card of bot.getHand()){
-    card.isHidden = true;
-    bot_hand.appendChild(createCardGraphic(card));
-  }
-  for(const card of kingOfFish.dealStack.stack){
-    card.isHidden = true;
-    deal_pile.appendChild(createCardGraphic(card));
-  }
+  const discardIndicator = document.createElement('td'); discardIndicator.innerHTML = "??";
+  const numberOfCards = document.createElement('td'); numberOfCards.innerHTML = `x ${kingOfFish.dealStack.getNumberOfCards()}`;
+
+  deal_pile.appendChild(discardIndicator);
+  deal_pile.appendChild(numberOfCards);
+
   for(const card of kingOfFish.discardStack.stack){
     card.isHidden = false;
     discard_pile.appendChild(createCardGraphic(card));
@@ -67,8 +72,22 @@ kingOfFish.graphics.renderGraphics = function(){
   resetSelection();
 }
 
+function removeEventsFromButtons(){
+  for(const button of Array.from(document.getElementById('player-choice-div').children)){
+    const new_button = button.cloneNode(true);
+    button.parentNode.replaceChild(new_button, button);
+  }
+}
+
 // Linking GUI to game logic
+
 kingOfFish.playerDecision = async function(){ //Decision still called even if game is not active. Of course it is you dumbass but it just won't be ran on turn!!!
+  removeEventsFromButtons();
+  //Declare here to reassosciate buttons after cloning.
+  const soft_swap_button = document.getElementById("soft-swap-button");
+  const hard_swap_button = document.getElementById("hard-swap-button");
+  const play_button = document.getElementById("play-button");
+  const pickup_button = document.getElementById("pickup-button");
   const options = {decision: 'error', selected: null, target: null}; // Create options object
   return new Promise((resolve) => {
     soft_swap_button.addEventListener('click', function(event){
@@ -77,11 +96,11 @@ kingOfFish.playerDecision = async function(){ //Decision still called even if ga
         options.decision = 'soft';
         if(selection.sourcePlayer === player){
           options.selected = [selection.sourceIndex, selection.targetIndex];
-          options.target = bot; //Replace with turn logic.
+          options.target = selection.targetPlayer; //Replace with turn logic.
         }
         else if (selection.targetPlayer === player){
           options.selected = [selection.targetIndex, selection.sourceIndex];
-          options.target = bot;
+          options.target = selection.sourcePlayer; // If somehow this triggers.
         }
         else{
           options.decision = 'error';
@@ -92,16 +111,19 @@ kingOfFish.playerDecision = async function(){ //Decision still called even if ga
         console.error("Targets are null or same");
       }
       resolve(options);
-    });
+      removeEventsFromButtons();
+    }, {once : true});
     hard_swap_button.addEventListener('click', function(event){
-      if(selection.sourceIndex >= 0 && selection.targetIndex == -1 && selection.sourcePlayer.id == 0) // Replace zero with proper logic for turns
+      if((selection.sourceIndex >= 0 && selection.targetIndex == -1 && selection.sourcePlayer.id == 0) || (selection.sourceIndex == -1 && selection.targetIndex >= 0 && selection.targetPlayer.id == 0)) // Replace zero with proper logic for turns
       {
         options.decision = 'hard';
-        options.selected = [selection.sourceIndex];
-        options.target = bot; // Replace with proper logic
+        options.selected = [(selection.sourceIndex >= 0 ? selection.sourceIndex : selection.targetIndex)];
+        options.target = gameRoom.activePlayers.getPlayerById(player_selection.value); // Replace with proper logic
       }
+  
       resolve(options);
-    });
+      removeEventsFromButtons();
+    }, {once : true});
     play_button.addEventListener('click', function(event){
       if(selection.sourcePlayer == selection.targetPlayer && selection.sourcePlayer === player) // Replace with proper logic for turns
       {
@@ -118,12 +140,45 @@ kingOfFish.playerDecision = async function(){ //Decision still called even if ga
         console.error("Must be your cards");
       }
       resolve(options);
-    });
+      removeEventsFromButtons();
+    }, {once : true});
     pickup_button.addEventListener('click', function(event){
       options.decision = 'pickup';
       resolve(options);
-    });
+      removeEventsFromButtons();
+    }, {once : true});
   })
+}
+
+function createArrayOfTableAndScoreElements(){
+  bot_container.innerHTML = '';
+  for(const player of gameRoom.activePlayers.playerList){
+    createHandForPlayer(player);
+    if(player.id !== 0){
+      player_selection.appendChild(createPlayerOption(player.username, player.id));
+    }
+    player_hands.push(document.getElementById(`player-${player.id}`));
+    player_scores.push(document.getElementById(`player-${player.id}-score`));
+  }
+}
+
+function createPlayerOption(username, id){
+  const option = document.createElement('option');
+  option.innerHTML = username;
+  option.value = id;
+  return option;
+}
+
+function createHandForPlayer(player){
+  const table = document.createElement('table');
+  const tbody = document.createElement('tbody');
+  const h2 = document.createElement('h2');
+  h2.innerHTML = `${player.username} Cards (<span id="player-${player.id}-score" playerid="${player.id}">${player.points}</span>):`;
+  tbody.id = `player-${player.id}`;
+  tbody.setAttribute('playerid', player.id);
+  table.appendChild(tbody);
+  bot_container.appendChild(h2);
+  bot_container.appendChild(table);
 }
 
 function selectableCard(event){
@@ -133,8 +188,13 @@ function selectableCard(event){
   
   //Deselecting player card.
   if(selection.sourcePlayer === gameRoom.activePlayers.getPlayerById(cardParent) && selection.sourceIndex === cardIndex){
-    selection.sourcePlayer = selection.targetPlayer; selection.sourceIndex = selection.targetIndex; //Shift target to source
-    selection.targetPlayer = null; selection.targetIndex = -1; // Clear target
+    if(selection.targetPlayer !== null && selection.targetPlayer.id === 0){ //If player card exists as target card, shift target to source. Otherwise, just remove source.
+      selection.sourcePlayer = selection.targetPlayer; selection.sourceIndex = selection.targetIndex; //Shift target to source
+      selection.targetPlayer = null; selection.targetIndex = -1; // Clear target
+    }
+    else{
+      selection.sourcePlayer = null; selection.sourceIndex = -1; //If target is a different player, keep in target.
+    }
     card.classList.remove('selected');
     return -1;
   }
@@ -159,8 +219,15 @@ function selectableCard(event){
     card.classList.add('selected');
   }
   else if(selection.targetIndex == -1){
-    selection.targetIndex = cardIndex;
-    selection.targetPlayer = gameRoom.activePlayers.getPlayerById(cardParent);
+    if(cardParent == 0){ //If is player
+      selection.targetIndex = selection.sourceIndex;
+      selection.targetPlayer = selection.sourcePlayer;
+      selection.sourceIndex = cardIndex;
+      selection.sourcePlayer = gameRoom.activePlayers.getPlayerById(cardParent);
+    } else {
+      selection.targetIndex = cardIndex;
+      selection.targetPlayer = gameRoom.activePlayers.getPlayerById(cardParent);
+    }
     card.classList.add('selected');
   }
   else{
@@ -192,6 +259,7 @@ function createCardGraphic(card){
 
 //Event Handlers of HTML objects
 start_game_button.addEventListener('click', function(event){
+  createArrayOfTableAndScoreElements();
   gameRoom.startGame();
 });
 
