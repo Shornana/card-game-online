@@ -46,7 +46,13 @@ export class KingOfFish extends GameRules {
           break;
         }
         this.gameLogger.log(player.username, "swapped cards.");
-        player.swapCard(options.selected[0], options.target.hand, options.selected[1]);
+        if(player.hand.getNumberOfCards() === 1 && player.getCard(options.selected[0]).value === options.target.getCard(options.selected[1]).value){
+          options.target.sendCard(options.selected[1], player);
+          this.gameLogger.log(player.username, "Matched swap on value");
+        } else {
+          this.gameLogger.log(player.username, "Didn't match swap on value");
+          player.swapCard(options.selected[0], options.target.hand, options.selected[1]);
+        }
         player.hasSwapped = true;
         this.graphics.renderGraphics();
         break;

@@ -58,7 +58,7 @@ kingOfFish.graphics.renderGraphics = function(){
         card.isHidden = false;
       }
       else{
-        card.isHidden = true;
+        card.isHidden = false;
       }
       player_hand.appendChild(createCardGraphic(card));
     }
@@ -273,11 +273,14 @@ function createCardGraphic(card){
 start_game_button.addEventListener('click', function(event){
   if(!gameRoom.game.gameActive){
     if(number_of_bots.value == "2"){
-      gameRoom.addPlayer(bot);
+      (!gameRoom.activePlayers.containsPlayerById(bot.id)) ? gameRoom.addPlayer(bot) : console.log("Bot already here");
     } else if(number_of_bots.value == "3"){
-      gameRoom.addPlayer(bot); gameRoom.addPlayer(bot2);
+      (!gameRoom.activePlayers.containsPlayerById(bot.id)) ? gameRoom.addPlayer(bot) : console.log("Bot already here");
+      (!gameRoom.activePlayers.containsPlayerById(bot2.id)) ? gameRoom.addPlayer(bot2) : console.log("Bot2 already here");
     } else if(number_of_bots.value == "4"){
-      gameRoom.addPlayer(bot); gameRoom.addPlayer(bot2); gameRoom.addPlayer(bot3);
+      (!gameRoom.activePlayers.containsPlayerById(bot.id)) ? gameRoom.addPlayer(bot) : console.log("Bot already here");
+      (!gameRoom.activePlayers.containsPlayerById(bot2.id)) ? gameRoom.addPlayer(bot2) : console.log("Bot2 already here");
+      (!gameRoom.activePlayers.containsPlayerById(bot3.id)) ? gameRoom.addPlayer(bot3) : console.log("Bot3 already here");
     }
     kingOfFish.players = gameRoom.activePlayers;
     createArrayOfTableAndScoreElements();

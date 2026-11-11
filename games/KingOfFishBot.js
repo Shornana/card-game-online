@@ -81,6 +81,7 @@ export class KingOfFishBot extends Bot{
 
       findPairRes = this.findPair();
       if(findPairRes[1] > 0){ // Will only be more than zero if matches with index 1.
+        await this.wait(2);
         this.gameLogger.log(this.username, "Discarded the " + this.getCard(findPairRes[0]).value 
           + this.getCard(findPairRes[0]).suit 
           + " and the " +  this.getCard(findPairRes[1]).value 
