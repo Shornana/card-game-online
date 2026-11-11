@@ -23,6 +23,7 @@ export class KingOfFish extends GameRules {
     this.discardStack = new DiscardStack([], 0, 52);
     this.dealStack = new DealStack(generateStandardCardStacks(1, true).stack, 0, 52);
     this.dealStack.shuffle();
+    //this.players.randomiseOrder(); Currently off due to order of operations in test env.
     for(const player of this.players.playerList){
       player.hand = new CardStack([], 0, 52); //reset each hand
       this.dealStack.deal(player, 7);

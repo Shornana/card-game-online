@@ -45,7 +45,6 @@ gameLogger.clear = function(){
   this.logger.innerHTML = '';
 }
 
-//FIX IN FUTURE
 //Selection system
 const selection = {sourcePlayer: null, sourceIndex: -1, targetPlayer: null, targetIndex: -1};
 
@@ -58,7 +57,7 @@ kingOfFish.graphics.renderGraphics = function(){
         card.isHidden = false;
       }
       else{
-        card.isHidden = false;
+        card.isHidden = true;
       }
       player_hand.appendChild(createCardGraphic(card));
     }
@@ -164,6 +163,7 @@ kingOfFish.playerDecision = async function(){ //Decision still called even if ga
 
 function createArrayOfTableAndScoreElements(){
   bot_container.innerHTML = '';
+  player_selection.innerHTML = '';
   for(const player of gameRoom.activePlayers.playerList){
     createHandForPlayer(player);
     if(player.id !== 0){
@@ -283,6 +283,7 @@ start_game_button.addEventListener('click', function(event){
       (!gameRoom.activePlayers.containsPlayerById(bot3.id)) ? gameRoom.addPlayer(bot3) : console.log("Bot3 already here");
     }
     kingOfFish.players = gameRoom.activePlayers;
+    gameRoom.activePlayers.randomiseOrder();
     createArrayOfTableAndScoreElements();
   }
   gameRoom.startGame();
