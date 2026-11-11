@@ -60,11 +60,13 @@ export class PlayerList{
 
   randomiseOrder(){
     const newPlayerList = [];
-    for(let i = 0; i < this.playerList.length; ++i){
+    const numberOfPlayers = this.playerList.length;
+    for(let i = 0; i < numberOfPlayers; ++i){
       const randomNumber = Math.floor(Math.random() * this.playerList.length);
       newPlayerList.push(this.playerList[randomNumber]);
       this.playerList.splice(randomNumber, 1);
     }
+    this.currentPlayerIndex = -1; //Reset initial pointer.
     this.playerList = newPlayerList;
   }
 
