@@ -9,3 +9,19 @@ td {
 .selected {
   background-color: #00EE22;
 }
+
+.informative {
+  background-color: #EEEEEE;
+}
+
+.error {
+  background-color: #FF2244;
+}
+
+#players-container td:hover {
+  background-color: #DFDFDF;
+}
+
+#players-container .selected:hover {
+  background-color: #00CC04;
+}

@@ -25,6 +25,15 @@ export class PlayerList{
     }
   }
 
+  containsPlayerById(id){
+    for(const player of this.playerList){
+      if(player.id === id){
+        return true;
+      }
+    }
+    return false;
+  }
+
   removePlayerByIndex(index){
     if(index < 0 || index >= this.playerList.length) { console.error("Index out of bounds!"); return ERROR_CODE; }
     else { this.playerList.splice(index, 1); return SUCCESS; }
