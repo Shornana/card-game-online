@@ -3,26 +3,7 @@ import { Game } from "../../Game.js";
 import { Player } from "../../Player.js";
 import { KingOfFishBot } from "../../../games/KingOfFishBot.js";
 import { KingOfFish } from "../../../games/KingOfFish.js";
-
-//Global Variables
-const kingOfFish = new KingOfFish();
-const player = new Player("Shornana", 0);
-const bot = new KingOfFishBot("Jerry Bot", 1);
-const bot2 = new KingOfFishBot("Steve Bot", 2);
-const bot3 = new KingOfFishBot("Dave Bot", 3);
-const game = new Game(kingOfFish);
-const gameRoom = new GameRoom(0, undefined, game);
-gameRoom.activePlayers.maxSize = 4;
-
-//Setup game room.
-gameRoom.addPlayer(player);
-gameRoom.addPlayer(bot);
-gameRoom.addPlayer(bot2);
-
-//THERE IS NOW AN ISSUE WITH INDEX OUT OF BOUNDS WHEN SOFT SWAPPING. AHHHHHH!!!!!
-
-//FIX IN FUTURE
-kingOfFish.players = gameRoom.activePlayers;
+import { GameLogger } from "../../GameLogger.js";
 
 const player_hands = []; // Array containing all HTML elements for the tables
 const player_scores = []; // Array container all HTML elements for the scores
@@ -33,7 +14,38 @@ const start_game_button = document.getElementById("start-game-button");
 const deal_pile = document.getElementById('deal-pile');
 const discard_pile = document.getElementById("discard-pile");
 const player_selection = document.getElementById("other-players");
+const player_message = document.getElementById("player-message");
+const number_of_bots = document.getElementById("no-of-bots");
 
+//Global Variables
+const gameLogger = new GameLogger(player_message);
+const kingOfFish = new KingOfFish(gameLogger);
+const player = new Player("Shornana", 0);
+const bot = new KingOfFishBot("Jerry Bot", 1, undefined, gameLogger);
+const bot2 = new KingOfFishBot("Steve Bot", 2, undefined, gameLogger);
+const bot3 = new KingOfFishBot("Dave Bot", 3, undefined, gameLogger);
+const game = new Game(kingOfFish);
+const gameRoom = new GameRoom(0, undefined, game);
+gameRoom.activePlayers.maxSize = 4;
+
+//Setup game room.
+gameRoom.addPlayer(player);
+
+gameLogger.log = function(entity, log){
+  this.logger.appendChild(createLoggingMessage(entity, log, false));
+  this.logger.parentElement.scrollTop = this.logger.parentElement.scrollHeight; //Scroll to bottom of table.
+}
+
+gameLogger.error = function(entity, err){
+  this.logger.appendChild(createLoggingMessage(entity, err, true));
+  this.logger.parentElement.scrollTop = this.logger.parentElement.scrollHeight; //Scroll to bottom of table.
+}
+
+gameLogger.clear = function(){
+  this.logger.innerHTML = '';
+}
+
+//FIX IN FUTURE
 //Selection system
 const selection = {sourcePlayer: null, sourceIndex: -1, targetPlayer: null, targetIndex: -1};
 
@@ -46,7 +58,7 @@ kingOfFish.graphics.renderGraphics = function(){
         card.isHidden = false;
       }
       else{
-        card.isHidden = true;
+        card.isHidden = false;
       }
       player_hand.appendChild(createCardGraphic(card));
     }
@@ -259,9 +271,30 @@ function createCardGraphic(card){
 
 //Event Handlers of HTML objects
 start_game_button.addEventListener('click', function(event){
-  createArrayOfTableAndScoreElements();
+  if(!gameRoom.game.gameActive){
+    if(number_of_bots.value == "2"){
+      (!gameRoom.activePlayers.containsPlayerById(bot.id)) ? gameRoom.addPlayer(bot) : console.log("Bot already here");
+    } else if(number_of_bots.value == "3"){
+      (!gameRoom.activePlayers.containsPlayerById(bot.id)) ? gameRoom.addPlayer(bot) : console.log("Bot already here");
+      (!gameRoom.activePlayers.containsPlayerById(bot2.id)) ? gameRoom.addPlayer(bot2) : console.log("Bot2 already here");
+    } else if(number_of_bots.value == "4"){
+      (!gameRoom.activePlayers.containsPlayerById(bot.id)) ? gameRoom.addPlayer(bot) : console.log("Bot already here");
+      (!gameRoom.activePlayers.containsPlayerById(bot2.id)) ? gameRoom.addPlayer(bot2) : console.log("Bot2 already here");
+      (!gameRoom.activePlayers.containsPlayerById(bot3.id)) ? gameRoom.addPlayer(bot3) : console.log("Bot3 already here");
+    }
+    kingOfFish.players = gameRoom.activePlayers;
+    createArrayOfTableAndScoreElements();
+  }
   gameRoom.startGame();
 });
 
 //Functionality.
-
+function createLoggingMessage(entity, message, isError){
+  const tr = document.createElement('tr');
+  tr.style.height = "20px";
+  const ent = document.createElement('td'); ent.innerHTML = entity; ent.classList.add(isError ? 'error' : 'informative');
+  const mess = document.createElement('td'); mess.innerHTML = message; mess.classList.add(isError ? 'error' : 'informative');
+  mess.style.width="100%";
+  tr.appendChild(ent); tr.appendChild(mess);
+  return tr;
+}

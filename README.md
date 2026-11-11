@@ -8,6 +8,9 @@ friends.
 
 ## Version History
 
+### Version 0.0.2
+A completed rudimentary version of the card engine that only supports local play of King of Fish up to four bots and is only active inside of a preloaded game environment. It comes completed with simplistic King of Fish bots. The game runs on the browser in a test HTML file inside of the test-env folder located in the card-engine directory. The current user interface is constructed from basic HTML elements with minimal CSS styling.
+
 ### Version 0.0.1
 A completed rudimentary version of the card engine that only supports local play with a single bot and is only active inside of a preloaded game environment. It comes completed with a rudimentary form of King of Fish and a simplistic King of Fish bot. The game runs on the browser in a test HTML file inside of the test-env folder located in the card-engine directory. The current user interface is constructed from basic HTML elements with minimal CSS styling.
 
@@ -17,7 +20,7 @@ A completed rudimentary version of the card engine that only supports local play
 
 ## Installation
 
-For the given card engine version 0.0.1V, download the repository onto your local drive. Run a HTTP server on the repository. This is vital as the project uses JavaScript modules which only work with HTTP requests instead of a local directory.
+For the given card engine version 0.0.2V, download the repository onto your local drive. Run a HTTP server on the repository. This is vital as the project uses JavaScript modules which only work with HTTP requests instead of a local directory.
 
 For Linux and Windows:
 ~~~bash
