@@ -1,0 +1,11 @@
+{
+  "name": "game_socket_srv",
+  "version": "0.0.1",
+  "description": "The socket server for handling game logic",
+  "main": "main.js",
+  "scripts": {
+    "test": "console.log(\"Hello, world\");"
+  },
+  "author": "Shornana",
+  "license": "ISC"
+}
